@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-MyaApplication<mya>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.olmez.mya.MyaApplication",
+            "projectName": "mya",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

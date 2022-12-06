@@ -1,0 +1,8 @@
+{
+  "java.configuration.updateBuildConfiguration": "interactive",
+
+  "java.format.settings.url": ".vscode/formatter-profile.xml",
+  "java.format.settings.profile": "Joseph",
+  "java.dependency.packagePresentation": "hierarchical",
+  "java.compile.nullAnalysis.mode": "automatic"
+}
