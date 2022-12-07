@@ -1,6 +1,5 @@
 package com.olmez.mya.utility;
 
-
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -18,11 +17,6 @@ public class MathUtils {
 	public static boolean isBetween(int number, int min, int max) {
 		return (number >= min) && (number <= max);
 	}
-
-	
-
-	
-
 
 	/**
 	 * @param x
@@ -76,7 +70,6 @@ public class MathUtils {
 		return sum;
 	}
 
-	
 	public static double distance(double lat1, double lon1, double lat2, double lon2, DistanceUnits unit) {
 		if ((lat1 == lat2) && (lon1 == lon2)) {
 			return 0;
@@ -97,6 +90,13 @@ public class MathUtils {
 
 	public static Double roundTwoDigit(Float number) {
 		return number != null ? Math.round(number * 100.0) / 100.0 : null;
+	}
+
+	public static Double toDouble(String value) {
+		if (StringUtility.isEmpty(value)) {
+			return null;
+		}
+		return Double.valueOf(value);
 	}
 
 }

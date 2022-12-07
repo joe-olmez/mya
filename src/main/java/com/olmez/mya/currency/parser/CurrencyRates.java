@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-import com.olmez.mya.model.enums.CurrencyCode;
 
 import lombok.Getter;
 
@@ -33,57 +32,31 @@ public class CurrencyRates {
     private TRY tRY;
 
     public class CAD extends CurrencyDetail {
-        public CAD() {
-            super(CurrencyCode.CAD);
-        }
     }
 
     public class EUR extends CurrencyDetail {
-        public EUR() {
-            super(CurrencyCode.EUR);
-        }
     }
 
     public class TRY extends CurrencyDetail {
-        public TRY() {
-            super(CurrencyCode.TRY);
-        }
     }
 
     public class RUB extends CurrencyDetail {
-        public RUB() {
-            super(CurrencyCode.RUB);
-        }
     }
 
     public class GBP extends CurrencyDetail {
-        public GBP() {
-            super(CurrencyCode.GBP);
-        }
     }
 
     public class USD extends CurrencyDetail {
-        public USD() {
-            super(CurrencyCode.USD);
-        }
     }
 
     public class AUD extends CurrencyDetail {
-        public AUD() {
-            super(CurrencyCode.AUD);
-        }
     }
 
     public class CHF extends CurrencyDetail {
-        public CHF() {
-            super(CurrencyCode.CHF);
-        }
     }
 
     public class JPY extends CurrencyDetail {
-        public JPY() {
-            super(CurrencyCode.JPY);
-        }
+
     }
 
 }

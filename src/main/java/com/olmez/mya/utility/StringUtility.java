@@ -41,6 +41,12 @@ public class StringUtility {
 		return retVal.substring(0, 1).toUpperCase() + retVal.substring(1);
 	}
 
+	/**
+	 * It says it is null or no its length
+	 * 
+	 * @param str
+	 * @return {@code true} if its length is greater than 0
+	 */
 	public static boolean isEmpty(String str) {
 		return (str == null) || str.isEmpty();
 	}
