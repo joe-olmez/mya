@@ -1,7 +1,6 @@
 package com.olmez.mya.model;
 
 import jakarta.persistence.Entity;
-import jakarta.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator;
@@ -20,11 +19,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class User extends BaseObject {
 
-	@NotBlank(message = "First name cannot be null")
 	private String firstName;
-	@NotBlank(message = "Last name cannot be null")
 	private String lastName;
-	@NotBlank(message = "Username cannot be null")
 	private String username;
 	private String email;
 	private UserType userType = UserType.REGULAR;

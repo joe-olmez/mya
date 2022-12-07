@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +22,7 @@ import com.olmez.mya.model.CurrencyInfo;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/currency")
+@RequestMapping("/api/currency")
 @RequiredArgsConstructor
 public class CurrencyRestController {
 
@@ -60,6 +62,17 @@ public class CurrencyRestController {
     @GetMapping("/{date}")
     public CurrencyInfo getCurrencyInfoByDate(@PathVariable("date") @DateTimeFormat(iso = ISO.DATE) LocalDate date) {
         return currencyService.getCurrencyInfoByDate(date);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    @GetMapping()
+    public ResponseEntity<String> hello() {
+        return ResponseEntity.ok("Hello from our API");
+    }
+
+    @GetMapping("/say-good-bye")
+    public ResponseEntity<String> goodBy() {
+        return ResponseEntity.ok("Good by and see you later");
     }
 
 }
