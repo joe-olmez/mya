@@ -75,4 +75,76 @@ public class CurrencyServiceImpl implements CurrencyService {
         return (oInfo.isPresent()) ? oInfo.get() : null;
     }
 
+    //
+
+    @Override
+    public List<CurrencyInfo> getCurrencyInfos() {
+        return curInfoRepository.findAll();
+    }
+
+    @Override
+    public boolean addCurrencyInfo(CurrencyInfo newInfo) {
+        if (newInfo == null) {
+            return false;
+        }
+        newInfo = curInfoRepository.save(newInfo);
+        return newInfo.getId() != null;
+    }
+
+    @Override
+    public CurrencyInfo getCurrencyInfoById(Long ciId) {
+        if (ciId == null) {
+            return null;
+        }
+        return curInfoRepository.getById(ciId);
+    }
+
+    @Override
+    public boolean deleteCurrencyInfo(Long ciId) {
+        CurrencyInfo existing = getCurrencyInfoById(ciId);
+        if (existing == null) {
+            return false;
+        }
+        curInfoRepository.deleted(existing);
+        log.info("Deleted! {}", existing);
+        return true;
+    }
+
+    @Override
+    public CurrencyInfo updateCurrencyInfo(Long id, CurrencyInfo givenInfo) {
+        CurrencyInfo existing = getCurrencyInfoById(id);
+        if (existing == null) {
+            return null;
+        }
+        updateExisting(existing, givenInfo);
+        curInfoRepository.save(existing);
+        log.info("Updated! {}", existing);
+        return existing;
+    }
+
+    private CurrencyInfo updateExisting(CurrencyInfo existing, CurrencyInfo given) {
+        existing.setDate(given.getDate());
+        existing.setAmount(given.getAmount());
+        existing.setBaseCode(given.getBaseCode());
+        existing.setAUD(given.getAUD());
+        existing.setCAD(given.getCAD());
+        existing.setCHF(given.getCHF());
+        existing.setEUR(given.getEUR());
+        existing.setGBP(given.getGBP());
+        existing.setUSD(given.getUSD());
+        existing.setJPY(given.getJPY());
+        existing.setRUB(given.getRUB());
+        existing.setTRY(given.getTRY());
+        return existing;
+    }
+
+    @Override
+    public CurrencyInfo getCurrencyInfoByDate(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+        var oInfo = curInfoRepository.findByDate(date);
+        return oInfo.isPresent() ? oInfo.get() : null;
+    }
+
 }

@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
-import jakarta.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator;
@@ -23,7 +22,6 @@ import lombok.Setter;
 @JsonIdentityInfo(generator = PropertyGenerator.class, property = "name")
 public class Location extends BaseObject {
 
-	@NotBlank(message = "Name cannot be null")
 	private String name;
 	private String postCode;
 	private Integer streetNumber;

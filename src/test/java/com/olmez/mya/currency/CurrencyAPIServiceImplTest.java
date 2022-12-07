@@ -11,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.olmez.mya.model.enums.CurrencyCode;
 import com.olmez.mya.repositories.CurrencyInfoRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,11 +48,10 @@ class CurrencyAPIServiceImplTest {
         var retVal = apiService.update(date);
 
         // assert
-        var rate = retVal.getRates();
-        assertThat(rate.get(CurrencyCode.CAD).doubleValue()).isEqualTo(1.3468);
-        assertThat(rate.get(CurrencyCode.JPY).doubleValue()).isEqualTo(134.34);
-        assertThat(rate.get(CurrencyCode.TRY).doubleValue()).isEqualTo(18.61);
-        assertThat(rate.get(CurrencyCode.GBP).doubleValue()).isEqualTo(0.8147);
+        assertThat(retVal.getCAD()).isEqualTo(1.3468);
+        assertThat(retVal.getJPY()).isEqualTo(134.34);
+        assertThat(retVal.getTRY()).isEqualTo(18.61);
+        assertThat(retVal.getGBP()).isEqualTo(0.8147);
     }
 
 }

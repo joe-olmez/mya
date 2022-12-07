@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch MyaApplicationTest",
+            "request": "launch",
+            "mainClass": "com.olmez.mya.MyaApplicationTest",
+            "projectName": "mya"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-MyaApplication<mya>",
             "request": "launch",
             "cwd": "${workspaceFolder}",

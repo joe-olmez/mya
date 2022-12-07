@@ -1,11 +1,9 @@
 package com.olmez.mya.currency;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,8 +12,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.olmez.mya.model.CurrencyInfo;
-import com.olmez.mya.model.enums.CurrencyCode;
 import com.olmez.mya.repositories.CurrencyInfoRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -42,11 +38,10 @@ class CurrencyServiceImplTest {
         var retVal = apiService.update(date);
 
         // assert
-        var rate = retVal.getRates();
-        assertThat(rate.get(CurrencyCode.CAD).doubleValue()).isEqualTo(1.3468);
-        assertThat(rate.get(CurrencyCode.JPY).doubleValue()).isEqualTo(134.34);
-        assertThat(rate.get(CurrencyCode.TRY).doubleValue()).isEqualTo(18.61);
-        assertThat(rate.get(CurrencyCode.GBP).doubleValue()).isEqualTo(0.8147);
+        assertThat(retVal.getCAD()).isEqualTo(1.3468);
+        assertThat(retVal.getJPY()).isEqualTo(134.34);
+        assertThat(retVal.getTRY()).isEqualTo(18.61);
+        assertThat(retVal.getGBP()).isEqualTo(0.8147);
     }
 
 }

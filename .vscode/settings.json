@@ -4,5 +4,8 @@
   "java.format.settings.url": ".vscode/formatter-profile.xml",
   "java.format.settings.profile": "Joseph",
   "java.dependency.packagePresentation": "hierarchical",
-  "java.compile.nullAnalysis.mode": "automatic"
+  "java.compile.nullAnalysis.mode": "automatic",
+  "cSpell.words": [
+    "Servlet"
+  ]
 }

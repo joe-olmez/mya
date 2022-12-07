@@ -1,9 +1,20 @@
 package com.olmez.mya.model.enums;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 import lombok.Getter;
 
 @Getter
 public enum CurrencyCode {
+    AUD("AUD", "Australian dollar"),
+    CAD("CAD", "Canadian dollar"),
+    CHF("CHF", "Swiss franc"),
+    EUR("EUR", "Euro"),
+    GBP("GBP", "Pound sterling"),
+    JPY("JPY", "Japanese yen"),
+    RUB("RUB", "Russian ruble"),
+    TRY("TRY", "Turkish lira"),
+    USD("USD", "United States dollar"),
     AED("United Arab Emirates dirham"),
     AFN("Afghan afghani"),
     ALL("Albanian lek"),
@@ -11,7 +22,6 @@ public enum CurrencyCode {
     ANG("Netherlands Antillean guilder"),
     AOA("Angolan kwanza"),
     ARS("Argentine peso"),
-    AUD("Australian dollar"),
     AWG("Aruban florin"),
     AZN("Azerbaijani manat"),
     BAM("Bosnia and Herzegovina convertible mark"),
@@ -27,9 +37,7 @@ public enum CurrencyCode {
     BWP("Botswana pula"),
     BYN("Belarusian ruble"),
     BZD("Belize dollar"),
-    CAD("Canadian dollar"),
     CDF("Congolese franc"),
-    CHF("Swiss franc"),
     CLP("Chilean peso"),
     CNY("Renminbi"),
     COP("Colombian peso"),
@@ -44,9 +52,7 @@ public enum CurrencyCode {
     EGP("Egyptian pound"),
     ERN("Eritrean nakfa"),
     ETB("Ethiopian birr"),
-    EUR("Euro"),
     FJD("Fijian dollar"),
-    GBP("Pound sterling"),
     GEL("Georgian lari"),
     GHS("Ghanaian cedi"),
     GIP("Gibraltar pound"),
@@ -67,7 +73,6 @@ public enum CurrencyCode {
     ISK("Icelandic króna"),
     JMD("Jamaican dollar"),
     JOD("Jordanian dinar"),
-    JPY("Japanese yen"),
     KES("Kenyan shilling"),
     KGS("Kyrgyzstani som"),
     KHR("Cambodian riel"),
@@ -112,7 +117,6 @@ public enum CurrencyCode {
     QAR("Qatari riyal"),
     RON("Romanian leu"),
     RSD("Serbian dinar"),
-    RUB("Russian ruble"),
     RWF("Rwandan franc"),
     SAR("Saudi riyal"),
     SBD("Solomon Islands dollar"),
@@ -133,13 +137,11 @@ public enum CurrencyCode {
     TMT("Turkmenistan manat"),
     TND("Tunisian dinar"),
     TOP("Tongan paʻanga"),
-    TRY("Turkish lira"),
     TTD("Trinidad and Tobago dollar"),
     TWD("New Taiwan dollar"),
     TZS("Tanzanian shilling"),
     UAH("Ukrainian hryvnia"),
     UGX("Ugandan shilling"),
-    USD("United States dollar"),
     UYU("Uruguayan peso"),
     UZS("Uzbekistani soʻm"),
     VES("Venezuelan bolívar"),
@@ -167,14 +169,21 @@ public enum CurrencyCode {
     BMD("Bermudian dollar"),
     BTN("Bhutanese ngultrum");
 
+    private @Nullable String code;
     private String name;
 
     private CurrencyCode(String name) {
+        this(name, null);
+    }
+
+    private CurrencyCode(@Nullable String code, String name) {
+        this.code = code;
         this.name = name;
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public String toString() {
+        return code;
     }
 
 }
