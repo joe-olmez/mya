@@ -14,4 +14,17 @@ public interface CurrencyService {
 
     List<CurrencyInfo> update(LocalDate startDate, LocalDate endDate)
             throws InterruptedException, IOException;
+
+    //
+    List<CurrencyInfo> getCurrencyInfos();
+
+    boolean addCurrencyInfo(CurrencyInfo newInfo);
+
+    CurrencyInfo getCurrencyInfoById(Long ciId);
+
+    boolean deleteCurrencyInfo(Long ciId);
+
+    CurrencyInfo updateCurrencyInfo(Long existingInfoId, CurrencyInfo givenInfo);
+
+    CurrencyInfo getCurrencyInfoByDate(LocalDate date);
 }

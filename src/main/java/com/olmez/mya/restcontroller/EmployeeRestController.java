@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/emp")
 @AllArgsConstructor
-public class EmployeeController {
+public class EmployeeRestController {
 
     private final EmployeeService empService;
 
