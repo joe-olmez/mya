@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +26,7 @@ public class AuthRestController {
         authenticationMnager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
-        final UserDetails user = userDao.findUserByEmail(request.getEmail());
+        UserDetails user = userDao.findUserByEmail(request.getEmail());
         if (user != null) {
             String tok = JwtUtils.generateToken(user);
             return ResponseEntity.ok(tok);
