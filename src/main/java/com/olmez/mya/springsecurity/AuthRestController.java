@@ -18,12 +18,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthRestController {
 
-    private final AuthenticationManager authenticationMnager;
+    private final AuthenticationManager authenticationManager;
     private final UserDao userDao;
 
     @PostMapping("/auth")
     public ResponseEntity<String> authenticate(@RequestBody AuthenticateActionRequest request) {
-        authenticationMnager
+        authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
         UserDetails user = userDao.findUserByEmail(request.getEmail());
