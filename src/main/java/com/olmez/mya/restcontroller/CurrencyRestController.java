@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +21,7 @@ import com.olmez.mya.model.CurrencyInfo;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/currency")
+@RequestMapping("/currency")
 @RequiredArgsConstructor
 public class CurrencyRestController {
 

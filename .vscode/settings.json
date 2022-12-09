@@ -5,7 +5,5 @@
   "java.format.settings.profile": "Joseph",
   "java.dependency.packagePresentation": "hierarchical",
   "java.compile.nullAnalysis.mode": "automatic",
-  "cSpell.words": [
-    "Servlet"
-  ]
+  "cSpell.words": ["jdbc", "Servlet"]
 }

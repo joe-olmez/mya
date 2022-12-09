@@ -1,4 +1,4 @@
-package com.olmez.mya.config;
+package com.olmez.mya.springsecurity;
 
 import java.util.Date;
 import java.util.HashMap;

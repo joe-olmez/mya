@@ -1,16 +1,15 @@
 package com.olmez.mya.temp;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
+import java.sql.SQLException;
 
-@ExtendWith(MockitoExtension.class)
+import org.junit.jupiter.api.Test;
+
+import com.olmez.mya.mockdata.DbConnection;
+
 class TempTest {
 
 	@Test
-	public void test01() {
-
-		System.out.println();
+	public void test01() throws SQLException {
 
 	}
 
