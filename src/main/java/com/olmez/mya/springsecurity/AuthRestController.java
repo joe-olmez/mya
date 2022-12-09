@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.olmez.mya.config.JwtUtils;
-
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -22,14 +20,14 @@ public class AuthRestController {
     private final UserDao userDao;
 
     @PostMapping("/auth")
-    public ResponseEntity<String> authenticate(@RequestBody AuthenticateActionRequest request) {
+    public ResponseEntity<String> authenticate(@RequestBody AuthActionInfo actionInfo) {
         authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+                .authenticate(new UsernamePasswordAuthenticationToken(actionInfo.getEmail(), actionInfo.getPassword()));
 
-        UserDetails user = userDao.findUserByEmail(request.getEmail());
+        UserDetails user = userDao.findUserByEmail(actionInfo.getEmail());
         if (user != null) {
-            String tok = JwtUtils.generateToken(user);
-            return ResponseEntity.ok(tok);
+            String userToken = JwtUtils.generateToken(user);
+            return ResponseEntity.ok(userToken);
         }
         return ResponseEntity.status(400).body("Oops! Some error has occurred!");
 

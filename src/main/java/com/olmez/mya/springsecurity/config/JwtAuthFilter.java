@@ -1,4 +1,4 @@
-package com.olmez.mya.config;
+package com.olmez.mya.springsecurity.config;
 
 import java.io.IOException;
 
@@ -9,6 +9,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.olmez.mya.springsecurity.JwtUtils;
 import com.olmez.mya.springsecurity.UserDao;
 
 import jakarta.servlet.FilterChain;

@@ -13,22 +13,22 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserDao {
 
-    private static final List<UserDetails> APPLICATION_USERS = Arrays.asList(
-            new User(
-                    "joe.olmez@gmail.com",
-                    "password",
-                    Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN"))),
-            new User(
-                    "yusufolmez@gmail.com",
-                    "password",
-                    Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"))));
+        private static final List<UserDetails> APPLICATION_USERS = Arrays.asList(
+                        new User(
+                                        "joe.olmez@gmail.com",
+                                        "password",
+                                        Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN"))),
+                        new User(
+                                        "yusuf@gmail.com",
+                                        "password",
+                                        Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"))));
 
-    public UserDetails findUserByEmail(String email) {
-        return APPLICATION_USERS
-                .stream()
-                .filter(u -> u.getUsername().equals(email))
-                .findFirst()
-                .orElseThrow(() -> new UsernameNotFoundException("No user was found!"));
-    }
+        public UserDetails findUserByEmail(String email) {
+                return APPLICATION_USERS
+                                .stream()
+                                .filter(u -> u.getUsername().equals(email))
+                                .findFirst()
+                                .orElseThrow(() -> new UsernameNotFoundException("No user was found!"));
+        }
 
 }
