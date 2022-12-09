@@ -22,7 +22,7 @@ import com.olmez.mya.model.CurrencyInfo;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/currency")
+@RequestMapping("/currency")
 @RequiredArgsConstructor
 public class CurrencyRestController {
 
