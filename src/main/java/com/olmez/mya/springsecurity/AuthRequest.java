@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AuthActionInfo {
+public class AuthRequest {
 
     private String email;
     private String password;

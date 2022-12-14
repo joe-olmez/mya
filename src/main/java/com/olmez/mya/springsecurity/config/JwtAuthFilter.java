@@ -5,24 +5,29 @@ import java.io.IOException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.olmez.mya.model.User;
+import com.olmez.mya.repositories.UserRepository;
 import com.olmez.mya.springsecurity.JwtUtils;
-import com.olmez.mya.springsecurity.UserDao;
+import com.olmez.mya.springsecurity.UserDetailsImpl;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private final UserDao userDao;
+    private final UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -35,11 +40,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
 
+        log.info("Auth Header: ", authHeader); // "Bearer eyJhbGciOiJIU....""
         String jwtToken = authHeader.substring(7);
-        String userEmail = JwtUtils.extractUsername(jwtToken);
+        String username = JwtUtils.extractUsername(jwtToken);
 
-        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDao.findUserByEmail(userEmail);
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            User curUser = userRepository.getByUsername(username);
+            if (curUser == null) {
+                throw new UsernameNotFoundException(SecurityConfig.EXCEPTION_MESSAGE + username);
+            }
+            UserDetails userDetails = new UserDetailsImpl(curUser);
 
             if (JwtUtils.isTokenValid(userDetails, jwtToken)) {
                 var authToken = new UsernamePasswordAuthenticationToken(userDetails, null,
