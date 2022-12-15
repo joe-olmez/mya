@@ -3,11 +3,9 @@ package com.olmez.mya.repositories;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
 import com.olmez.mya.model.Location;
 
-@Repository
 public interface LocationRepository extends BaseObjectRepository<Location> {
 
 	@Query("SELECT t FROM Location t WHERE t.name = ?1 AND t.deleted = false")

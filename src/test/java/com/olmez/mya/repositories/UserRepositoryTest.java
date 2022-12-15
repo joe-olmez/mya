@@ -2,12 +2,10 @@ package com.olmez.mya.repositories;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.olmez.mya.MyaApplicationTest;
 import com.olmez.mya.model.User;
@@ -19,7 +17,6 @@ import com.olmez.mya.utility.TestSource;
 /**
  * Test classes use test database!
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = MyaApplicationTest.class)
 @TestPropertySource(TestSource.TEST_PROP_SOURCE)
 @ActiveProfiles(TestSource.AC_PROFILE)
@@ -42,7 +39,7 @@ class UserRepositoryTest {
         user = repository.save(user);
 
         // act
-        var users = repository.findByUsername(user.getUsername());
+        var users = repository.findUsersByUsername(user.getUsername());
 
         // assert
         assertThat(users).hasSize(1);
@@ -58,7 +55,7 @@ class UserRepositoryTest {
         user2 = repository.save(user2);
 
         // act
-        var user = repository.getByUsername(user1.getUsername());
+        var user = repository.findByUsername(user1.getUsername());
 
         // assert
         assertThat(user).isNotNull().isEqualTo(user1);

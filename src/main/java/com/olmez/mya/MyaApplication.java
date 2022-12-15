@@ -1,12 +1,11 @@
 package com.olmez.mya;
 
-import java.util.List;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.olmez.mya.model.User;
+import com.olmez.mya.model.enums.UserType;
 import com.olmez.mya.repositories.UserRepository;
 
 import lombok.AllArgsConstructor;
@@ -25,10 +24,19 @@ public class MyaApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		List<User> users = userRepository.findAll();
-
-		log.info("Number of users in DB:" + users.size());
+		User curUser = checkUser();
+		log.info("Current user:{}", curUser);
 		log.info("* * * The database connection is successful! * * *");
 		log.info("* * * Mya application has started! * * *");
+	}
+
+	private User checkUser() {
+		User user = userRepository.findUserByEmail("joe.olmez@gmail.com");
+		if (user != null) {
+			return user;
+		}
+		user = new User("joe", "joseph", "olmez", "joe.olmez@gmail.com", UserType.ADMIN);
+		user.setPasswordHash("1234");
+		return userRepository.save(user);
 	}
 }

@@ -1,10 +1,10 @@
 package com.olmez.mya.repositories;
 
 import com.olmez.mya.MyaApplicationTest;
-import com.olmez.mya.model.CurrencyInfo;
+import com.olmez.mya.model.Employee;
 import com.olmez.mya.services.TestRepoCleanerService;
 
-import java.time.LocalDate;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import com.olmez.mya.utility.TestSource;
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test classes use test database!
@@ -21,10 +20,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(classes = MyaApplicationTest.class)
 @TestPropertySource(TestSource.TEST_PROP_SOURCE)
 @ActiveProfiles(TestSource.AC_PROFILE)
-class CurrencyInfoRepositoryTest {
+class EmployeeRepositoryTest {
 
 	@Autowired
-	private CurrencyInfoRepository repository;
+	private EmployeeRepository repository;
 	@Autowired
 	private TestRepoCleanerService cleanerService;
 
@@ -34,27 +33,19 @@ class CurrencyInfoRepositoryTest {
 	}
 
 	@Test
-	void testFindAll() {
+	void testFindByName() {
 		// arrange
-		var date = LocalDate.of(2022, 12, 3);
-		var info = new CurrencyInfo(date);
-		info = repository.save(info);
-
-		var info2 = new CurrencyInfo(LocalDate.of(2022, 12, 4));
-		info2 = repository.save(info2);
-
-		var info3 = new CurrencyInfo(LocalDate.of(2022, 12, 2));
-		info3 = repository.save(info3);
+		var emp = new Employee("Emp1name", "emp@email.com");
+		emp = repository.save(emp);
+		var emp2 = new Employee("Emp2name", "emp2@email.com");
+		emp2 = repository.save(emp2);
 
 		// act
-		var infos = repository.findAll();
+		var list = repository.findByName(emp.getName());
 
 		// assert
-		assertThat(infos).hasSize(3);
-		assertThat(infos.get(0)).isEqualTo(info2); // Dec 4
-		assertThat(infos.get(1)).isEqualTo(info); // Dec 3
-		assertThat(infos.get(2)).isEqualTo(info3); // Dec 2
-
+		assertThat(list).hasSize(1);
+		assertThat(list.get(0)).isEqualTo(emp);
 	}
 
 }
