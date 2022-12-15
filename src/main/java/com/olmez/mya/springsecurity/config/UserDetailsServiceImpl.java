@@ -9,9 +9,11 @@ import com.olmez.mya.model.User;
 import com.olmez.mya.repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     public static final String EXCEPTION_MESSAGE = "User not found with username: ";
@@ -19,7 +21,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+        log.info("Current username is {}", username);
+        // username is email
+        User user = userRepository.findUserByEmail(username);
         if (user == null) {
             throw new UsernameNotFoundException(EXCEPTION_MESSAGE + username);
         }

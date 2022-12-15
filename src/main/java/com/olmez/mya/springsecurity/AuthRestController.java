@@ -26,25 +26,27 @@ public class AuthRestController {
     private final UserRepository userRepository;
 
     @PostMapping("/auth")
-    public ResponseEntity<String> authenticate(@RequestBody AuthCredentials credentials) {
+    public ResponseEntity<String> authenticate(@RequestBody AuthRequest authRequest) {
 
-        // used email as username
-        var authToken = authByUsernameAndPassword(credentials.getEmail(), credentials.getPassword());
-        authManager.authenticate(authToken);
+        var aToken = authByUsernameAndPassword(authRequest);
+        authManager.authenticate(aToken);
 
-        User user = userRepository.findUserByEmail(credentials.getEmail());
+        User user = userRepository.findUserByEmail(authRequest.getEmail());
         if (user != null) {
             String jwt = createTokenForUser(user);
             return ResponseEntity.ok(jwt);
         }
-        return ResponseEntity.status(400).body(SecurityConfig.EXCEPTION_MESSAGE + credentials.getEmail());
+        return ResponseEntity.status(400).body(SecurityConfig.EXCEPTION_MESSAGE + authRequest.getEmail());
     }
 
     private String createTokenForUser(User user) {
         return JwtUtils.generateToken(new UserDetailsImpl(user));
     }
 
-    private UsernamePasswordAuthenticationToken authByUsernameAndPassword(String username, String password) {
+    private UsernamePasswordAuthenticationToken authByUsernameAndPassword(AuthRequest authRequest) {
+        // use email as username
+        String username = authRequest.getEmail();
+        String password = authRequest.getPassword();
         return new UsernamePasswordAuthenticationToken(username, password);
     }
 
