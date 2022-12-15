@@ -4,24 +4,20 @@ import com.olmez.mya.MyaApplicationTest;
 import com.olmez.mya.model.CurrencyInfo;
 import com.olmez.mya.services.TestRepoCleanerService;
 
-
 import java.time.LocalDate;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.olmez.mya.utility.TestSource;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test classes use test database!
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = MyaApplicationTest.class)
 @TestPropertySource(TestSource.TEST_PROP_SOURCE)
 @ActiveProfiles(TestSource.AC_PROFILE)
@@ -55,9 +51,9 @@ class CurrencyInfoRepositoryTest {
 
 		// assert
 		assertThat(infos).hasSize(3);
-		assertThat(infos.get(0)).isEqualTo(info2); //Dec 4
-		assertThat(infos.get(1)).isEqualTo(info); //Dec 3
-		assertThat(infos.get(2)).isEqualTo(info3); //Dec 2
+		assertThat(infos.get(0)).isEqualTo(info2); // Dec 4
+		assertThat(infos.get(1)).isEqualTo(info); // Dec 3
+		assertThat(infos.get(2)).isEqualTo(info3); // Dec 2
 
 	}
 
