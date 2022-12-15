@@ -14,7 +14,7 @@ import lombok.Getter;
 public class UserDetailsImpl implements UserDetails {
 
     private String username;
-    private String password;
+    private String passwordHash;
     private String role;
     @Getter
     private User curUser;
@@ -22,7 +22,7 @@ public class UserDetailsImpl implements UserDetails {
     public UserDetailsImpl(User user) {
         this.curUser = user;
         this.username = user.getUsername();
-        this.password = user.getPasswordHash();
+        this.passwordHash = user.getPasswordHash();
         this.role = user.getUserType().getRole().toString();
     }
 
@@ -34,7 +34,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return password;
+        return passwordHash;
     }
 
     @Override
