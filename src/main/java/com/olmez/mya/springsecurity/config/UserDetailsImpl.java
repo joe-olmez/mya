@@ -1,4 +1,4 @@
-package com.olmez.mya.springsecurity;
+package com.olmez.mya.springsecurity.config;
 
 import java.util.Collection;
 import java.util.Collections;

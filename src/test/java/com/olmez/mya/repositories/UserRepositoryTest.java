@@ -42,7 +42,7 @@ class UserRepositoryTest {
         user = repository.save(user);
 
         // act
-        var users = repository.findByUsername(user.getUsername());
+        var users = repository.findUsersByUsername(user.getUsername());
 
         // assert
         assertThat(users).hasSize(1);
@@ -58,7 +58,7 @@ class UserRepositoryTest {
         user2 = repository.save(user2);
 
         // act
-        var user = repository.getByUsername(user1.getUsername());
+        var user = repository.findByUsername(user1.getUsername());
 
         // assert
         assertThat(user).isNotNull().isEqualTo(user1);

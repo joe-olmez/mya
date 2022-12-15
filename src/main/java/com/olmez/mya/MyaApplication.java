@@ -26,15 +26,19 @@ public class MyaApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		List<User> users = userRepository.findAll();
-		User curUser = null;
-		if (users.isEmpty()) {
-			curUser = new User("joe", "joseph", "olmez", "joe.olmez@gmail.com", UserType.ADMIN);
-			curUser.setPasswordHash("1234");
-			curUser = userRepository.save(curUser);
-		}
+		User curUser = checkUser();
 		log.info("Current user:{}", curUser);
 		log.info("* * * The database connection is successful! * * *");
 		log.info("* * * Mya application has started! * * *");
+	}
+
+	private User checkUser() {
+		User user = userRepository.findUserByEmail("joe.olmez@gmail.com");
+		if (user != null) {
+			return user;
+		}
+		user = new User("joe", "joseph", "olmez", "joe.olmez@gmail.com", UserType.ADMIN);
+		user.setPasswordHash("1234");
+		return userRepository.save(user);
 	}
 }

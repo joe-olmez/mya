@@ -16,51 +16,57 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class JwtUtils {
 
-    private String jwtSigningKey = "secret";
+    private final String jwtSigningKey = "secret";
 
-    public static String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+    /**
+     * Extracts the JSON Web Token and returns the username.
+     * 
+     * @param jwt
+     * @return
+     */
+    public static String extractUsername(String jwt) {
+        return extractClaim(jwt, Claims::getSubject);
     }
 
-    public static Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
+    public static <T> T extractClaim(String jwt, Function<Claims, T> claimResolver) {
+        Claims claims = extractAllClaims(jwt);
+        return claimResolver.apply(claims);
     }
 
-    public static boolean hasClaim(String token, String claimName) {
-        final Claims claims = extractAllClaims(token);
+    public static Claims extractAllClaims(String wjt) {
+        return Jwts.parser().setSigningKey(jwtSigningKey).parseClaimsJws(wjt).getBody();
+    }
+
+    public static Date extractExpiration(String jwt) {
+        return extractClaim(jwt, Claims::getExpiration);
+    }
+
+    public static boolean hasClaim(String jwt, String claimName) {
+        final Claims claims = extractAllClaims(jwt);
         return claims.get(claimName) != null;
 
     }
 
-    public static <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimResolver.apply(claims);
-    }
-
-    public static Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(jwtSigningKey).parseClaimsJws(token).getBody();
-    }
-
-    public static String getUsernameFromJwtToken(String token) {
-        return extractAllClaims(token).getSubject();
-    }
-
-    public static String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        return createToken(userDetails, claims);
+    public static String getUsernameFromJwtToken(String jwt) {
+        return extractAllClaims(jwt).getSubject();
     }
 
     public static boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
-    public static String generateToken(UserDetails userDetails, Map<String, Object> claims) {
-        return createToken(userDetails, claims);
+    public static String generateToken(UserDetails userDetails) {
+        Map<String, Object> claimsMap = new HashMap<>();
+        return createToken(userDetails, claimsMap);
     }
 
-    private String createToken(UserDetails userDetails, Map<String, Object> claims) {
+    public static String generateToken(UserDetails userDetails, Map<String, Object> claimsMap) {
+        return createToken(userDetails, claimsMap);
+    }
+
+    private String createToken(UserDetails userDetails, Map<String, Object> claimsMap) {
         return Jwts.builder()
-                .setClaims(claims)
+                .setClaims(claimsMap)
                 .setSubject(userDetails.getUsername())
                 .claim("authorities", userDetails.getAuthorities())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -68,9 +74,9 @@ public class JwtUtils {
                 .signWith(SignatureAlgorithm.HS256, jwtSigningKey).compact();
     }
 
-    public boolean isTokenValid(UserDetails userDetails, String token) {
-        String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    public boolean isTokenValid(UserDetails userDetails, String jwt) {
+        String username = extractUsername(jwt);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(jwt));
     }
 
 }
