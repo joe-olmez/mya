@@ -23,18 +23,19 @@ public class CurrencyServiceImpl implements CurrencyService {
     private final CurrencyInfoRepository curInfoRepository;
 
     @Override
-    public CurrencyInfo update() throws IOException, InterruptedException {
-        return update(LocalDate.now().minusDays(1));
-    }
-
-    @Override
     public CurrencyInfo update(LocalDate date) throws IOException, InterruptedException {
-        CurrencyInfo existing = checkDB(date);
-        if (existing != null) {
+        CurrencyInfo existing = curInfoRepository.findByDate(date);
+
+        if ((existing != null) && (!date.isEqual(LocalDate.now()))) {
+            log.info("Data exist on {}", existing.getDate());
             return existing;
         }
+
         CurrencyInfo info = apiService.update(date);
         if (info != null) {
+            if ((existing != null) && (info.getDate().isEqual(LocalDate.now()))) {
+                info = updateExisting(existing, info);
+            }
             info = curInfoRepository.save(info);
             log.info("---Updated currency data - {}", info);
         }
@@ -42,41 +43,41 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    public List<CurrencyInfo> update(LocalDate startDate, LocalDate endDate)
+    public CurrencyInfo update() throws IOException, InterruptedException {
+        return update(LocalDate.now());
+    }
+
+    @Override
+    public List<CurrencyInfo> update(LocalDate startDateInclusive, LocalDate endDateInclusive)
             throws InterruptedException, IOException {
-        if (endDate == null || endDate.isAfter(LocalDate.now().minusDays(1))) {
-            endDate = LocalDate.now().minusDays(1);
+        if (endDateInclusive == null || endDateInclusive.isAfter(LocalDate.now())) {
+            endDateInclusive = LocalDate.now();
         }
 
-        if (startDate == null) {
-            startDate = endDate;
+        if (startDateInclusive == null) {
+            startDateInclusive = endDateInclusive;
         }
 
-        if (endDate.isBefore(startDate)) {
+        if (endDateInclusive.isBefore(startDateInclusive)) {
             return Collections.emptyList();
         }
 
-        if (startDate.isBefore(endDate.minusMonths(1))) {
-            startDate = endDate.minusMonths(1);
+        // max 99 call pear day
+        if (startDateInclusive.isBefore(endDateInclusive.minusMonths(3))) {
+            startDateInclusive = endDateInclusive.minusMonths(3);
         }
 
         List<CurrencyInfo> infoList = new ArrayList<>();
-        LocalDate curDate = startDate;
+        LocalDate curDate = startDateInclusive;
 
-        while (curDate.isBefore(endDate)) {
+        while (curDate.isBefore(endDateInclusive.plusDays(1))) {
             infoList.add(update(curDate));
             curDate = curDate.plusDays(1);
         }
         return infoList;
     }
 
-    private CurrencyInfo checkDB(LocalDate date) {
-        var oInfo = curInfoRepository.findByDate(date);
-        return (oInfo.isPresent()) ? oInfo.get() : null;
-    }
-
-    //
-
+    // *** This section for CurrencyRController ***
     @Override
     public List<CurrencyInfo> getCurrencyInfos() {
         return curInfoRepository.findAll();
@@ -122,6 +123,20 @@ public class CurrencyServiceImpl implements CurrencyService {
         return existing;
     }
 
+    @Override
+    public CurrencyInfo getCurrencyInfoByDate(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+        return curInfoRepository.findByDate(date);
+    }
+
+    @Override
+    public List<CurrencyInfo> update(int numOfDays) throws InterruptedException, IOException {
+        return update(LocalDate.now().minusDays(numOfDays), LocalDate.now());
+
+    }
+
     private CurrencyInfo updateExisting(CurrencyInfo existing, CurrencyInfo given) {
         existing.setDate(given.getDate());
         existing.setAmount(given.getAmount());
@@ -135,16 +150,8 @@ public class CurrencyServiceImpl implements CurrencyService {
         existing.setJPY(given.getJPY());
         existing.setRUB(given.getRUB());
         existing.setTRY(given.getTRY());
+        log.info("Updated existing data on {}", existing.getDate());
         return existing;
-    }
-
-    @Override
-    public CurrencyInfo getCurrencyInfoByDate(LocalDate date) {
-        if (date == null) {
-            return null;
-        }
-        var oInfo = curInfoRepository.findByDate(date);
-        return oInfo.isPresent() ? oInfo.get() : null;
     }
 
 }

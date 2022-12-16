@@ -10,6 +10,16 @@ public interface CurrencyService {
 
     CurrencyInfo update() throws IOException, InterruptedException;
 
+    /**
+     * Updates data as much as the number of days from today backward
+     * 
+     * @param numOfDays number of days
+     * @return list of currency info
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    List<CurrencyInfo> update(int numOfDays) throws InterruptedException, IOException;
+
     CurrencyInfo update(LocalDate date) throws IOException, InterruptedException;
 
     List<CurrencyInfo> update(LocalDate startDate, LocalDate endDate)

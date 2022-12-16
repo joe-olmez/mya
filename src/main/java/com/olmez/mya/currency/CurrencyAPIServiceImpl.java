@@ -30,19 +30,24 @@ public class CurrencyAPIServiceImpl implements CurrencyAPIService {
 
     @Override
     public CurrencyInfo update() throws IOException, InterruptedException {
-        return update(LocalDate.now().minusDays(1));
+        return update(LocalDate.now());
     }
 
     @Override
     public CurrencyInfo update(LocalDate date) throws InterruptedException, IOException {
 
         if (date == null) {
-            date = LocalDate.now().minusDays(1);
+            date = LocalDate.now();
         }
 
         CurrencyUrl cUrl = new CurrencyUrl(date);
         String sourceUrl = isTestMode() ? getTestResource() : cUrl.getUrl();
         CurrencyRoot root = FileHelper.readFile(testMode, sourceUrl, CurrencyRoot.class);
+
+        if (root == null || root.getUpdatedOn() == null || root.getUpdatedOn().isEmpty()) {
+            log.info("Failed to received currency data.url:{}", sourceUrl);
+            return null;
+        }
         log.info("Received currency data. Update on {}", root.getUpdatedOn());
         return root.getCurrencyInfo();
     }

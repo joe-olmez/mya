@@ -24,11 +24,14 @@ public interface UserRepository extends BaseObjectRepository<User> {
         if (users.isEmpty()) {
             return null;
         }
-        User user = users.get(0);
         if (users.size() > 1) {
-            users.forEach(u -> u.setDeleted(true));
+            // keep latest one
+            for (int i = 1; i < users.size(); i++) {
+                users.get(i).setDeleted(true);
+            }
+            saveAll(users);
         }
-        return user;
+        return users.get(0);
     }
 
     default User findUserByEmail(String email) {

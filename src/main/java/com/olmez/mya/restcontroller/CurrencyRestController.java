@@ -27,16 +27,16 @@ public class CurrencyRestController {
 
     private final CurrencyService currencyService;
 
-    // CREATE = POST
-    @PostMapping("/add")
-    public boolean addCurrencyInfo(@RequestBody CurrencyInfo info) {
-        return currencyService.addCurrencyInfo(info);
-    }
-
     // READ = GET
     @GetMapping("/all")
     public List<CurrencyInfo> getCurrencyInfos() {
         return currencyService.getCurrencyInfos();
+    }
+
+    // CREATE = POST
+    @PostMapping("/add")
+    public boolean addCurrencyInfo(@RequestBody CurrencyInfo info) {
+        return currencyService.addCurrencyInfo(info);
     }
 
     // UPDATE = PUT
@@ -51,27 +51,27 @@ public class CurrencyRestController {
         return currencyService.deleteCurrencyInfo(id);
     }
 
-    //
+    // To be implemented
     @GetMapping("/{ciId}")
     public CurrencyInfo getCurrencyInfoById(@PathVariable("ciId") Long id) {
         return currencyService.getCurrencyInfoById(id);
     }
 
-    //
+    // // To be implemented
     @GetMapping("/{date}")
     public CurrencyInfo getCurrencyInfoByDate(@PathVariable("date") @DateTimeFormat(iso = ISO.DATE) LocalDate date) {
         return currencyService.getCurrencyInfoByDate(date);
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    @GetMapping()
+    @GetMapping("test")
     public ResponseEntity<String> hello() {
-        return ResponseEntity.ok("Hello from our API");
+        return ResponseEntity.ok("Hello from my api. Thi is a test message!!!");
     }
 
-    @GetMapping("/say-good-bye")
+    @GetMapping()
     public ResponseEntity<String> goodBy() {
-        return ResponseEntity.ok("Good by and see you later");
+        return ResponseEntity.ok("No specific path for this. This is a test!!!");
     }
 
 }
