@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 import { TokenStorageService } from '../services/token-storage.service';
 import { Observable } from 'rxjs';
 
-const TOKEN_HEADER_KEY = 'Authorization'; // for Spring Boot back-end
+const TOKEN_HEADER_KEY = 'Authorization'; // for Spring Boot back-end (see it AuthRequestFilter)
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

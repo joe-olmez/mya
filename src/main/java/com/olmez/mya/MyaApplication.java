@@ -29,25 +29,18 @@ public class MyaApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		User curUser = checkUser();
-		log.info("Current user:{}", curUser);
-		log.info("* * * The database connection is successful! * * *");
-		log.info("* * * Mya application has started! * * *");
-
-		testCurrencyService();
-	}
-
-	private User checkUser() {
-		User user = userRepository.findByUsername("joe");
-		if (user == null) {
-			user = new User("joe", "joseph", "olmez", "joe.olmez@gmail.com", UserType.ADMIN);
-			user.setPasswordHash("1234");
-			user = userRepository.save(user);
+		User appUser = userRepository.getAppUser();
+		log.info("App user:{}", appUser);
+		if (appUser == null) {
+			log.info("Failed to connect to database! * * *");
+		} else {
+			log.info("* * * The database connection is successful! * * *");
+			log.info("* * * Mya application has started! * * *");
 		}
-		return user;
+		// testCurrencyService();
 	}
 
 	private void testCurrencyService() throws IOException, InterruptedException {
-		// currencyService.update(LocalDate.of(2022, 5, 6), LocalDate.of(2022, 8, 6));
+		currencyService.update(LocalDate.of(2022, 5, 6), LocalDate.of(2022, 8, 6));
 	}
 }

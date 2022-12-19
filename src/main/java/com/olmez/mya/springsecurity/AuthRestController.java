@@ -35,6 +35,29 @@ public class AuthRestController {
     private final AuthenticationManager authManager;
     private final UserRepository userRepository;
 
+    // AUTH
+    @PostMapping("/signup")
+    public ResponseEntity<String> signupUser(@RequestBody SignupRequest signupRequest) {
+
+        User user = userRepository.findByUsername(signupRequest.getUsername());
+        if (user != null) {
+            String errorMsg = String.format("Error: %s is already in use!", signupRequest.getUsername());
+            return ResponseEntity.badRequest().body(errorMsg);
+        }
+        user = userRepository.findUserByEmail(signupRequest.getEmail());
+        if (user != null) {
+            String errorMsg = String.format("Error: %s is already in use!", signupRequest.getEmail());
+            return ResponseEntity.badRequest().body(errorMsg);
+        }
+
+        // Create a new user's account
+        user = new User(signupRequest.getUsername(), signupRequest.getFirstName(), signupRequest.getLastName(),
+                signupRequest.getEmail());
+        user.setPasswordHash(PasswordUtility.hashPassword(signupRequest.getPassword()));
+        user = userRepository.save(user);
+        return ResponseEntity.ok("Created " + user.getName());
+    }
+
     @PostMapping("/signin")
     public ResponseEntity<String> signin(@RequestBody SigninRequest signinRequest) throws UnexpectedException {
 
@@ -70,29 +93,6 @@ public class AuthRestController {
 
     private String createJWTForUser(UserDetails userDetails) {
         return JwtUtils.generateToken(userDetails);
-    }
-
-    /////////////////////////
-    @PostMapping("/signup")
-    public ResponseEntity<String> signupUser(@RequestBody SignupRequest signupRequest) {
-
-        User user = userRepository.findByUsername(signupRequest.getUsername());
-        if (user != null) {
-            String errorMsg = String.format("Error: %s is already in use!", signupRequest.getUsername());
-            return ResponseEntity.badRequest().body(errorMsg);
-        }
-        user = userRepository.findUserByEmail(signupRequest.getEmail());
-        if (user != null) {
-            String errorMsg = String.format("Error: %s is already in use!", signupRequest.getEmail());
-            return ResponseEntity.badRequest().body(errorMsg);
-        }
-
-        // Create a new user's account
-        user = new User(signupRequest.getUsername(), signupRequest.getFirstName(), signupRequest.getLastName(),
-                signupRequest.getEmail());
-        user.setPasswordHash(PasswordUtility.hashPassword(signupRequest.getPassword()));
-        user = userRepository.save(user);
-        return ResponseEntity.ok("Created " + user.getName());
     }
 
 }
