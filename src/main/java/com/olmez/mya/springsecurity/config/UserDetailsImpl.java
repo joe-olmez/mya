@@ -8,21 +8,22 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.olmez.mya.model.User;
+import com.olmez.mya.utility.PasswordUtility;
 
 import lombok.Getter;
 
 public class UserDetailsImpl implements UserDetails {
 
     private String username;
-    private String passwordHash;
+    private String password;
     private String role;
     @Getter
-    private User curUser;
+    private User user;
 
     public UserDetailsImpl(User user) {
-        this.curUser = user;
+        this.user = user;
         this.username = user.getUsername();
-        this.passwordHash = user.getPasswordHash();
+        this.password = user.getPasswordHash();
         this.role = user.getUserType().getRole().toString();
     }
 
@@ -34,7 +35,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return passwordHash;
+        return PasswordUtility.hashPassword(password);
     }
 
     @Override

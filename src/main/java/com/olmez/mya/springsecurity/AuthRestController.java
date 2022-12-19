@@ -54,7 +54,7 @@ public class AuthRestController {
             throw new UnexpectedException(
                     String.format("Unexpected authentication principal:%s", principal.getClass().getName()));
         }
-        return ((UserDetailsImpl) principal).getCurUser();
+        return ((UserDetailsImpl) principal).getUser();
     }
 
 }
