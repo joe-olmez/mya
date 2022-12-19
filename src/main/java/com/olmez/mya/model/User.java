@@ -31,6 +31,10 @@ public class User extends BaseObject {
 		this(username, firstName, lastName, username + "@noemail.com", UserType.REGULAR);
 	}
 
+	public User(String username, String firstName, String lastName, String email) {
+		this(username, firstName, lastName, email, UserType.REGULAR);
+	}
+
 	public User(String username, String firstName, String lastName, String email, UserType userType) {
 		this.username = username;
 		this.firstName = firstName;

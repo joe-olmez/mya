@@ -19,11 +19,11 @@ public enum UserType {
 	/**
 	 * Given all permissions
 	 */
-	ADMIN("System Administrator", UserRoles.ROLE_ADMIN),
+	ADMIN("System Admin", UserRoles.ROLE_ADMIN),
 	/**
 	 * Standard user
 	 */
-	REGULAR("Regular User"),
+	REGULAR("Regular User", UserRoles.ROLE_USER),
 	/**
 	 * Team
 	 */
