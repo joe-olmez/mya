@@ -35,10 +35,12 @@ public class AuthRequestFilter extends OncePerRequestFilter {
 
         String header = request.getHeader(HEADER_KEY);
         if (header == null || !header.startsWith(TOKEN_TYPE)) {
+            // No JWT, so GET JWT
             filterChain.doFilter(request, response);
             return;
         }
 
+        // Check JWT in request
         String jwt = getJWT(header);
         String username = JwtUtils.extractUsername(jwt);
 

@@ -34,8 +34,9 @@ public class HandlerInterceptorImpl implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
             Exception e) {
-        e.getMessage();
-        log.info("afterCompletion...");
+        if (e != null) {
+            log.info("afterCompletion...{}", e.getMessage());
+        }
     }
 
 }
