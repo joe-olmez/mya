@@ -49,7 +49,6 @@ public class AuthRestController {
             String errorMsg = String.format("Error: %s is already in use!", signupRequest.getEmail());
             return ResponseEntity.badRequest().body(errorMsg);
         }
-
         // Create a new user's account
         user = new User(signupRequest.getUsername(), signupRequest.getFirstName(), signupRequest.getLastName(),
                 signupRequest.getEmail());
@@ -72,13 +71,10 @@ public class AuthRestController {
     }
 
     private UserDetailsImpl grantAuthentication(SigninRequest signinRequest) throws UnexpectedException {
-        // no need to use email
-        // String email = signinRequest.getEmail();
         String username = signinRequest.getUsername();
         String password = signinRequest.getPassword();
         var aToken = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authResult = authManager.authenticate(aToken);
-        SecurityContextHolder.getContext().setAuthentication(authResult); // ? Do I need this?
         return getPrincipalFromAuthentication(authResult);
     }
 
