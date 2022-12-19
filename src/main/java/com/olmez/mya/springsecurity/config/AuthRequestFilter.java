@@ -10,7 +10,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.olmez.mya.springsecurity.JwtUtils;
+import com.olmez.mya.springsecurity.securityutiliy.JwtUtils;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -35,10 +35,12 @@ public class AuthRequestFilter extends OncePerRequestFilter {
 
         String header = request.getHeader(HEADER_KEY);
         if (header == null || !header.startsWith(TOKEN_TYPE)) {
+            // No JWT, so GET JWT
             filterChain.doFilter(request, response);
             return;
         }
 
+        // Check JWT in request
         String jwt = getJWT(header);
         String username = JwtUtils.extractUsername(jwt);
 

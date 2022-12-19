@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.olmez.mya.model.CurrencyInfo;
 import com.olmez.mya.repositories.CurrencyInfoRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,6 +25,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     private final CurrencyInfoRepository curInfoRepository;
 
     @Override
+    @Transactional
     public CurrencyInfo update(LocalDate date) throws IOException, InterruptedException {
         CurrencyInfo existing = curInfoRepository.findByDate(date);
 
@@ -43,11 +46,13 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
+    @Transactional
     public CurrencyInfo update() throws IOException, InterruptedException {
         return update(LocalDate.now());
     }
 
     @Override
+    @Transactional
     public List<CurrencyInfo> update(LocalDate startDateInclusive, LocalDate endDateInclusive)
             throws InterruptedException, IOException {
         if (endDateInclusive == null || endDateInclusive.isAfter(LocalDate.now())) {

@@ -38,16 +38,16 @@ public class MyaApplication implements CommandLineRunner {
 	}
 
 	private User checkUser() {
-		User user = userRepository.findUserByEmail("joe.olmez@gmail.com");
-		if (user != null) {
-			return user;
+		User user = userRepository.findByUsername("joe");
+		if (user == null) {
+			user = new User("joe", "joseph", "olmez", "joe.olmez@gmail.com", UserType.ADMIN);
+			user.setPasswordHash("1234");
+			user = userRepository.save(user);
 		}
-		user = new User("joe", "joseph", "olmez", "joe.olmez@gmail.com", UserType.ADMIN);
-		user.setPasswordHash("1234");
-		return userRepository.save(user);
+		return user;
 	}
 
 	private void testCurrencyService() throws IOException, InterruptedException {
-		// currencyService.update(LocalDate.of(2022, 8, 6), LocalDate.of(2022, 11, 6));
+		// currencyService.update(LocalDate.of(2022, 5, 6), LocalDate.of(2022, 8, 6));
 	}
 }

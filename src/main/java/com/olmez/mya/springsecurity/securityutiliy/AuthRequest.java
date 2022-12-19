@@ -1,4 +1,4 @@
-package com.olmez.mya.springsecurity;
+package com.olmez.mya.springsecurity.securityutiliy;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AuthRequest {
 
-    private String email;
+    private String username;
     private String password;
 
 }

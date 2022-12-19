@@ -1,4 +1,4 @@
-package com.olmez.mya.springsecurity;
+package com.olmez.mya.springsecurity.securityutiliy;
 
 import java.util.Date;
 import java.util.HashMap;
