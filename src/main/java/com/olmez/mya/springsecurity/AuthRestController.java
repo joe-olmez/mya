@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.olmez.mya.springsecurity.config.SecurityConfig;
 import com.olmez.mya.springsecurity.config.UserDetailsImpl;
+import com.olmez.mya.springsecurity.securityutiliy.AuthRequest;
+import com.olmez.mya.springsecurity.securityutiliy.JwtUtils;
 
 import lombok.RequiredArgsConstructor;
 

@@ -8,7 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.olmez.mya.model.User;
-import com.olmez.mya.utility.PasswordUtility;
+import com.olmez.mya.springsecurity.securityutiliy.PasswordUtility;
 
 import lombok.Getter;
 

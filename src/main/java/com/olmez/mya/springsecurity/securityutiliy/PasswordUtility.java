@@ -1,4 +1,4 @@
-package com.olmez.mya.utility;
+package com.olmez.mya.springsecurity.securityutiliy;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
