@@ -53,8 +53,8 @@ public class AuthRestController {
         user = new User(signupRequest.getUsername(), signupRequest.getFirstName(), signupRequest.getLastName(),
                 signupRequest.getEmail());
         user.setPasswordHash(PasswordUtility.hashPassword(signupRequest.getPassword()));
-        user = userRepository.save(user);
-        return ResponseEntity.ok("Created " + user.getName());
+        userRepository.save(user);
+        return ResponseEntity.ok().body("Created");
     }
 
     @PostMapping("/signin")

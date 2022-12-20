@@ -1,3 +1,6 @@
+import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
+import { User } from './../../model/user';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { TokenStorageService } from '../services/token-storage.service';
@@ -8,48 +11,43 @@ import { TokenStorageService } from '../services/token-storage.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  form: any = {
-    username: null,
-    password: null,
-  };
+  user: User = new User();
+
   isLoggedIn = false;
   isLoginFailed = false;
   errorMessage = '';
-  roles: string[] = [];
 
   constructor(
     private authService: AuthService,
-    private tokenStorage: TokenStorageService
+    private tokenStorage: TokenStorageService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
-      this.roles = this.tokenStorage.getUser().roles;
     }
   }
 
-  onSubmit(): void {
-    const { username, password } = this.form;
+  async onSubmit(loginForm: NgForm) {
+    const formUser = loginForm.value;
+    console.log('Form value: ', formUser);
 
-    this.authService.login(username, password).subscribe(
-      (data) => {
-        this.tokenStorage.saveToken(data.accessToken);
-        this.tokenStorage.saveUser(data);
-
-        this.isLoginFailed = false;
-        this.isLoggedIn = true;
-        this.roles = this.tokenStorage.getUser().roles;
-        this.reloadPage();
+    (await this.authService.login(formUser)).subscribe({
+      next: (resData) => {
+        console.log('Response data:', resData);
+        this.tokenStorage.saveToken(resData);
+        this.tokenStorage.saveUser(resData);
       },
-      (err) => {
-        this.errorMessage = err.error.message;
-        this.isLoginFailed = true;
-      }
-    );
+      error: (resError) => console.error(resError),
+      complete: () => console.info('complete'),
+    });
+    this.reloadPage();
+    //TODO go to currency list page
+    this.router.navigateByUrl('/home');
   }
 
-  reloadPage(): void {
+  async reloadPage() {
     window.location.reload();
   }
 }

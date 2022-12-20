@@ -6,12 +6,10 @@
                     style="border-radius: 10px;">
                     <div class="card-body p-4 p-md-5">
                         <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Registration Form</h3>
-                        <!-- Form -->
-                        <form
-                            *ngIf="!isSuccessful" name="signupForm"
+                        <!-- ************************************************************** -->
+                        <form #signupForm="ngForm" name="signupForm"
                             (ngSubmit)="signupForm.form.valid &&
-                            onSubmit(signupForm)"
-                            #signupForm="ngForm" novalidate>
+                            onSubmit(signupForm)">
                             <div class="row">
                                 <div class="col-md-6 mb-4">
                                     <!-- *** -->

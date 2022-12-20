@@ -4,11 +4,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from './../../environments/environment';
 
-const API_BASE_URL = environment.apiServerUrl; // http://localhost:8080
+const API_BASE_URL = environment.apiServerUrl; // http://localhost:5000
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-};
+// const httpOptions = {
+//   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+// };
 
 @Injectable({
   providedIn: 'root',
@@ -16,16 +16,16 @@ const httpOptions = {
 export class AuthService {
   constructor(private http: HttpClient) {}
 
-  //signin
-  login(username: string, password: string): Observable<any> {
-    let signinUrl = API_BASE_URL + '/api/auth/signin';
-    return this.http.post(signinUrl, { username, password }, httpOptions);
+  // Signin-POST: http://localhost:5000//api/auth/signin
+  async login(user: User): Promise<Observable<any>> {
+    let url = API_BASE_URL + '/api/auth/signin';
+    return this.http.post(url, user);
   }
 
-  // signup
-  register(user: User): Observable<any> {
-    let signupUrl = API_BASE_URL + '/api/auth/signup';
-    console.log('Signup url:', signupUrl);
-    return this.http.post(signupUrl, user, httpOptions);
+  // Signup-POST: http://localhost:5000//api/auth/signup
+  async register(user: User): Promise<Observable<any>> {
+    let url = API_BASE_URL + '/api/auth/signup';
+    console.log('Signup url:', url);
+    return this.http.post(url, user);
   }
 }

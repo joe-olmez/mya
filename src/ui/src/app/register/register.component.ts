@@ -1,4 +1,5 @@
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { User } from './../../model/user';
@@ -11,31 +12,20 @@ import { User } from './../../model/user';
 export class RegisterComponent implements OnInit {
   user: User = new User();
 
-  isSuccessful = false;
-  isSignUpFailed = false;
-  errorMessage = '';
-
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {}
 
-  onSubmit(signupForm: NgForm) {
-    console.log('Signup form: ', signupForm);
+  async onSubmit(signupForm: NgForm) {
+    const formUser = signupForm.value;
+    console.log('Form value: ', formUser);
 
-    this.user = signupForm.value;
+    (await this.authService.register(formUser)).subscribe({
+      next: (resData) => console.log('Response data:', resData),
+      error: (resError) => console.error(resError),
+      complete: () => console.info('complete'),
+    });
 
-    console.log('Form value: ', signupForm.value);
-
-    this.authService.register(this.user).subscribe(
-      (data) => {
-        console.log('Response data:', data);
-        this.isSuccessful = true;
-        this.isSignUpFailed = false;
-      },
-      (err) => {
-        this.errorMessage = err.error.message;
-        this.isSignUpFailed = true;
-      }
-    );
+    this.router.navigateByUrl('/home');
   }
 }
