@@ -13,6 +13,7 @@ import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardUserComponent } from './board-user/board-user.component';
 import { authInterceptorProviders } from './helpers/auth.interceptor';
+import { CurrencyListComponent } from './currency-list/currency-list.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { authInterceptorProviders } from './helpers/auth.interceptor';
     BoardAdminComponent,
     BoardModeratorComponent,
     BoardUserComponent,
+    CurrencyListComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [authInterceptorProviders],
