@@ -2,6 +2,7 @@ package com.olmez.mya.springsecurity;
 
 import java.rmi.UnexpectedException;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +20,7 @@ import com.olmez.mya.springsecurity.config.SecurityConfig;
 import com.olmez.mya.springsecurity.config.UserDetailsImpl;
 import com.olmez.mya.springsecurity.securityutiliy.JwtUtils;
 import com.olmez.mya.springsecurity.securityutiliy.PasswordUtility;
+import com.olmez.mya.springsecurity.securityutiliy.ResponseUtility;
 import com.olmez.mya.springsecurity.securityutiliy.SigninRequest;
 import com.olmez.mya.springsecurity.securityutiliy.SignupRequest;
 
@@ -37,7 +39,7 @@ public class AuthRestController {
 
     // AUTH
     @PostMapping("/signup")
-    public ResponseEntity<String> signupUser(@RequestBody SignupRequest signupRequest) {
+    public ResponseEntity<Object> signupUser(@RequestBody SignupRequest signupRequest) {
 
         User user = userRepository.findByUsername(signupRequest.getUsername());
         if (user != null) {
@@ -54,11 +56,11 @@ public class AuthRestController {
                 signupRequest.getEmail());
         user.setPasswordHash(PasswordUtility.hashPassword(signupRequest.getPassword()));
         userRepository.save(user);
-        return ResponseEntity.ok().body("Created");
+        return ResponseUtility.genSuccessfulResponse(user);
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<String> signin(@RequestBody SigninRequest signinRequest) throws UnexpectedException {
+    public ResponseEntity<Object> signin(@RequestBody SigninRequest signinRequest) throws UnexpectedException {
 
         UserDetailsImpl userDetailsImpl = grantAuthentication(signinRequest);
         User curUser = userDetailsImpl.getUser();
@@ -67,7 +69,7 @@ public class AuthRestController {
         }
         String jwt = createJWTForUser(userDetailsImpl);
         log.info("Granted jwt:{} to user:{}", jwt, curUser);
-        return ResponseEntity.ok(jwt);
+        return ResponseUtility.genSuccessfulResponse(jwt, curUser);
     }
 
     private UserDetailsImpl grantAuthentication(SigninRequest signinRequest) throws UnexpectedException {
