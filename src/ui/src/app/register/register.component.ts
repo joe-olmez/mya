@@ -1,5 +1,7 @@
+import { NgForm } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { User } from './../../model/user';
 
 @Component({
   selector: 'app-register',
@@ -7,11 +9,8 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
-  form: any = {
-    username: null,
-    email: null,
-    password: null,
-  };
+  user: User = new User();
+
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
@@ -20,12 +19,16 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  onSubmit(): void {
-    const { username, email, password } = this.form;
+  onSubmit(signupForm: NgForm) {
+    console.log('Signup form: ', signupForm);
 
-    this.authService.register(username, email, password).subscribe(
+    this.user = signupForm.value;
+
+    console.log('Form value: ', signupForm.value);
+
+    this.authService.register(this.user).subscribe(
       (data) => {
-        console.log(data);
+        console.log('Response data:', data);
         this.isSuccessful = true;
         this.isSignUpFailed = false;
       },

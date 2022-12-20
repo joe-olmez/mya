@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/currency")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200") // this will talk to port:5000
+@CrossOrigin(origins = "http://localhost:4200") // This allows to talk to port:5000 (ui-backend)
 public class CurrencyRestController {
 
     private final CurrencyService currencyService;

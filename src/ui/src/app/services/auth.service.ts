@@ -1,9 +1,10 @@
+import { User } from './../../model/user';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from './../../environments/environment';
 
-const apiBaseUrl = environment.apiServerUrl; // http://localhost:8080
+const API_BASE_URL = environment.apiServerUrl; // http://localhost:8080
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -17,13 +18,14 @@ export class AuthService {
 
   //signin
   login(username: string, password: string): Observable<any> {
-    let siginUrl = apiBaseUrl + '/api/auth/signin';
-    return this.http.post(siginUrl, { username, password }, httpOptions);
+    let signinUrl = API_BASE_URL + '/api/auth/signin';
+    return this.http.post(signinUrl, { username, password }, httpOptions);
   }
 
   // signup
-  register(username: string, email: string, password: string): Observable<any> {
-    let sigupUrl = apiBaseUrl + '/api/auth/signup';
-    return this.http.post(sigupUrl, { username, email, password }, httpOptions);
+  register(user: User): Observable<any> {
+    let signupUrl = API_BASE_URL + '/api/auth/signup';
+    console.log('Signup url:', signupUrl);
+    return this.http.post(signupUrl, user, httpOptions);
   }
 }

@@ -6,15 +6,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.olmez.mya.model.User;
-import com.olmez.mya.model.enums.UserType;
 import com.olmez.mya.repositories.UserRepository;
 import com.olmez.mya.springsecurity.config.SecurityConfig;
 import com.olmez.mya.springsecurity.config.UserDetailsImpl;
@@ -27,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200") // This allows to talk to port:5000 (ui-backend)
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 @Slf4j

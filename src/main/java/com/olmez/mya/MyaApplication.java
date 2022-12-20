@@ -41,6 +41,6 @@ public class MyaApplication implements CommandLineRunner {
 	}
 
 	private void testCurrencyService() throws IOException, InterruptedException {
-		currencyService.update(LocalDate.of(2022, 5, 6), LocalDate.of(2022, 8, 6));
+		currencyService.update(LocalDate.of(2022, 1, 1), LocalDate.now());
 	}
 }
