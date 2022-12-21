@@ -2,7 +2,6 @@ package com.olmez.mya.springsecurity;
 
 import java.rmi.UnexpectedException;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,7 +17,7 @@ import com.olmez.mya.model.User;
 import com.olmez.mya.repositories.UserRepository;
 import com.olmez.mya.springsecurity.config.SecurityConfig;
 import com.olmez.mya.springsecurity.config.UserDetailsImpl;
-import com.olmez.mya.springsecurity.securityutiliy.JwtUtils;
+import com.olmez.mya.springsecurity.securityutiliy.JwtUtility;
 import com.olmez.mya.springsecurity.securityutiliy.PasswordUtility;
 import com.olmez.mya.springsecurity.securityutiliy.ResponseUtility;
 import com.olmez.mya.springsecurity.securityutiliy.SigninRequest;
@@ -90,7 +89,7 @@ public class AuthRestController {
     }
 
     private String createJWTForUser(UserDetails userDetails) {
-        return JwtUtils.generateToken(userDetails);
+        return JwtUtility.generateToken(userDetails);
     }
 
 }

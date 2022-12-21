@@ -7,18 +7,15 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./board-admin.component.css'],
 })
 export class BoardAdminComponent implements OnInit {
-  content?: string;
+  users = [];
 
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.userService.getAdminBoard().subscribe(
-      (data) => {
-        this.content = data;
-      },
-      (err) => {
-        this.content = JSON.parse(err.error).message;
-      }
-    );
+    this.userService.getAdminBoard().subscribe({
+      next: (resData) => console.log('Response data:', resData),
+      error: (resError) => console.error(resError),
+      complete: () => console.info('complete'),
+    });
   }
 }

@@ -42,20 +42,21 @@ public class CurrencyRestController {
     }
 
     // UPDATE = PUT
-    @PutMapping("/update/{ciId}")
-    public CurrencyInfo updateCurrencyInfo(@PathVariable("ciId") Long id, @RequestBody CurrencyInfo model) {
+    @PutMapping("/update/{id}")
+    public CurrencyInfo updateCurrencyInfo(@PathVariable("id") Long id, @RequestBody CurrencyInfo model) {
         return currencyService.updateCurrencyInfo(id, model);
     }
 
     // DELETE = DELETE
-    @DeleteMapping("/delete/{ciId}")
-    public boolean deleteCurrencyInfo(@PathVariable("ciId") Long id) {
+    @DeleteMapping("/delete/{id}")
+    public boolean deleteCurrencyInfo(@PathVariable("id") Long id) {
         return currencyService.deleteCurrencyInfo(id);
     }
 
     // To be implemented
-    @GetMapping("/{ciId}")
-    public CurrencyInfo getCurrencyInfoById(@PathVariable("ciId") Long id) {
+    // //////////////////////////////////////////////////////////////////////////////////////////////////////////~
+    @GetMapping("/{id}")
+    public CurrencyInfo getCurrencyInfoById(@PathVariable("id") Long id) {
         return currencyService.getCurrencyInfoById(id);
     }
 

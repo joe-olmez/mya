@@ -14,7 +14,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class JwtUtils {
+public class JwtUtility {
 
     private final String jwtSigningKey = "secret";
 
@@ -22,7 +22,7 @@ public class JwtUtils {
      * Extracts the JSON Web Token and returns the username.
      * 
      * @param jwt
-     * @return
+     * @return username as a string
      */
     public static String extractUsername(String jwt) {
         return extractClaim(jwt, Claims::getSubject);
@@ -37,22 +37,8 @@ public class JwtUtils {
         return Jwts.parser().setSigningKey(jwtSigningKey).parseClaimsJws(wjt).getBody();
     }
 
-    public static Date extractExpiration(String jwt) {
-        return extractClaim(jwt, Claims::getExpiration);
-    }
-
-    public static boolean hasClaim(String jwt, String claimName) {
-        final Claims claims = extractAllClaims(jwt);
-        return claims.get(claimName) != null;
-
-    }
-
     public static String getUsernameFromJwtToken(String jwt) {
         return extractAllClaims(jwt).getSubject();
-    }
-
-    public static boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
     }
 
     public static String generateToken(UserDetails userDetails) {
@@ -74,9 +60,22 @@ public class JwtUtils {
                 .signWith(SignatureAlgorithm.HS256, jwtSigningKey).compact();
     }
 
+    public static Date extractExpiration(String jwt) {
+        return extractClaim(jwt, Claims::getExpiration);
+    }
+
+    public static boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
     public boolean isTokenValid(UserDetails userDetails, String jwt) {
         String username = extractUsername(jwt);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(jwt));
+    }
+
+    public static boolean hasClaim(String jwt, String claimName) {
+        final Claims claims = extractAllClaims(jwt);
+        return claims.get(claimName) != null;
     }
 
 }

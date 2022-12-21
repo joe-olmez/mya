@@ -1,6 +1,6 @@
 import { User } from './../model/user';
+import { AuthService } from './services/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { TokenStorageService } from './services/token-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -9,26 +9,26 @@ import { TokenStorageService } from './services/token-storage.service';
 })
 export class AppComponent implements OnInit {
   isLoggedIn = false;
-  showAdminBoard = false;
-
+  isAdmin = false;
   username?: string;
 
-  constructor(private tokenStorageService: TokenStorageService) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    const jwt = this.tokenStorageService.getToken();
+    const jwt = this.authService.getToken();
     if (jwt != null) {
       this.isLoggedIn = true;
-      const user = this.tokenStorageService.getUser();
-      console.log('******user in storage service', user);
+      const user: User = this.authService.getCurrentUser();
+      console.log('******User in storage service:', user);
       this.username = user.username;
-      let role = user.userType;
-      this.showAdminBoard = role == 'ADMIN' ? true : false;
+      if (user.role == 'ADMIN') {
+        this.isAdmin = true;
+      }
     }
   }
 
   logout(): void {
-    this.tokenStorageService.signOut();
+    this.authService.signOut();
     window.location.reload();
   }
 }

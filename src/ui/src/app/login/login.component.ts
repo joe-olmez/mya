@@ -4,7 +4,6 @@ import { NgForm } from '@angular/forms';
 import { User } from './../../model/user';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { TokenStorageService } from '../services/token-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -19,14 +18,10 @@ export class LoginComponent implements OnInit {
   isLoginFailed = false;
   errorMessage = '';
 
-  constructor(
-    private authService: AuthService,
-    private tokenStorage: TokenStorageService,
-    private router: Router
-  ) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    if (this.tokenStorage.getToken()) {
+    if (this.authService.getToken()) {
       this.isLoggedIn = true;
     }
   }
@@ -37,15 +32,14 @@ export class LoginComponent implements OnInit {
     (await this.authService.login(formUser)).subscribe({
       next: (resData) => {
         console.log('Response data:', resData);
-        this.tokenStorage.saveToken(resData.data);
-        this.tokenStorage.saveUser(resData.user);
+        this.authService.saveToken(resData.data);
+        this.authService.saveUser(resData.user);
       },
       error: (resError) => console.error(resError),
       complete: () => console.info('complete'),
     });
 
-    //await this.reloadPage();
-    //TODO go to currency list page
+    //this.reloadPage();
     this.router.navigateByUrl('/profile');
   }
 

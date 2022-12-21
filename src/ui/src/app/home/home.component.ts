@@ -15,15 +15,4 @@ export class HomeComponent implements OnInit {
     this.content =
       'Welcome to my app! This is the home page that welcomes you first.';
   }
-
-  // ngOnInit(): void {
-  //   this.userService.getPublicContent().subscribe(
-  //     (data) => {
-  //       this.content = data;
-  //     },
-  //     (err) => {
-  //       this.content = JSON.parse(err.error).message;
-  //     }
-  //   );
-  // }
 }
