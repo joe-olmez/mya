@@ -1,0 +1,48 @@
+ <nav class="navbar navbar-expand navbar-dark bg-dark">
+
+    <!-- LEFT part of Nav -->
+    <ul class="navbar-nav mr-auto" routerLinkActive="active">
+        <li>
+            <a href="#" class="navbar-brand">MyApp</a>
+        </li>
+        <li class="nav-item">
+            <a href="/home" routerLink="home" class="nav-link">Home </a>
+        </li>
+        <li class="nav-item">
+            <a href="/admin" *ngIf="showAdmin" routerLink="admin"
+                class="nav-link">Board Admin</a>
+        </li>
+        <li class="nav-item">
+            <a href="/user" *ngIf="(isLoggedIn && !showAdmin)" routerLink="user"
+                class="nav-link">Board User</a>
+        </li>
+        <li class="nav-item">
+            <a href="/currency-list" *ngIf="isLoggedIn"
+                routerLink="currency-list" class="nav-link">Currencies</a>
+        </li>
+    </ul>
+
+
+    <!-- RIGHT part of Nav BEFORE Login-->
+    <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
+        <li class="nav-item">
+            <a href="/register" routerLink="register" class="nav-link">Sign Up</a>
+        </li>
+        <li class="nav-item">
+            <a href="/login" routerLink="login" class="nav-link">Login</a>
+        </li>
+    </ul>
+
+
+
+    <!-- RIGHT part of Nav AFTER Login-->
+    <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
+        <li class="nav-item">
+            <a href="/profile" routerLink="profile" class="nav-link"> {{ label
+                }}</a>
+        </li>
+        <li class="nav-item">
+            <a (click)="logout()" class="nav-link">Logout</a>
+        </li>
+    </ul>
+</nav>

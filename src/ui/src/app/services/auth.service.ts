@@ -8,10 +8,6 @@ const API_BASE_URL = environment.apiServerUrl; // http://localhost:5000
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
 //
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-};
-
 @Injectable({
   providedIn: 'root',
 })
@@ -70,5 +66,18 @@ export class AuthService {
     curUser.email = user.email;
     curUser.role = user.userType;
     return curUser;
+  }
+
+  public isAdmin(): boolean {
+    const user: User = this.getCurrentUser();
+    return user.role == 'ADMIN';
+  }
+
+  public isLoggedIn(): boolean {
+    return this.getToken() != null;
+  }
+
+  public isAdminUser(user: User): boolean {
+    return user.role == 'ADMIN';
   }
 }
