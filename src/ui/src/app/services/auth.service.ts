@@ -14,21 +14,21 @@ const USER_KEY = 'auth-user';
 export class AuthService {
   constructor(private http: HttpClient) {}
 
-  // SIGN IN
-  async login(user: User): Promise<Observable<any>> {
-    let url = API_BASE_URL + '/api/auth/signin'; // http://localhost:5000//api/auth/signin
-    return this.http.post(url, user);
-  }
-
-  // SIGN UP
+  // Sign Up
   async register(user: User): Promise<Observable<any>> {
     let url = API_BASE_URL + '/api/auth/signup'; // http://localhost:5000//api/auth/signup
     console.log('Signup url:', url);
     return this.http.post(url, user);
   }
 
-  // SIGN OUT
-  signOut(): void {
+  // Login
+  async login(user: User): Promise<Observable<any>> {
+    let url = API_BASE_URL + '/api/auth/signin'; // http://localhost:5000//api/auth/signin
+    return this.http.post(url, user);
+  }
+
+  // Logout
+  logout(): void {
     window.sessionStorage.clear();
   }
 

@@ -10,7 +10,7 @@ import { Component } from '@angular/core';
 export class NavComponent {
   showAdmin = false;
   isLoggedIn = false;
-  label? = '';
+  userLabel? = '';
 
   constructor(private authService: AuthService) {}
 
@@ -25,15 +25,15 @@ export class NavComponent {
     const user: User = this.authService.getCurrentUser();
     if (user != null) {
       this.isLoggedIn = true;
-      this.label = user.username;
+      this.userLabel = user.username;
       if (this.authService.isAdminUser(user)) {
         this.showAdmin = true;
       }
     }
   }
 
-  logout(): void {
-    this.authService.signOut();
+  public logout() {
+    this.authService.logout();
     window.location.reload();
   }
 }
