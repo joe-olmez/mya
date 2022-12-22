@@ -1,9 +1,8 @@
-import { AppComponent } from './../app.component';
-import { Router, NavigationStart } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { User } from './../../model/user';
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { User } from './../../model/user';
 
 @Component({
   selector: 'app-login',
@@ -12,11 +11,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class LoginComponent implements OnInit {
   user: User = new User();
-  browserRefresh = false;
-
   isLoggedIn = false;
-  isLoginFailed = false;
-  errorMessage = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -31,29 +26,22 @@ export class LoginComponent implements OnInit {
 
     (await this.authService.login(formUser)).subscribe({
       next: (resData) => {
-        console.log('Response data:', resData);
-        this.authService.saveToken(resData.data);
-        this.authService.saveUser(resData.user);
+        this.storeToken(resData);
+        this.reloadPage();
       },
       error: (resError) => console.error(resError),
       complete: () => console.info('complete'),
     });
 
-    //this.reloadPage();
     this.router.navigateByUrl('/profile');
+  }
+
+  async storeToken(resData: any) {
+    this.authService.saveToken(resData.data);
+    this.authService.saveUser(resData.user);
   }
 
   async reloadPage() {
     window.location.reload();
-  }
-
-  refresh() {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationStart) {
-        this.browserRefresh = !this.router.navigated;
-        console.log('----inside');
-      }
-      console.log('----out');
-    });
   }
 }
