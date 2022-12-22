@@ -2,6 +2,7 @@ package com.olmez.mya.services.impl;
 
 import java.io.IOException;
 
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
+@EnableScheduling
 @RequiredArgsConstructor
 @Slf4j
 public class ScheduledServiceImpl implements ScheduledService {
@@ -24,10 +26,10 @@ public class ScheduledServiceImpl implements ScheduledService {
      * 
      * @throws Exception
      */
-    @Scheduled(cron = "0 45 17 * * *") // 17:45:00 or 5:45:00 PM
+    @Scheduled(cron = "0 45 17 * * ?") // 17:45:00 or 5:45:00 PM
     @Override
     @Transactional
-    public void scheduledDailyUpdateCurrencyData() throws InterruptedException {
+    public void dailyUpdateCurrencyData() throws InterruptedException {
         log.info("Currency data are being pulled...");
         try {
             currencyService.update();

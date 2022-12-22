@@ -4,6 +4,6 @@ import java.io.IOException;
 
 public interface ScheduledService {
 
-    void scheduledDailyUpdateCurrencyData() throws IOException, InterruptedException;
+    void dailyUpdateCurrencyData() throws IOException, InterruptedException;
 
 }

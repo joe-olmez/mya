@@ -8,7 +8,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.olmez.mya.model.User;
-import com.olmez.mya.springsecurity.securityutiliy.PasswordUtility;
 
 import lombok.Getter;
 
@@ -35,7 +34,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return PasswordUtility.hashPassword(password);
+        return password;
     }
 
     @Override

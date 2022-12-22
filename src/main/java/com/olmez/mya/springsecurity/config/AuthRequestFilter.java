@@ -10,7 +10,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.olmez.mya.springsecurity.securityutiliy.JwtUtils;
+import com.olmez.mya.springsecurity.securityutiliy.JwtUtility;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -42,11 +42,11 @@ public class AuthRequestFilter extends OncePerRequestFilter {
 
         // Check JWT in request
         String jwt = getJWT(header);
-        String username = JwtUtils.extractUsername(jwt);
+        String username = JwtUtility.extractUsername(jwt);
 
         if (isRequiredAuth(username)) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            if (JwtUtils.isTokenValid(userDetails, jwt)) {
+            if (JwtUtility.isTokenValid(userDetails, jwt)) {
                 giveAuth(request, userDetails);
             }
             log.info("A request is made by {}", username);

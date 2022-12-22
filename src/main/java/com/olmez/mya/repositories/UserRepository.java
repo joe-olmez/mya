@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 
 import com.olmez.mya.model.User;
+import com.olmez.mya.model.enums.UserType;
 import com.olmez.mya.utility.StringUtility;
 
 public interface UserRepository extends BaseObjectRepository<User> {
@@ -37,5 +38,14 @@ public interface UserRepository extends BaseObjectRepository<User> {
     default User findUserByEmail(String email) {
         Optional<User> oUser = findByEmail(email);
         return oUser.isPresent() ? oUser.get() : null;
+    }
+
+    default User getAppUser() {
+        User user = findByUsername("app_user");
+        if (user == null) {
+            user = new User("app_user", "Application", "User", "app.user@email.com", UserType.APPLICATION);
+            user = save(user);
+        }
+        return user;
     }
 }
