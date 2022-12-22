@@ -16,4 +16,6 @@ public interface UserService {
 
     User updateUser(Long existingUserId, User givenUser);
 
+    User getUserByUsername(String username);
+
 }

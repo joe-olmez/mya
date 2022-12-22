@@ -8,31 +8,27 @@ const API_BASE_URL = environment.apiServerUrl; // http://localhost:5000
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
 //
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-};
-
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   constructor(private http: HttpClient) {}
 
-  // SIGN IN
-  async login(user: User): Promise<Observable<any>> {
-    let url = API_BASE_URL + '/api/auth/signin'; // http://localhost:5000//api/auth/signin
-    return this.http.post(url, user);
-  }
-
-  // SIGN UP
+  // Sign Up
   async register(user: User): Promise<Observable<any>> {
     let url = API_BASE_URL + '/api/auth/signup'; // http://localhost:5000//api/auth/signup
     console.log('Signup url:', url);
     return this.http.post(url, user);
   }
 
-  // SIGN OUT
-  signOut(): void {
+  // Login
+  async login(user: User): Promise<Observable<any>> {
+    let url = API_BASE_URL + '/api/auth/signin'; // http://localhost:5000//api/auth/signin
+    return this.http.post(url, user);
+  }
+
+  // Logout
+  logout(): void {
     window.sessionStorage.clear();
   }
 
@@ -70,5 +66,18 @@ export class AuthService {
     curUser.email = user.email;
     curUser.role = user.userType;
     return curUser;
+  }
+
+  public isAdmin(): boolean {
+    const user: User = this.getCurrentUser();
+    return user.role == 'ADMIN';
+  }
+
+  public isLoggedIn(): boolean {
+    return this.getToken() != null;
+  }
+
+  public isAdminUser(user: User): boolean {
+    return user.role == 'ADMIN';
   }
 }

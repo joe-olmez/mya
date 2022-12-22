@@ -2,6 +2,7 @@ package com.olmez.mya.restcontroller;
 
 import java.util.List;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.olmez.mya.model.User;
@@ -49,10 +51,21 @@ public class UserRestController {
         return userService.deleteUser(id);
     }
 
+    // DELETE = DELETE using PARAM
+    @DeleteMapping("/delete")
+    public boolean deleteUserByParam(@RequestParam long id) {
+        return userService.deleteUser(id);
+    }
+
     //
-    @GetMapping("/{userId}")
-    public User getUserById(@PathVariable("userId") long id) {
+    @GetMapping("/{id}")
+    public User getUserById(@RequestParam long id) {
         return userService.getUserById(id);
+    }
+
+    @GetMapping("/")
+    public User getUserById(@RequestParam String username) {
+        return userService.getUserByUsername(username);
     }
 
 }

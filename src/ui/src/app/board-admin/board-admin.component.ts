@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-board-admin',
@@ -7,15 +6,11 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./board-admin.component.css'],
 })
 export class BoardAdminComponent implements OnInit {
-  users = [];
+  content = '';
 
-  constructor(private userService: UserService) {}
+  constructor() {}
 
   ngOnInit(): void {
-    this.userService.getAdminBoard().subscribe({
-      next: (resData) => console.log('Response data:', resData),
-      error: (resError) => console.error(resError),
-      complete: () => console.info('complete'),
-    });
+    this.content = 'To be implemented!';
   }
 }

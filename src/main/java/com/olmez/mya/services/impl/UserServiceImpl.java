@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.olmez.mya.model.User;
 import com.olmez.mya.repositories.UserRepository;
 import com.olmez.mya.services.UserService;
+import com.olmez.mya.utility.StringUtility;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -79,6 +80,14 @@ public class UserServiceImpl implements UserService {
         target.setPasswordHash(source.getPasswordHash());
         target.setTimeZone(source.getTimeZone());
         return target;
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        if (StringUtility.isEmpty(username)) {
+            return null;
+        }
+        return userRepository.findByUsername(username);
     }
 
 }
