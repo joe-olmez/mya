@@ -1,8 +1,7 @@
-package com.olmez.mya.restcontroller;
+package com.olmez.mya.controller;
 
 import java.util.List;
 
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,45 +26,58 @@ public class UserRestController {
 
     private final UserService userService;
 
-    // CREATE = POST
-    @PostMapping("/add")
-    public boolean addUser(@RequestBody User user) {
-        return userService.addUser(user);
-    }
-
     // READ = GET
     @GetMapping("/all")
     public List<User> getUsers() {
         return userService.getUsers();
     }
 
-    // UPDATE = PUT
+    // GET = READ - via @PathVariable
+    @GetMapping("/{id}")
+    public User getUserByWithPath(@PathVariable("id") long id) {
+        return userService.getUserById(id);
+    }
+
+    // GET = READ - via @RequestParam
+    @GetMapping()
+    public User getUserByIdWithParam(@RequestParam long id) {
+        return userService.getUserById(id);
+    }
+
+    // GET = READ - via @RequestParam
+    @GetMapping("/")
+    public User getUserByUsername(@RequestParam String username) {
+        return userService.getUserByUsername(username);
+    }
+
+    // CREATE = POST
+    @PostMapping("/add")
+    public boolean addUser(@RequestBody User user) {
+        return userService.addUser(user);
+    }
+
+    // UPDATE = PUT - via @PathVariable
     @PutMapping("/update/{userId}")
-    public User updateUser(@PathVariable("userId") long id, @RequestBody User model) {
+    public User updateUserWithPath(@PathVariable("userId") long id, @RequestBody User model) {
         return userService.updateUser(id, model);
     }
 
-    // DELETE = DELETE
+    // UPDATE = PUT - via @RequestParam
+    @PutMapping("/update")
+    public User updateUserWithParam(@RequestParam() long id, @RequestBody User model) {
+        return userService.updateUser(id, model);
+    }
+
+    // DELETE = DELETE - via @PathVariable
     @DeleteMapping("/delete/{userId}")
     public boolean deleteUser(@PathVariable("userId") long id) {
         return userService.deleteUser(id);
     }
 
-    // DELETE = DELETE using PARAM
+    // DELETE = DELETE - via @RequestParam
     @DeleteMapping("/delete")
     public boolean deleteUserByParam(@RequestParam long id) {
         return userService.deleteUser(id);
-    }
-
-    //
-    @GetMapping("/{id}")
-    public User getUserById(@RequestParam long id) {
-        return userService.getUserById(id);
-    }
-
-    @GetMapping("/")
-    public User getUserById(@RequestParam String username) {
-        return userService.getUserByUsername(username);
     }
 
 }

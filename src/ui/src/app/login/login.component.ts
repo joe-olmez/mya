@@ -26,22 +26,24 @@ export class LoginComponent implements OnInit {
 
     (await this.authService.login(formUser)).subscribe({
       next: (resData) => {
-        this.storeToken(resData);
+        console.log('*AUTH RESPONSE DATA: ', resData);
+        this.storeAuthResponse(resData.token, resData.username, resData.role);
         this.reloadPage();
       },
       error: (resError) => console.error(resError),
       complete: () => console.info('complete'),
     });
 
-    this.router.navigateByUrl('/profile');
-  }
-
-  async storeToken(resData: any) {
-    this.authService.saveToken(resData.data);
-    this.authService.saveUser(resData.user);
+    this.router.navigateByUrl('/home');
   }
 
   async reloadPage() {
     window.location.reload();
+  }
+
+  public storeAuthResponse(token: string, username: string, role: string) {
+    this.authService.storeToken(token);
+    this.authService.storeUsername(username);
+    this.authService.storeUserRole(role);
   }
 }

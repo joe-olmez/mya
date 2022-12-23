@@ -1,4 +1,4 @@
-package com.olmez.mya.restcontroller;
+package com.olmez.mya.controller;
 
 import java.util.List;
 

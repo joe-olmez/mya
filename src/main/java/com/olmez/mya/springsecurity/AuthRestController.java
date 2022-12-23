@@ -1,7 +1,11 @@
 package com.olmez.mya.springsecurity;
 
 import java.rmi.UnexpectedException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +23,6 @@ import com.olmez.mya.springsecurity.config.SecurityConfig;
 import com.olmez.mya.springsecurity.config.UserDetailsImpl;
 import com.olmez.mya.springsecurity.securityutiliy.JwtUtility;
 import com.olmez.mya.springsecurity.securityutiliy.PasswordUtility;
-import com.olmez.mya.springsecurity.securityutiliy.ResponseUtility;
 import com.olmez.mya.springsecurity.securityutiliy.SigninRequest;
 import com.olmez.mya.springsecurity.securityutiliy.SignupRequest;
 
@@ -36,7 +39,7 @@ public class AuthRestController {
     private final AuthenticationManager authManager;
     private final UserRepository userRepository;
 
-    // AUTH
+    // AUTH - Sign Up
     @PostMapping("/signup")
     public ResponseEntity<Object> signupUser(@RequestBody SignupRequest signupRequest) {
 
@@ -55,9 +58,10 @@ public class AuthRestController {
                 signupRequest.getEmail());
         user.setPasswordHash(PasswordUtility.hashPassword(signupRequest.getPassword()));
         userRepository.save(user);
-        return ResponseUtility.genSuccessfulResponse(user);
+        return generateResponse(null, user.getUsername(), user.getUserType().getRole());
     }
 
+    // AUTH - Sign In
     @PostMapping("/signin")
     public ResponseEntity<Object> signin(@RequestBody SigninRequest signinRequest) throws UnexpectedException {
 
@@ -68,7 +72,7 @@ public class AuthRestController {
         }
         String jwt = createJWTForUser(userDetailsImpl);
         log.info("Granted jwt:{} to user:{}", jwt, curUser);
-        return ResponseUtility.genSuccessfulResponse(jwt, curUser);
+        return generateResponse(jwt, curUser.getUsername(), curUser.getUserType().getRole());
     }
 
     private UserDetailsImpl grantAuthentication(SigninRequest signinRequest) throws UnexpectedException {
@@ -90,6 +94,16 @@ public class AuthRestController {
 
     private String createJWTForUser(UserDetails userDetails) {
         return JwtUtility.generateToken(userDetails);
+    }
+
+    // Custom response for ui (Angular)
+    private ResponseEntity<Object> generateResponse(String resToken, String resUsername,
+            Optional<String> resRole) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("token", resToken);
+        map.put("username", resUsername);
+        map.put("role", resRole.isPresent() ? resRole.get() : null);
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
 }

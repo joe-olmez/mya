@@ -1,27 +1,75 @@
+import { UserService } from './user.service';
 import { User } from './../../model/user';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from './../../environments/environment';
 
-const API_BASE_URL = environment.apiServerUrl; // http://localhost:5000
 const TOKEN_KEY = 'auth-token';
-const USER_KEY = 'auth-user';
+const USERNAME_KEY = 'auth-username';
+const USER_ROLE_KEY = 'auth-role';
+const API_BASE_URL = environment.apiServerUrl; // http://localhost:5000
 //
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private userService: UserService) {}
 
-  // Sign Up
+  public storeToken(token: string) {
+    window.sessionStorage.removeItem(TOKEN_KEY);
+    if (token != null) {
+      window.sessionStorage.setItem(TOKEN_KEY, token);
+    }
+  }
+
+  public storeUsername(username: string) {
+    window.sessionStorage.removeItem(USERNAME_KEY);
+    if (username != null) {
+      window.sessionStorage.setItem(USERNAME_KEY, username);
+    }
+  }
+
+  public storeUserRole(role: string) {
+    window.sessionStorage.removeItem(USER_ROLE_KEY);
+    if (role != null) {
+      window.sessionStorage.setItem(USER_ROLE_KEY, role);
+    }
+  }
+
+  public getToken(): string | null {
+    return window.sessionStorage.getItem(TOKEN_KEY);
+  }
+
+  public getUsername(): string | null {
+    return window.sessionStorage.getItem(USERNAME_KEY);
+  }
+
+  public getUserRole(): string | null {
+    return window.sessionStorage.getItem(USER_ROLE_KEY);
+  }
+
+  public isAdmin(): boolean {
+    const userRole = this.getUserRole();
+    if (userRole == null) {
+      return false;
+    }
+    let role = userRole.toLowerCase();
+    return role == 'admin';
+  }
+
+  public isLoggedIn(): boolean {
+    return this.getToken() != null;
+  }
+
+  // Sign Up *******************************************
   async register(user: User): Promise<Observable<any>> {
     let url = API_BASE_URL + '/api/auth/signup'; // http://localhost:5000//api/auth/signup
     console.log('Signup url:', url);
     return this.http.post(url, user);
   }
 
-  // Login
+  // Login ********************************************
   async login(user: User): Promise<Observable<any>> {
     let url = API_BASE_URL + '/api/auth/signin'; // http://localhost:5000//api/auth/signin
     return this.http.post(url, user);
@@ -30,54 +78,5 @@ export class AuthService {
   // Logout
   logout(): void {
     window.sessionStorage.clear();
-  }
-
-  //
-  public saveToken(token: string): void {
-    window.sessionStorage.removeItem(TOKEN_KEY);
-    window.sessionStorage.setItem(TOKEN_KEY, token);
-  }
-
-  public getToken(): string | null {
-    return window.sessionStorage.getItem(TOKEN_KEY);
-  }
-
-  public saveUser(user: any): void {
-    console.log('---Logged in user:', user);
-    const curUser = this.copyUser(user);
-    window.sessionStorage.removeItem(USER_KEY);
-    window.sessionStorage.setItem(USER_KEY, JSON.stringify(curUser));
-  }
-
-  public getCurrentUser(): any {
-    const user = window.sessionStorage.getItem(USER_KEY);
-    if (user) {
-      return JSON.parse(user);
-    }
-    return {};
-  }
-
-  private copyUser(user: any): User {
-    let curUser = new User();
-    curUser.id = user.id;
-    curUser.firstName = user.firstName;
-    curUser.lastName = user.lastName;
-    curUser.username = user.username;
-    curUser.email = user.email;
-    curUser.role = user.userType;
-    return curUser;
-  }
-
-  public isAdmin(): boolean {
-    const user: User = this.getCurrentUser();
-    return user.role == 'ADMIN';
-  }
-
-  public isLoggedIn(): boolean {
-    return this.getToken() != null;
-  }
-
-  public isAdminUser(user: User): boolean {
-    return user.role == 'ADMIN';
   }
 }
