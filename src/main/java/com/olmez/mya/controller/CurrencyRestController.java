@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.olmez.mya.currency.CurrencyService;
@@ -29,52 +30,63 @@ public class CurrencyRestController {
 
     private final CurrencyService currencyService;
 
-    // READ = GET
+    // GET
     @GetMapping("/all")
     public List<CurrencyInfo> getCurrencyInfos() {
         return currencyService.getCurrencyInfos();
     }
 
-    // CREATE = POST
+    // CREATE
     @PostMapping("/add")
     public boolean addCurrencyInfo(@RequestBody CurrencyInfo info) {
         return currencyService.addCurrencyInfo(info);
     }
 
-    // UPDATE = PUT
+    // UPDATE with Path
     @PutMapping("/update/{id}")
-    public CurrencyInfo updateCurrencyInfo(@PathVariable("id") Long id, @RequestBody CurrencyInfo model) {
+    public CurrencyInfo updateCurrencyInfoWithPath(@PathVariable("id") Long id, @RequestBody CurrencyInfo model) {
         return currencyService.updateCurrencyInfo(id, model);
     }
 
-    // DELETE = DELETE
+    // UPDATE with Param
+    @PutMapping("/update")
+    public CurrencyInfo updateCurrencyInfoWithParam(@RequestParam() Long id, @RequestBody CurrencyInfo model) {
+        return currencyService.updateCurrencyInfo(id, model);
+    }
+
+    // DELETE with Path
     @DeleteMapping("/delete/{id}")
-    public boolean deleteCurrencyInfo(@PathVariable("id") Long id) {
+    public boolean deleteCurrencyInfoWithPath(@PathVariable("id") Long id) {
         return currencyService.deleteCurrencyInfo(id);
     }
 
-    // To be implemented
-    // //////////////////////////////////////////////////////////////////////////////////////////////////////////~
+    // DELETE with Param
+    @DeleteMapping("/delete")
+    public boolean deleteCurrencyInfoWithParam(@RequestParam Long id) {
+        return currencyService.deleteCurrencyInfo(id);
+    }
+
+    // GET with Path
     @GetMapping("/{id}")
-    public CurrencyInfo getCurrencyInfoById(@PathVariable("id") Long id) {
+    public CurrencyInfo getCurrencyInfoByIdWithPath(@PathVariable("id") Long id) {
         return currencyService.getCurrencyInfoById(id);
     }
 
-    // // To be implemented
-    @GetMapping("/{date}")
-    public CurrencyInfo getCurrencyInfoByDate(@PathVariable("date") @DateTimeFormat(iso = ISO.DATE) LocalDate date) {
+    // GET with Param
+    @GetMapping("/")
+    public CurrencyInfo getCurrencyInfoByIdWithParam(@RequestParam("id") Long id) {
+        return currencyService.getCurrencyInfoById(id);
+    }
+
+    // GET with Param
+    @GetMapping("/")
+    public CurrencyInfo getCurrencyInfoByDate(@RequestParam("date") @DateTimeFormat(iso = ISO.DATE) LocalDate date) {
         return currencyService.getCurrencyInfoByDate(date);
     }
 
-    /////////////////////////////////////////////////////////////////////////////
-    @GetMapping("test")
+    @GetMapping("/test")
     public ResponseEntity<String> hello() {
-        return ResponseEntity.ok("Hello from my api. Thi is a test message!!!");
-    }
-
-    @GetMapping()
-    public ResponseEntity<String> goodBy() {
-        return ResponseEntity.ok("No specific path for this. This is a test!!!");
+        return ResponseEntity.ok("Hello!");
     }
 
 }
