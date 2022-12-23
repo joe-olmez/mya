@@ -8,12 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
   currentUser: any;
-  jwt: any;
+  userToken: any;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
-    this.jwt = this.authService.getToken();
+    this.userToken = this.authService.getToken();
   }
 }

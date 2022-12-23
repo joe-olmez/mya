@@ -1,8 +1,7 @@
-package com.olmez.mya.restcontroller;
+package com.olmez.mya.controller;
 
 import java.util.List;
 
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
