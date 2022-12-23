@@ -39,7 +39,7 @@ public class UserRestController {
     }
 
     // GET = READ - via @RequestParam
-    @GetMapping("/")
+    @GetMapping()
     public User getUserByIdWithParam(@RequestParam long id) {
         return userService.getUserById(id);
     }

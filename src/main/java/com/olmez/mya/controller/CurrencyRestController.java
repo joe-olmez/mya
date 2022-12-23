@@ -79,10 +79,11 @@ public class CurrencyRestController {
     }
 
     // GET with Param
-    @GetMapping("/")
-    public CurrencyInfo getCurrencyInfoByDate(@RequestParam("date") @DateTimeFormat(iso = ISO.DATE) LocalDate date) {
-        return currencyService.getCurrencyInfoByDate(date);
-    }
+    // @GetMapping("/")
+    // public CurrencyInfo getCurrencyInfoByDate(@RequestParam("date")
+    // @DateTimeFormat(iso = ISO.DATE) LocalDate date) {
+    // return currencyService.getCurrencyInfoByDate(date);
+    // }
 
     @GetMapping("/test")
     public ResponseEntity<String> hello() {
