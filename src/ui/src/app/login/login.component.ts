@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
       complete: () => console.info('complete'),
     });
 
-    this.router.navigateByUrl('/profile');
+    this.router.navigateByUrl('/home');
   }
 
   async reloadPage() {

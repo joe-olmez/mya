@@ -38,9 +38,15 @@ public class UserRestController {
         return userService.getUsers();
     }
 
-    // UPDATE = PUT
+    // UPDATE = PUT - via @PathVariable
     @PutMapping("/update/{userId}")
-    public User updateUser(@PathVariable("userId") long id, @RequestBody User model) {
+    public User updateUserWithPath(@PathVariable("userId") long id, @RequestBody User model) {
+        return userService.updateUser(id, model);
+    }
+
+    // UPDATE = PUT - via @RequestParam
+    @PutMapping("/update")
+    public User updateUserWithParam(@RequestParam() long id, @RequestBody User model) {
         return userService.updateUser(id, model);
     }
 
@@ -63,7 +69,7 @@ public class UserRestController {
     }
 
     @GetMapping("/")
-    public User getUserById(@RequestParam String username) {
+    public User getUserByUsername(@RequestParam String username) {
         return userService.getUserByUsername(username);
     }
 

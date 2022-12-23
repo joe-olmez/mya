@@ -1,4 +1,3 @@
-import { User } from './../../../model/user';
 import { AuthService } from './../../services/auth.service';
 import { Component } from '@angular/core';
 
@@ -10,29 +9,17 @@ import { Component } from '@angular/core';
 export class NavComponent {
   showAdmin = false;
   isLoggedIn = false;
-  userLabel? = '';
+  userLabel!: string | null;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    const jwt = this.authService.getToken();
-    if (jwt != null) {
-      this.getUserDetails();
-    }
+    this.showAdmin = this.authService.isAdmin();
+    this.isLoggedIn = this.authService.isLoggedIn();
+    this.userLabel = this.authService.getUsername();
   }
 
-  private getUserDetails() {
-    const user: User = this.authService.getCurrentUser();
-    if (user != null) {
-      this.isLoggedIn = true;
-      this.userLabel = user.username;
-      if (this.authService.isAdminUser(user)) {
-        this.showAdmin = true;
-      }
-    }
-  }
-
-  public logout() {
+  public onLogout() {
     this.authService.logout();
     window.location.reload();
   }

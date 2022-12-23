@@ -62,20 +62,6 @@ export class AuthService {
     return this.getToken() != null;
   }
 
-  async getCurrentUser() {
-    let username = this.getUsername();
-    if (username != null) {
-      (await this.userService.getUserByUsername(username)).subscribe({
-        next: (resData) => {
-          console.log('Response Current User:', resData);
-          return resData;
-        },
-        error: (error) => console.error(error),
-        complete: () => console.info('complete'),
-      });
-    }
-  }
-
   // Sign Up *******************************************
   async register(user: User): Promise<Observable<any>> {
     let url = API_BASE_URL + '/api/auth/signup'; // http://localhost:5000//api/auth/signup
