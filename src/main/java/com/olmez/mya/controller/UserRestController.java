@@ -64,8 +64,8 @@ public class UserRestController {
 
     // UPDATE = PUT - via @RequestParam
     @PutMapping("/update")
-    public User updateUserWithParam(@RequestParam() long id, @RequestBody User model) {
-        return userService.updateUser(id, model);
+    public User updateUserWithParam(@RequestBody User model) {
+        return userService.updateUser(model);
     }
 
     // DELETE = DELETE - via @PathVariable

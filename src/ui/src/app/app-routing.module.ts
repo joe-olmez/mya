@@ -1,3 +1,4 @@
+import { UpdateProfileComponent } from './profile/update-profile/update-profile.component';
 import { CurrencyListComponent } from './currency-list/currency-list.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'update-profile', component: UpdateProfileComponent },
   { path: 'user', component: BoardUserComponent },
   { path: 'currency-list', component: CurrencyListComponent },
   { path: 'admin', component: BoardAdminComponent },
