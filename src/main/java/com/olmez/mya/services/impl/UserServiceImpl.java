@@ -58,17 +58,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserByUsername(String username) {
+        if (StringUtility.isEmpty(username)) {
+            return null;
+        }
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
     @Transactional
     public User updateUser(Long id, User givenUser) {
         User existing = getUserById(id);
+        if (existing == null || givenUser == null) {
+            return null;
+        }
+        return copy(givenUser, existing);
+    }
+
+    @Override
+    @Transactional
+    public User updateUser(User givenUser) {
+        User existing = getUserById(givenUser.getId());
         if (existing == null) {
             return null;
         }
-
-        copy(givenUser, existing);
-        userRepository.save(existing);
-        log.info("Updated! {}", existing);
-        return existing;
+        return copy(givenUser, existing);
     }
 
     private User copy(User source, User target) {
@@ -79,15 +93,9 @@ public class UserServiceImpl implements UserService {
         target.setUserType(source.getUserType());
         target.setPasswordHash(source.getPasswordHash());
         target.setTimeZone(source.getTimeZone());
+        target = userRepository.save(target);
+        log.info("Updated! {}", target);
         return target;
-    }
-
-    @Override
-    public User getUserByUsername(String username) {
-        if (StringUtility.isEmpty(username)) {
-            return null;
-        }
-        return userRepository.findByUsername(username);
     }
 
 }

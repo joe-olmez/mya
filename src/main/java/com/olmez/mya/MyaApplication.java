@@ -24,13 +24,13 @@ public class MyaApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		User appUser = userRepository.getAppUser();
-		log.info("App user:{}", appUser);
 		if (appUser == null) {
 			log.info("Failed to connect to database! * * *");
 		} else {
 			log.info("* * * The database connection is successful! * * *");
 			log.info("* * * Mya application has started! * * *");
 		}
+		log.info("App user:{}", appUser);
 	}
 
 }

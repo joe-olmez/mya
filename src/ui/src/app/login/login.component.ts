@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
 
   async onSubmit(loginForm: NgForm) {
     const formUser = loginForm.value;
+    console.log('FORM USER: ', formUser);
 
     (await this.authService.login(formUser)).subscribe({
       next: (resData) => {

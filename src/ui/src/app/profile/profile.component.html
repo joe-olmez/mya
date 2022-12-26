@@ -1,15 +1,19 @@
 <div class="container" *ngIf="curUser; else loggedOut">
-    <header class="jumbotron">
-        <h3><strong>{{ curUser.username }}</strong> My Profile </h3>
+    <div class="profile">
+        <h3>My Profile: <strong>{{ curUser.username }}</strong> </h3>
         <img src="../../assets/images/avatar-man1.png" alt="Avatar"
             class="avatar-profile">
-    </header>
-    <p><strong>Username: </strong>{{ curUser.username }}</p>
-    <p><strong>Name: </strong>{{ curUser.name }}</p>
-    <p><strong>Email: </strong>{{ curUser.email }}</p>
-    <p><strong>Time Zone: </strong>{{ curUser.timeZone }}</p>
-    <p><strong>User Type: </strong>{{ curUser.userType }}</p>
-    <p> <strong>Token: </strong> {{ curUserToken }}</p>
+    </div>
+    <button class="update" routerLink="/update-profile">Update</button>
+    <p></p>
+    <div>
+        <p><strong>Username: </strong>{{ curUser.username }}</p>
+        <p><strong>Name: </strong>{{ curUser.name }}</p>
+        <p><strong>Email: </strong>{{ curUser.email }}</p>
+        <p><strong>Time Zone: </strong>{{ curUser.timeZone }}</p>
+        <p><strong>User Type: </strong>{{ curUser.userType }}</p>
+        <p> <strong>Token: </strong> {{ curUserToken }}</p>
+    </div>
 
 </div>
 

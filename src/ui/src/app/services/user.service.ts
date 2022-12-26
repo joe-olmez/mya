@@ -1,3 +1,4 @@
+import { User } from './../../model/user';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -17,8 +18,13 @@ export class UserService {
 
   async getUserByUsername(username: string) {
     let params = new HttpParams();
-    params = params.append('username', 'joe');
+    params = params.append('username', username);
     let url = API_BASE_URL + `/user/`; // http://localhost:5000//user
     return this.http.get(url, { params: params });
+  }
+
+  async updateUser(user: User) {
+    let url = API_BASE_URL + `/user/update`; // http://localhost:5000//user/update
+    return this.http.put(url, user);
   }
 }

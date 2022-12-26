@@ -36,20 +36,20 @@ public class EmployeeRestController {
     }
 
     // UPDATE = PUT
-    @PutMapping("/update/{empId}")
-    public Employee updateEmployee(@PathVariable("empId") Long id, @RequestBody Employee model) {
+    @PutMapping("/update/{id}")
+    public Employee updateEmployee(@PathVariable("id") Long id, @RequestBody Employee model) {
         return empService.updateEmployee(id, model);
     }
 
     // DELETE = DELETE
-    @DeleteMapping("/delete/{empId}")
-    public boolean deleteEmployee(@PathVariable("empId") Long id) {
+    @DeleteMapping("/delete/{id}")
+    public boolean deleteEmployee(@PathVariable("id") Long id) {
         return empService.deleteEmployee(id);
     }
 
     //
-    @GetMapping("/{empId}")
-    public Employee getEmployeeById(@PathVariable("empId") Long id) {
+    @GetMapping("/{id}")
+    public Employee getEmployeeById(@PathVariable("id") Long id) {
         return empService.getEmployeeById(id);
     }
 

@@ -29,7 +29,7 @@
                   <label for="password">Password</label>
                   <input type="password" class="form-control"
                     name="password"
-                    [(ngModel)]="user.password" required
+                    [(ngModel)]="user.passwordHash" required
                     minlength="6"
                     #password="ngModel"/>
                   <div class="alert alert-danger" role="alert"

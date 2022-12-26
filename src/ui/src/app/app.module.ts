@@ -14,6 +14,7 @@ import { BoardUserComponent } from './board-user/board-user.component';
 import { authInterceptorProviders } from './services/auth.interceptor';
 import { CurrencyListComponent } from './currency-list/currency-list.component';
 import { NavComponent } from './nav/nav/nav.component';
+import { UpdateProfileComponent } from './profile/update-profile/update-profile.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { NavComponent } from './nav/nav/nav.component';
     BoardUserComponent,
     CurrencyListComponent,
     NavComponent,
+    UpdateProfileComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [authInterceptorProviders],
