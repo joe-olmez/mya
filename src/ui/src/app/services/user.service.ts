@@ -17,14 +17,20 @@ export class UserService {
   }
 
   async getUserByUsername(username: string) {
-    let params = new HttpParams();
-    params = params.append('username', username);
     let url = API_BASE_URL + `/user/`; // http://localhost:5000//user
-    return this.http.get(url, { params: params });
+    let param = this.addParam('username', username);
+    return this.http.get(url, param);
   }
 
   async updateUser(user: User) {
     let url = API_BASE_URL + `/user/update`; // http://localhost:5000//user/update
     return this.http.put(url, user);
+  }
+
+  private addParam(key: string, value: any) {
+    let httpParams = new HttpParams();
+    httpParams = httpParams.append(key, value);
+    let objectParam = { params: httpParams };
+    return objectParam;
   }
 }

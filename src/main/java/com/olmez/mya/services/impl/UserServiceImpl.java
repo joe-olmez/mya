@@ -86,13 +86,18 @@ public class UserServiceImpl implements UserService {
     }
 
     private User copy(User source, User target) {
-        target.setFirstName(source.getFirstName());
-        target.setLastName(source.getLastName());
-        target.setUsername(source.getUsername());
-        target.setEmail(source.getEmail());
-        target.setUserType(source.getUserType());
-        target.setPasswordHash(source.getPasswordHash());
-        target.setTimeZone(source.getTimeZone());
+        if (source.getFirstName() != null) {
+            target.setFirstName(source.getFirstName());
+        }
+        if (source.getLastName() != null) {
+            target.setLastName(source.getLastName());
+        }
+        if (source.getEmail() != null) {
+            target.setEmail(source.getEmail());
+        }
+        if (source.getUsername() != null) {
+            target.setUsername(source.getUsername());
+        }
         target = userRepository.save(target);
         log.info("Updated! {}", target);
         return target;
