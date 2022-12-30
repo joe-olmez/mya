@@ -61,7 +61,7 @@ public class AuthRestController {
         return generateResponse(null, user.getUsername(), user.getUserType().getRole());
     }
 
-    // AUTH - Sign In
+    // AUTH - Log In
     @PostMapping("/signin")
     public ResponseEntity<Object> signin(@RequestBody SigninRequest signinRequest) throws UnexpectedException {
 

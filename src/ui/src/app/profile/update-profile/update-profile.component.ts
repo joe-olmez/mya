@@ -52,4 +52,8 @@ export class UpdateProfileComponent implements OnInit {
       complete: () => console.info('complete'),
     });
   }
+
+  onBack() {
+    this.router.navigateByUrl('/profile');
+  }
 }
