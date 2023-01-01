@@ -1,4 +1,4 @@
-package com.olmez.mya.mockdata;
+package com.olmez.mya.temp;
 
 import com.olmez.mya.model.User;
 import com.olmez.mya.model.enums.UserType;

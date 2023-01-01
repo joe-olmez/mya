@@ -9,15 +9,15 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 public class UrlBuilder {
-
 	/**
 	 * Successful request status.
 	 */
 	public static final int HTTP_RESPONSE_STATUS_OK = 200;
-	private final String baseUrl;
-	private String path = "";
+
 	private final HashMap<String, String> parameters = new LinkedHashMap<>();
+	private final String baseUrl;
 	private String lastParamKey;
+	private String path = "";
 
 	public UrlBuilder() {
 		this("");
@@ -30,14 +30,6 @@ public class UrlBuilder {
 	public UrlBuilder(String baseUrl, String path) {
 		this.baseUrl = baseUrl;
 		this.path = path;
-	}
-
-	public void addParameter(String key, String value) {
-		if (value != null) {
-			parameters.computeIfAbsent(key, k -> lastParamKey = key);
-			parameters.put(key, value);
-
-		}
 	}
 
 	public void addParameter(String key, Integer value) {
@@ -70,13 +62,26 @@ public class UrlBuilder {
 		}
 	}
 
-	public void addParameter(String key, Set<String> value) {
+	public void addParameter(String key, String value) {
+		if (value != null) {
+			parameters.computeIfAbsent(key, k -> lastParamKey = key);
+			parameters.put(key, value);
+		}
+	}
 
+	public String getUrl() {
+		return baseUrl + getPath();
+	}
+
+	public String getPath() {
+		return path + getStringParams();
+	}
+
+	public void addParameter(String key, Set<String> value) {
 		if (value != null) {
 			if (value.isEmpty()) {
 				addParameter(key, " ");
 			} else {
-
 				List<String> list = new ArrayList<>(value);
 				String lastItem = list.get(list.size() - 1);
 
@@ -92,7 +97,7 @@ public class UrlBuilder {
 		}
 	}
 
-	public String getStringParameters() {
+	public String getStringParams() {
 		if (parameters.isEmpty()) {
 			return "";
 		}
@@ -107,22 +112,16 @@ public class UrlBuilder {
 			if (!entry.getKey().equals(lastParamKey)) {
 				sb.append("&");
 			}
-
 		}
 		return sb.toString();
-
-	}
-
-	public String getPath() {
-		return path + getStringParameters();
-	}
-
-	@Override
-	public String toString() {
-		return baseUrl + getPath();
 	}
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	@Override
+	public String toString() {
+		return getUrl();
 	}
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.olmez.mya.currency.parser.CurrencyRoot;
 import com.olmez.mya.model.CurrencyInfo;
-import com.olmez.mya.utility.FileHelper;
+import com.olmez.mya.utility.FileUtility;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +42,7 @@ public class CurrencyAPIServiceImpl implements CurrencyAPIService {
 
         CurrencyUrl cUrl = new CurrencyUrl(date);
         String sourceUrl = isTestMode() ? getTestResource() : cUrl.getUrl();
-        CurrencyRoot root = FileHelper.readFile(testMode, sourceUrl, CurrencyRoot.class);
+        CurrencyRoot root = FileUtility.readFile(testMode, sourceUrl, CurrencyRoot.class);
 
         if (root == null || root.getUpdatedOn() == null || root.getUpdatedOn().isEmpty()) {
             log.info("Failed to received currency data.url:{}", sourceUrl);

@@ -11,10 +11,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.olmez.mya.mockdata.MockedUser;
 import com.olmez.mya.model.User;
 import com.olmez.mya.repositories.UserRepository;
 import com.olmez.mya.services.impl.UserServiceImpl;
+import com.olmez.mya.temp.MockedUser;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {

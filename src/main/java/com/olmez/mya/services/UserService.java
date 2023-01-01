@@ -19,4 +19,6 @@ public interface UserService {
     User getUserByUsername(String username);
 
     User updateUser(User givenUser);
+
+    User getCurrentUser();
 }

@@ -1,4 +1,4 @@
-package com.olmez.mya.mockdata;
+package com.olmez.mya.temp;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
