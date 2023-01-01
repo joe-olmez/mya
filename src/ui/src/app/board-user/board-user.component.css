@@ -1,0 +1,40 @@
+.currency-converter {
+    margin-left: 44px;
+    padding-top: 20px;
+}
+.main {
+    inline-size: 500px;
+    margin: 40px;
+    padding: 30px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+label {
+    font-size: 20px;
+}
+
+.btn {
+    inline-size: 150px;
+}
+
+#finalAmount {
+    font-family: 'Lobster', cursive;
+    display: none;
+    margin: 50px auto;
+}
+
+#finalAmount h2 {
+    font-size: 50px;
+}
+
+.finalValue {
+    font-family: 'Amiri', serif;
+}
+
+
+
+#btn-order {
+    inline-size: 100px;
+}
