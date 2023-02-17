@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.olmez.mya.model.CurrencyInfo;
+import com.olmez.mya.model.CurrencyRate;
 
 public interface CurrencyService {
 
-    CurrencyInfo update() throws IOException, InterruptedException;
+    CurrencyRate update() throws IOException, InterruptedException;
 
     /**
      * Updates data as much as the number of days from today backward
@@ -18,23 +18,23 @@ public interface CurrencyService {
      * @throws IOException
      * @throws InterruptedException
      */
-    List<CurrencyInfo> update(int numOfDays) throws InterruptedException, IOException;
+    List<CurrencyRate> update(int numOfDays) throws InterruptedException, IOException;
 
-    CurrencyInfo update(LocalDate date) throws IOException, InterruptedException;
+    CurrencyRate update(LocalDate date) throws IOException, InterruptedException;
 
-    List<CurrencyInfo> update(LocalDate startDate, LocalDate endDate)
+    List<CurrencyRate> update(LocalDate startDate, LocalDate endDate)
             throws InterruptedException, IOException;
 
-    //
-    List<CurrencyInfo> getCurrencyInfos();
+    ////////////////////
+    List<CurrencyRate> getAllRates();
 
-    boolean addCurrencyInfo(CurrencyInfo newInfo);
+    boolean createCurrencyRate(CurrencyRate rate);
 
-    CurrencyInfo getCurrencyInfoById(Long ciId);
+    CurrencyRate findCurrencyRateById(Long id);
 
-    boolean deleteCurrencyInfo(Long ciId);
+    CurrencyRate updateCurrencyRate(Long id, CurrencyRate rateDetails);
 
-    CurrencyInfo updateCurrencyInfo(Long existingInfoId, CurrencyInfo givenInfo);
+    boolean deleteCurrencyRate(Long id);
 
-    CurrencyInfo getCurrencyInfoByDate(LocalDate date);
+    CurrencyRate findCurrencyRateByDate(LocalDate date);
 }

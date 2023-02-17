@@ -5,6 +5,8 @@
 export const environment = {
   production: false,
   apiServerUrl: 'http://localhost:5000',
+  authUrl: 'http://localhost:5000/api/auth',
+  ratesUrl: 'http://localhost:5000/api/v1/rates',
 };
 
 /*

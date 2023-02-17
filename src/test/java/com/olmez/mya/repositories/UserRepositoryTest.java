@@ -1,5 +1,7 @@
 package com.olmez.mya.repositories;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,22 +12,23 @@ import org.springframework.test.context.TestPropertySource;
 import com.olmez.mya.MyaApplicationTest;
 import com.olmez.mya.model.User;
 import com.olmez.mya.services.TestRepoCleanerService;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import com.olmez.mya.utility.TestSource;
+import com.olmez.mya.utility.TestUtility;
 
 /**
  * Test classes use test database!
  */
 @SpringBootTest(classes = MyaApplicationTest.class)
-@TestPropertySource(TestSource.TEST_PROP_SOURCE)
-@ActiveProfiles(TestSource.AC_PROFILE)
+@TestPropertySource(TestUtility.SOURCE_PROPERTIES)
+@ActiveProfiles(TestUtility.PROFILE)
 class UserRepositoryTest {
 
     @Autowired
     private UserRepository repository;
     @Autowired
     private TestRepoCleanerService cleanerService;
+
+    private User user = new User("First", "Last", "uname", "email");
+    private User user2 = new User("First2", "Last2", "uname2", "email2");
 
     @BeforeEach
     public void setup() {
@@ -35,7 +38,6 @@ class UserRepositoryTest {
     @Test
     void testFindByUsername() {
         // arrange
-        User user = new User("uname", "First", "Last");
         user = repository.save(user);
 
         // act
@@ -49,16 +51,14 @@ class UserRepositoryTest {
     @Test
     void testGetByUsername() {
         // arrange
-        User user1 = new User("uname", "First", "Last");
-        user1 = repository.save(user1);
-        User user2 = new User("uname2", "First2", "Last2");
+        user = repository.save(user);
         user2 = repository.save(user2);
 
         // act
-        var user = repository.findByUsername(user1.getUsername());
+        var resUser = repository.findByUsername(user.getUsername());
 
         // assert
-        assertThat(user).isNotNull().isEqualTo(user1);
+        assertThat(user).isNotNull().isEqualTo(resUser);
     }
 
 }

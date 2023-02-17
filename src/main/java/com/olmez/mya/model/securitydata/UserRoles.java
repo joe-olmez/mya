@@ -14,4 +14,8 @@ public class UserRoles {
      */
     public static final String ROLE_USER = "User";
 
+    public static final String ROLE_APP = "Application";
+
+    public static final String ROLE_TEAM = "Team";
+
 }

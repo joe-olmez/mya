@@ -7,12 +7,12 @@
     <button class="update" routerLink="/update-profile">Update</button>
     <p></p>
     <div>
+        <p><strong>First Name: </strong>{{ curUser.firstName }}</p>
+        <p><strong>Last Name: </strong>{{ curUser.lastName }}</p>
         <p><strong>Username: </strong>{{ curUser.username }}</p>
-        <p><strong>Name: </strong>{{ curUser.name }}</p>
         <p><strong>Email: </strong>{{ curUser.email }}</p>
-        <p><strong>Time Zone: </strong>{{ curUser.timeZone }}</p>
-        <p><strong>User Type: </strong>{{ curUser.userType }}</p>
-        <p> <strong>Token: </strong> {{ curUserToken }}</p>
+        <p><strong>User Type: </strong>{{ curUser.role }}</p>
+        <p> <strong>Token: </strong> {{ curUser.token }}</p>
     </div>
 
 </div>

@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AuthRequestFilter extends OncePerRequestFilter {
 
     private static final String HEADER_KEY = "Authorization";
-    private static final String TOKEN_TYPE = "Bearer";
+    private static final String TOKEN_TYPE = "Bearer ";
 
     private final UserDetailsService userDetailsService;
 
@@ -33,15 +33,15 @@ public class AuthRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String header = request.getHeader(HEADER_KEY);
+        final String header = request.getHeader(HEADER_KEY);
         if (header == null || !header.startsWith(TOKEN_TYPE)) {
-            // No JWT, so GET JWT
-            filterChain.doFilter(request, response);
+            filterChain.doFilter(request, response); // No jwt then generate one
             return;
         }
 
-        // Check JWT in request
-        String jwt = getJWT(header);
+        // Look at jwt in request. Get jwt from header by removing the first 6
+        // characters. ("Bearer eyJhbGciOiJIU...")
+        final String jwt = header.substring(7);
         String username = JwtUtility.extractUsername(jwt);
 
         if (isRequiredAuth(username)) {
@@ -54,24 +54,12 @@ public class AuthRequestFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    /**
-     * It gives JSON Web Token (JWT) by removing the first 6 characters in the
-     * header.
-     * 
-     * @param header is like "Bearer eyJhbGciOiJIU..."
-     * @return JWT as a string (like eyJhbGciOiJIU...)
-     */
-    private String getJWT(String header) {
-        return header.substring(7);
-    }
-
     private boolean isRequiredAuth(String username) {
         return (username != null) && (SecurityContextHolder.getContext().getAuthentication() == null);
     }
 
     private void giveAuth(HttpServletRequest request, UserDetails userDetails) {
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null,
-                userDetails.getAuthorities());
+        var authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authToken);
     }

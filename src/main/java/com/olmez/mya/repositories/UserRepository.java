@@ -41,9 +41,9 @@ public interface UserRepository extends BaseObjectRepository<User> {
     }
 
     default User getAppUser() {
-        User user = findByUsername("app_user");
+        User user = findByUsername("appUser");
         if (user == null) {
-            user = new User("app_user", "Application", "User", "app.user@email.com", UserType.APPLICATION);
+            user = new User("First", "Last", "appUser", "app@user.com", UserType.APPLICATION);
             user = save(user);
         }
         return user;

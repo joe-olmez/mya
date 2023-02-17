@@ -1,8 +1,7 @@
-import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { SignupRequest } from '../model/signup.request';
 import { AuthService } from '../services/auth.service';
-import { User } from './../../model/user';
 
 @Component({
   selector: 'app-register',
@@ -10,22 +9,29 @@ import { User } from './../../model/user';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
-  user: User = new User();
+  signup = new SignupRequest();
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit() {}
 
-  async onSubmit(signupForm: NgForm) {
-    const formUser = signupForm.value;
-    console.log('Form value: ', formUser);
+  onSubmit() {
+    console.log(this.signup);
+    this.signupUser();
+  }
 
-    (await this.authService.register(formUser)).subscribe({
-      next: (resData) => console.log('Response data:', resData),
+  async signupUser() {
+    (await this.authService.register(this.signup)).subscribe({
+      next: () => {
+        console.log('Signup User:', this.signup);
+        this.goToHome();
+      },
       error: (resError) => console.error(resError),
       complete: () => console.info('complete'),
     });
+  }
 
+  goToHome() {
     this.router.navigateByUrl('/home');
   }
 }

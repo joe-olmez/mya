@@ -1,8 +1,6 @@
 package com.olmez.mya.repositories;
 
-import com.olmez.mya.MyaApplicationTest;
-import com.olmez.mya.model.CurrencyInfo;
-import com.olmez.mya.services.TestRepoCleanerService;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 
@@ -12,19 +10,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
-import com.olmez.mya.utility.TestSource;
-import static org.assertj.core.api.Assertions.assertThat;
+
+import com.olmez.mya.MyaApplicationTest;
+import com.olmez.mya.model.CurrencyRate;
+import com.olmez.mya.services.TestRepoCleanerService;
+import com.olmez.mya.utility.TestUtility;
 
 /**
  * Test classes use test database!
  */
 @SpringBootTest(classes = MyaApplicationTest.class)
-@TestPropertySource(TestSource.TEST_PROP_SOURCE)
-@ActiveProfiles(TestSource.AC_PROFILE)
+@TestPropertySource(TestUtility.SOURCE_PROPERTIES)
+@ActiveProfiles(TestUtility.PROFILE)
 class CurrencyInfoRepositoryTest {
 
 	@Autowired
-	private CurrencyInfoRepository repository;
+	private CurrencyRateRepository repository;
 	@Autowired
 	private TestRepoCleanerService cleanerService;
 
@@ -36,24 +37,26 @@ class CurrencyInfoRepositoryTest {
 	@Test
 	void testFindAll() {
 		// arrange
-		var date = LocalDate.of(2022, 12, 3);
-		var info = new CurrencyInfo(date);
-		info = repository.save(info);
+		var rate = new CurrencyRate();
+		rate.setDate(LocalDate.of(2023, 2, 13));
+		rate = repository.save(rate);
 
-		var info2 = new CurrencyInfo(LocalDate.of(2022, 12, 4));
-		info2 = repository.save(info2);
+		var rate2 = new CurrencyRate();
+		rate2.setDate(LocalDate.of(2023, 2, 14));
+		rate2 = repository.save(rate2);
 
-		var info3 = new CurrencyInfo(LocalDate.of(2022, 12, 2));
-		info3 = repository.save(info3);
+		var rate3 = new CurrencyRate();
+		rate3.setDate(LocalDate.of(2023, 2, 15));
+		rate3 = repository.save(rate3);
 
 		// act
-		var infos = repository.findAll();
+		var rates = repository.findAll();
 
 		// assert
-		assertThat(infos).hasSize(3);
-		assertThat(infos.get(0)).isEqualTo(info2); // Dec 4
-		assertThat(infos.get(1)).isEqualTo(info); // Dec 3
-		assertThat(infos.get(2)).isEqualTo(info3); // Dec 2
+		assertThat(rates).hasSize(3);
+		assertThat(rates.get(0)).isEqualTo(rate3); // Feb 15
+		assertThat(rates.get(1)).isEqualTo(rate2); // Feb 14
+		assertThat(rates.get(2)).isEqualTo(rate);// Feb 13
 
 	}
 

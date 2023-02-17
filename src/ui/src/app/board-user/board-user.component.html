@@ -1,8 +1,83 @@
-<div class="container">
-    <p></p>
-    <h3>{{ content }}</h3>
-    <p></p>
-    <p>User-Board page works!</p>
-    <p>User-Board page works!</p>
-    <p>User-Board page works!</p>
+
+<h4 class="currency-converter"> Currency Converter</h4>
+
+<div class="main">
+
+
+    <div class="form-group">
+        <label for="date"> Date : </label>
+        <input id="date" type="date" class="form-control searchBox"
+            placeholder="date">
+        <label for="amount"> Amount to Convert : </label>
+        <input id="amount" type="text" class="form-control searchBox"
+            placeholder="0.00">
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">From</span>
+                </div>
+                <select class="form-control from" id="sel1">
+                    <option value="">Select One …</option>
+                    <option value="AUD">AUD</option>
+                    <option value="CAD">CAD</option>
+                    <option value="USD">USD</option>
+                    <option value="CHF">CHF</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="JPY">JPY</option>
+                    <option value="RUB">RUB</option>
+                    <option value="TRY">TRY</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">To</span>
+                </div>
+                <select class="form-control to" id="sel2">
+                    <option value="">Select One …</option>
+                    <option value="AUD">AUD</option>
+                    <option value="CAD">CAD</option>
+                    <option value="USD">USD</option>
+                    <option value="CHF">CHF</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="JPY">JPY</option>
+                    <option value="RUB">RUB</option>
+                    <option value="TRY">TRY</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+
+        <!-- convert button -->
+        <button class="btn btn-primary m-2"
+            type="submit">
+            Convert
+        </button>
+
+        <!-- reset button -->
+        <button class="btn btn-primary m-2"
+            onclick="clearVal()">
+            Reset
+        </button>
+    </div>
+
+</div>
+
+<div id="finalAmount" class="text-center">
+
+    <!-- Display the converted amount -->
+    <h2>Converted Amount :
+        <span class="finalValue"
+            style="color:green;">
+        </span>
+    </h2>
 </div>

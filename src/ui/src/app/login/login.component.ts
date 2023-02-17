@@ -1,8 +1,7 @@
-import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { SigninRequest } from '../model/signin.request';
 import { AuthService } from '../services/auth.service';
-import { User } from './../../model/user';
 
 @Component({
   selector: 'app-login',
@@ -10,25 +9,24 @@ import { User } from './../../model/user';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  user: User = new User();
+  request = new SigninRequest();
   isLoggedIn = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    if (this.authService.getToken()) {
+    if (this.authService.getToken() != null) {
       this.isLoggedIn = true;
     }
   }
 
-  async onSubmit(loginForm: NgForm) {
-    const formUser = loginForm.value;
-    console.log('FORM USER: ', formUser);
-
-    (await this.authService.login(formUser)).subscribe({
+  async signinUser() {
+    (await this.authService.login(this.request)).subscribe({
       next: (resData) => {
-        console.log('*AUTH RESPONSE DATA: ', resData);
-        this.storeAuthResponse(resData.token, resData.username, resData.role);
+        console.log('*AUTH RESPONSE TOKEN: ', resData.token);
+        this.authService.setToken(resData.token);
+        console.log('--------USERNAME', this.authService.getCurrentUserName());
+        this.goToHome();
         this.reloadPage();
       },
       error: (resError) => console.error(resError),
@@ -38,13 +36,16 @@ export class LoginComponent implements OnInit {
     this.router.navigateByUrl('/home');
   }
 
+  onSubmit() {
+    console.log(this.request);
+    this.signinUser();
+  }
+
   async reloadPage() {
     window.location.reload();
   }
 
-  public storeAuthResponse(token: string, username: string, role: string) {
-    this.authService.storeToken(token);
-    this.authService.storeUsername(username);
-    this.authService.storeUserRole(role);
+  goToHome() {
+    this.router.navigateByUrl('/home');
   }
 }

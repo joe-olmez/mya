@@ -1,7 +1,7 @@
 package com.olmez.mya.springsecurity.config;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,23 +23,23 @@ public class UserDetailsImpl implements UserDetails {
         this.user = user;
         this.username = user.getUsername();
         this.password = user.getPasswordHash();
-        this.role = user.getUserType().getRole().toString();
+        this.role = user.getRole();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority auth = new SimpleGrantedAuthority(role);
-        return Collections.singletonList(auth);
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
+        SimpleGrantedAuthority sga = new SimpleGrantedAuthority(role);
+        return List.of(sga);
     }
 
     @Override
     public String getUsername() {
         return username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     @Override

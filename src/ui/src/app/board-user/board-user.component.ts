@@ -11,6 +11,6 @@ export class BoardUserComponent {
   constructor() {}
 
   ngOnInit(): void {
-    this.content = 'To be implemented!';
+    //this.content = 'To be implemented!';
   }
 }

@@ -1,6 +1,6 @@
-import { UserService } from './../services/user.service';
-import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
+import { User } from '../model/user';
+import { AuthService } from './../services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -8,31 +8,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
-  curUser: any;
-  curUserToken: any;
+  curUser: User;
 
-  constructor(
-    private authService: AuthService,
-    private userService: UserService
-  ) {}
+  constructor(private authService: AuthService) {}
 
   async ngOnInit() {
-    this.getCurrentUser();
-    this.curUserToken = this.authService.getToken();
+    this.getUser();
   }
 
-  async getCurrentUser() {
-    let username = this.authService.getUsername();
-    if (username != null) {
-      (await this.userService.getUserByUsername(username)).subscribe({
-        next: (resData) => {
-          console.log('Current User in Profile:', resData);
-          this.curUser = resData;
-          return resData;
-        },
-        error: (error) => console.error(error),
-        complete: () => console.info('complete'),
-      });
-    }
+  async getUser() {
+    (await this.authService.getCurrentUser()).subscribe({
+      next: (resData) => {
+        this.curUser = resData;
+      },
+      error: (resError) => console.error(resError),
+      complete: () => console.info('complete'),
+    });
   }
 }
