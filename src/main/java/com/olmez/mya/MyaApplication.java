@@ -30,7 +30,7 @@ public class MyaApplication implements CommandLineRunner {
 			log.info("Failed to connect to database! * * *");
 		} else {
 			log.info("*The database connection is successful! * * *");
-			log.info("**Core application has started! * * *");
+			log.info("**Mya application has started! * * *");
 		}
 		log.info("***App user: {}", appUser);
 

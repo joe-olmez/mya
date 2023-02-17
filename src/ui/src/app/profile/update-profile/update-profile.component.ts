@@ -1,9 +1,9 @@
-import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
-import { UserService } from './../../services/user.service';
-import { AuthService } from './../../services/auth.service';
-import { User } from './../../../model/user';
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { User } from '../../model/user';
+import { AuthService } from './../../services/auth.service';
+import { UserService } from './../../services/user.service';
 
 @Component({
   selector: 'app-update-profile',
@@ -20,22 +20,7 @@ export class UpdateProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getCurrentUser();
-  }
-
-  async getCurrentUser() {
-    let username = this.authService.getUsername();
-    if (username != null) {
-      (await this.userService.getUserByUsername(username)).subscribe({
-        next: (resData) => {
-          console.log('Current User in Profile:', resData);
-          this.user = resData;
-          return resData;
-        },
-        error: (error) => console.error(error),
-        complete: () => console.info('complete'),
-      });
-    }
+    this.user = this.authService.getCurrentUser();
   }
 
   async onSubmit(updateForm: NgForm) {

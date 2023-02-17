@@ -1,5 +1,5 @@
-import { AuthService } from './../../services/auth.service';
 import { Component } from '@angular/core';
+import { AuthService } from './../services/auth.service';
 
 @Component({
   selector: 'app-nav',
@@ -10,13 +10,17 @@ export class NavComponent {
   showAdmin = false;
   isLoggedIn = false;
   userLabel!: string | null;
+  token: string;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.showAdmin = this.authService.isAdmin();
-    this.isLoggedIn = this.authService.isLoggedIn();
-    this.userLabel = this.authService.getUsername();
+    this.token = this.authService.getToken();
+    console.log('Token: ', this.token);
+
+    // this.showAdmin = this.authService.isAdmin();
+    this.isLoggedIn = this.authService.isLogged();
+    // this.userLabel = this.authService.getUsername();
   }
 
   public onLogout() {
