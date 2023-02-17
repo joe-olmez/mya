@@ -2,55 +2,99 @@ package com.olmez.mya.utility;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 
-public class TimePeriod {
+public enum TimePeriod {
+    YESTERDAY("Yesterday"),
+    LAST_WEEK("Last Week"),
+    LAST_MONTH("Last Month"),
+    LAST_QUARTER("Last Quarter"),
+    LAST_YEAR("Last Year");
 
-	public static final String YESTERDAY = "Yesterday";
-	public static final String LAST_WEEK = "Last Week";
-	public static final String LAST_MONTH = "Last Month";
-	public static final String LAST_QUARTER = "Last Quarter";
+    private String name;
 
-	private TimePeriod() {
+    TimePeriod(String name) {
+        this.name = name;
+    }
 
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public static String getByTime(LocalDateTime time) {
-		if (time != null) {
-			LocalDate date = time.toLocalDate();
-			LocalDate now = LocalDate.now();
-			if (date.isAfter(now.minusDays(2))) {
-				return YESTERDAY;
-			} else if (date.isAfter(now.minusDays(8))) {
-				return LAST_WEEK;
-			} else if (date.isAfter(now.minusDays(31))) {
-				return LAST_MONTH;
-			} else if (date.isAfter(now.minusDays(91))) {
-				return LAST_QUARTER;
-			}
-		}
-		return null;
-	}
+    public static TimePeriod getByTime(LocalDateTime time) {
+        if (time == null) {
+            return null;
+        }
+        LocalDate date = time.toLocalDate();
+        if (isYesterday(date)) {
+            return YESTERDAY;
+        } else if (isLastWeek(date)) {
+            return LAST_WEEK;
+        } else if (isLastMonth(date)) {
+            return LAST_MONTH;
+        } else if (isLastQuarter(date)) {
+            return LAST_QUARTER;
+        } else if (isLastYear(date)) {
+            return LAST_YEAR;
+        }
+        return null;
+    }
 
-	public static LocalDateTime getByString(String label) {
-		if (!StringUtility.isEmpty(label)) {
-			LocalDate now = LocalDate.now();
-			if (label.equals(YESTERDAY)) {
-				return now.minusDays(1).atStartOfDay();
-			} else if (label.equals(LAST_WEEK)) {
-				return now.minusDays(7).atStartOfDay();
-			} else if (label.equals(LAST_MONTH)) {
-				return now.minusDays(30).atStartOfDay();
-			} else if (label.equals(LAST_QUARTER)) {
-				return now.minusDays(90).atStartOfDay();
-			}
-		}
-		return null;
-	}
+    public static LocalDateTime getTimeByString(String period) {
+        if (!StringUtility.isEmpty(period)) {
+            LocalDate now = LocalDate.now();
+            if (period.equalsIgnoreCase(YESTERDAY.getName())) {
+                return now.minusDays(1).atStartOfDay();
+            } else if (period.equalsIgnoreCase(LAST_WEEK.getName())) {
+                return now.minusWeeks(1).atStartOfDay();
+            } else if (period.equalsIgnoreCase(LAST_MONTH.getName())) {
+                return now.minusMonths(1).atStartOfDay();
+            } else if (period.equalsIgnoreCase(LAST_QUARTER.getName())) {
+                return now.minusMonths(3).atStartOfDay();
+            } else if (period.equalsIgnoreCase(LAST_YEAR.getName())) {
+                return now.minusYears(1).atStartOfDay();
+            }
+        }
+        return null;
+    }
 
-	public static List<String> getTimePeriodList() {
-		return Arrays.asList(YESTERDAY, LAST_WEEK, LAST_MONTH, LAST_QUARTER);
-	}
+    public static LocalDateTime getTimeByTimePeriod(TimePeriod period) {
+        if (period == null) {
+            return null;
+        }
+
+        LocalDate now = LocalDate.now();
+        if (period == YESTERDAY) {
+            return now.minusDays(1).atStartOfDay();
+        } else if (period == LAST_WEEK) {
+            return now.minusWeeks(1).atStartOfDay();
+        } else if (period == LAST_MONTH) {
+            return now.minusMonths(1).atStartOfDay();
+        } else if (period == LAST_QUARTER) {
+            return now.minusMonths(3).atStartOfDay();
+        } else if (period == LAST_YEAR) {
+            return now.minusYears(1).atStartOfDay();
+        }
+        return null;
+    }
+
+    private static boolean isYesterday(LocalDate date) {
+        return date.isAfter(LocalDate.now().minusDays(2));
+    }
+
+    private static boolean isLastWeek(LocalDate date) {
+        return date.isAfter(LocalDate.now().minusDays(8));
+    }
+
+    private static boolean isLastMonth(LocalDate date) {
+        return date.isAfter(LocalDate.now().minusDays(31));
+    }
+
+    private static boolean isLastQuarter(LocalDate date) {
+        return date.isAfter(LocalDate.now().minusDays(91));
+    }
+
+    private static boolean isLastYear(LocalDate date) {
+        return date.isAfter(LocalDate.now().minusDays(366));
+    }
 
 }

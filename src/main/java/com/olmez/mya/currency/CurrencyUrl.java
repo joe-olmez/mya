@@ -21,6 +21,9 @@ public class CurrencyUrl {
     }
 
     public CurrencyUrl(LocalDate date) {
+        if (date == null) {
+            date = LocalDate.now();
+        }
         UrlBuilder urlBuilder = new UrlBuilder(BASE_URL + "/historical/");
         urlBuilder.setPath(date.toString());
         urlBuilder.addParameter("api_key", API_KEY);

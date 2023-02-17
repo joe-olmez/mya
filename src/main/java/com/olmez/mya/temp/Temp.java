@@ -1,11 +1,9 @@
 package com.olmez.mya.temp;
 
-import com.olmez.mya.currency.CurrencyAPIServiceImpl;
-
-class Temp {
+public class Temp {
 
     public static void main(String[] args) {
-
+        // TODO document why this method is empty
     }
 
 }

@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.olmez.mya.model.CurrencyInfo;
-import com.olmez.mya.repositories.CurrencyInfoRepository;
+import com.olmez.mya.model.CurrencyRate;
+import com.olmez.mya.repositories.CurrencyRateRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -21,140 +21,126 @@ import lombok.extern.slf4j.Slf4j;
 public class CurrencyServiceImpl implements CurrencyService {
 
     private final CurrencyAPIService apiService;
-    private final CurrencyInfoRepository curInfoRepository;
+    private final CurrencyRateRepository repository;
+
+    @Override
+    public List<CurrencyRate> update(int numOfDays) throws InterruptedException, IOException {
+        return update(LocalDate.now().minusDays(numOfDays), LocalDate.now());
+    }
+
+    @Override
+    public CurrencyRate update() throws IOException, InterruptedException {
+        return update(LocalDate.now());
+    }
+
+    @Override
+    public List<CurrencyRate> update(LocalDate startInclusive, LocalDate endInclusive)
+            throws InterruptedException, IOException {
+        if (endInclusive == null || endInclusive.isAfter(LocalDate.now())) {
+            endInclusive = LocalDate.now();
+        }
+
+        if (startInclusive == null) {
+            startInclusive = endInclusive;
+        }
+
+        if (endInclusive.isBefore(startInclusive)) {
+            return Collections.emptyList();
+        }
+
+        // max 99 call pear day
+        if (startInclusive.isBefore(endInclusive.minusMonths(3))) {
+            startInclusive = endInclusive.minusMonths(3);
+        }
+
+        List<CurrencyRate> rates = new ArrayList<>();
+        LocalDate curDate = startInclusive;
+
+        while (curDate.isBefore(endInclusive.plusDays(1))) {
+            rates.add(update(curDate));
+            curDate = curDate.plusDays(1);
+        }
+        return rates;
+    }
 
     @Override
     @Transactional
-    public CurrencyInfo update(LocalDate date) throws IOException, InterruptedException {
-        CurrencyInfo existing = curInfoRepository.findByDate(date);
+    public CurrencyRate update(LocalDate date) throws IOException, InterruptedException {
+        CurrencyRate existing = repository.findByDate(date);
 
         if ((existing != null) && (!date.isEqual(LocalDate.now()))) {
             log.info("Data exist on {}", existing.getDate());
             return existing;
         }
 
-        CurrencyInfo info = apiService.update(date);
-        if (info != null) {
-            if ((existing != null) && (info.getDate().isEqual(LocalDate.now()))) {
-                info = updateExisting(existing, info);
+        CurrencyRate rate = apiService.update(date);
+        if (rate != null) {
+            if ((existing != null) && (rate.getDate().isEqual(LocalDate.now()))) {
+                rate = updateExisting(existing, rate);
             }
-            info = curInfoRepository.save(info);
-            log.info("---Updated currency data - {}", info);
+            rate = repository.save(rate);
         }
-        return info;
+        return rate;
+    }
+
+    // *** This section for CurrencyRestController ***
+    @Override
+    public List<CurrencyRate> getAllRates() {
+        return repository.findAll();
     }
 
     @Override
-    @Transactional
-    public CurrencyInfo update() throws IOException, InterruptedException {
-        return update(LocalDate.now());
+    public boolean createCurrencyRate(CurrencyRate rate) {
+        return repository.save(rate) != null;
     }
 
     @Override
-    @Transactional
-    public List<CurrencyInfo> update(LocalDate startDateInclusive, LocalDate endDateInclusive)
-            throws InterruptedException, IOException {
-        if (endDateInclusive == null || endDateInclusive.isAfter(LocalDate.now())) {
-            endDateInclusive = LocalDate.now();
-        }
-
-        if (startDateInclusive == null) {
-            startDateInclusive = endDateInclusive;
-        }
-
-        if (endDateInclusive.isBefore(startDateInclusive)) {
-            return Collections.emptyList();
-        }
-
-        // max 99 call pear day
-        if (startDateInclusive.isBefore(endDateInclusive.minusMonths(3))) {
-            startDateInclusive = endDateInclusive.minusMonths(3);
-        }
-
-        List<CurrencyInfo> infoList = new ArrayList<>();
-        LocalDate curDate = startDateInclusive;
-
-        while (curDate.isBefore(endDateInclusive.plusDays(1))) {
-            infoList.add(update(curDate));
-            curDate = curDate.plusDays(1);
-        }
-        return infoList;
-    }
-
-    // *** This section for CurrencyRController ***
-    @Override
-    public List<CurrencyInfo> getCurrencyInfos() {
-        return curInfoRepository.findAll();
-    }
-
-    @Override
-    public boolean addCurrencyInfo(CurrencyInfo newInfo) {
-        if (newInfo == null) {
-            return false;
-        }
-        newInfo = curInfoRepository.save(newInfo);
-        return newInfo.getId() != null;
-    }
-
-    @Override
-    public CurrencyInfo getCurrencyInfoById(Long ciId) {
-        if (ciId == null) {
+    public CurrencyRate findCurrencyRateById(Long id) {
+        if (id == null) {
             return null;
         }
-        return curInfoRepository.getById(ciId);
+        return repository.getById(id);
     }
 
     @Override
-    public boolean deleteCurrencyInfo(Long ciId) {
-        CurrencyInfo existing = getCurrencyInfoById(ciId);
+    public boolean deleteCurrencyRate(Long ciId) {
+        CurrencyRate existing = findCurrencyRateById(ciId);
         if (existing == null) {
             return false;
         }
-        curInfoRepository.deleted(existing);
-        log.info("Deleted! {}", existing);
-        return true;
+        repository.deleted(existing);
+        return existing.isDeleted();
     }
 
     @Override
-    public CurrencyInfo updateCurrencyInfo(Long id, CurrencyInfo givenInfo) {
-        CurrencyInfo existing = getCurrencyInfoById(id);
+    public CurrencyRate updateCurrencyRate(Long id, CurrencyRate rateDetails) {
+        CurrencyRate existing = findCurrencyRateById(id);
         if (existing == null) {
             return null;
         }
-        updateExisting(existing, givenInfo);
-        curInfoRepository.save(existing);
-        log.info("Updated! {}", existing);
-        return existing;
+        updateExisting(existing, rateDetails);
+        return repository.save(existing);
     }
 
     @Override
-    public CurrencyInfo getCurrencyInfoByDate(LocalDate date) {
+    public CurrencyRate findCurrencyRateByDate(LocalDate date) {
         if (date == null) {
             return null;
         }
-        return curInfoRepository.findByDate(date);
+        return repository.findByDate(date);
     }
 
-    @Override
-    public List<CurrencyInfo> update(int numOfDays) throws InterruptedException, IOException {
-        return update(LocalDate.now().minusDays(numOfDays), LocalDate.now());
-
-    }
-
-    private CurrencyInfo updateExisting(CurrencyInfo existing, CurrencyInfo given) {
+    private CurrencyRate updateExisting(CurrencyRate existing, CurrencyRate given) {
         existing.setDate(given.getDate());
         existing.setAmount(given.getAmount());
         existing.setBaseCode(given.getBaseCode());
-        existing.setAUD(given.getAUD());
-        existing.setCAD(given.getCAD());
-        existing.setCHF(given.getCHF());
-        existing.setEUR(given.getEUR());
-        existing.setGBP(given.getGBP());
-        existing.setUSD(given.getUSD());
-        existing.setJPY(given.getJPY());
-        existing.setRUB(given.getRUB());
-        existing.setTRY(given.getTRY());
-        log.info("Updated existing data on {}", existing.getDate());
+        existing.setCad(given.getCad());
+        existing.setEur(given.getEur());
+        existing.setGbp(given.getGbp());
+        existing.setUsd(given.getUsd());
+        existing.setJpy(given.getJpy());
+        existing.setTryy(given.getTryy());
+        log.info("Updated existing currency rate: {}", existing.getDate());
         return existing;
     }
 

@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.olmez.mya.model.User;
 import com.olmez.mya.repositories.UserRepository;
+import com.olmez.mya.services.ScheduledService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MyaApplication implements CommandLineRunner {
 
 	private final UserRepository userRepository;
+	private final ScheduledService scheduledService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(MyaApplication.class, args);
@@ -27,10 +29,12 @@ public class MyaApplication implements CommandLineRunner {
 		if (appUser == null) {
 			log.info("Failed to connect to database! * * *");
 		} else {
-			log.info("* * * The database connection is successful! * * *");
-			log.info("* * * Mya application has started! * * *");
+			log.info("*The database connection is successful! * * *");
+			log.info("**Core application has started! * * *");
 		}
-		log.info("App user:{}", appUser);
+		log.info("***App user: {}", appUser);
+
+		scheduledService.dailyUpdateCurrencyData();
 	}
 
 }

@@ -5,7 +5,7 @@ import java.security.SecureRandom;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class GenUtility {
+public class NameGenerator {
 
     private static final String CHAR_LOWER = "abcdefghijklmnopqrstuvwxyz";
     private static final String CHAR_UPPER = CHAR_LOWER.toUpperCase();
@@ -13,7 +13,7 @@ public class GenUtility {
     private static final String NAME_ALLOW_BASE = CHAR_LOWER + CHAR_UPPER + NUMBER;
     private SecureRandom random = new SecureRandom();
 
-    public String generateName(int length) {
+    public String generate(int length) {
         if (length < 1) {
             throw new IllegalArgumentException();
         }

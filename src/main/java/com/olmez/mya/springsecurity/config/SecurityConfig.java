@@ -21,10 +21,28 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    public static final String EXCEPTION_MESSAGE = "User not found with ";
 
     private final AuthRequestFilter authRequestFilter;
     private final UserDetailsService userDetailsService;
+
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf()
+                .disable()
+                .authorizeHttpRequests()
+                .requestMatchers("/api/auth/**").permitAll() // this request is open to everyone
+                .anyRequest().authenticated() // other requests must be authenticated, otherwise no permit
+                .and()
+                .cors() // if needed (if you use two port like for ui and backend)
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authenticationProvider(authProvider())
+                .addFilterBefore(authRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        return http.build();
+    }
 
     @Bean
     AuthenticationManager authManager(AuthenticationConfiguration authConfig) throws Exception {
@@ -33,33 +51,15 @@ public class SecurityConfig {
 
     @Bean
     AuthenticationProvider authProvider() {
-        var daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        return daoAuthenticationProvider;
+        DaoAuthenticationProvider dap = new DaoAuthenticationProvider();
+        dap.setUserDetailsService(userDetailsService);
+        dap.setPasswordEncoder(passwordEncoder());
+        return dap;
     }
 
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/api/auth/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .cors()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authenticationProvider(authProvider())
-                .addFilterBefore(authRequestFilter, UsernamePasswordAuthenticationFilter.class);
-        return http.build();
     }
 
 }

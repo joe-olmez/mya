@@ -1,7 +1,10 @@
 package com.olmez.mya.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,80 +14,61 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.olmez.mya.currency.CurrencyService;
-import com.olmez.mya.model.CurrencyInfo;
+import com.olmez.mya.model.CurrencyRate;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/currency")
-@RequiredArgsConstructor
+@RequestMapping("/api/v1/rates")
 @CrossOrigin(origins = "http://localhost:4200") // This allows to talk to port:5000 (ui-backend)
+@RequiredArgsConstructor
 public class CurrencyRestController {
 
-    private final CurrencyService currencyService;
+    private final CurrencyService service;
 
-    // GET
-    @GetMapping("/all")
-    public List<CurrencyInfo> getCurrencyInfos() {
-        return currencyService.getCurrencyInfos();
+    // GET All
+    @GetMapping("/")
+    public List<CurrencyRate> getAllRates() {
+        return service.getAllRates();
     }
 
     // CREATE
-    @PostMapping("/add")
-    public boolean addCurrencyInfo(@RequestBody CurrencyInfo info) {
-        return currencyService.addCurrencyInfo(info);
+    @PostMapping("/")
+    public boolean createCurrencyRate(@RequestBody CurrencyRate rate) {
+        return service.createCurrencyRate(rate);
     }
 
-    // UPDATE with Path
-    @PutMapping("/update/{id}")
-    public CurrencyInfo updateCurrencyInfoWithPath(@PathVariable("id") Long id, @RequestBody CurrencyInfo model) {
-        return currencyService.updateCurrencyInfo(id, model);
-    }
-
-    // UPDATE with Param
-    @PutMapping("/update")
-    public CurrencyInfo updateCurrencyInfoWithParam(@RequestParam() Long id, @RequestBody CurrencyInfo model) {
-        return currencyService.updateCurrencyInfo(id, model);
-    }
-
-    // DELETE with Path
-    @DeleteMapping("/delete/{id}")
-    public boolean deleteCurrencyInfoWithPath(@PathVariable("id") Long id) {
-        return currencyService.deleteCurrencyInfo(id);
-    }
-
-    // DELETE with Param
-    @DeleteMapping("/delete")
-    public boolean deleteCurrencyInfoWithParam(@RequestParam Long id) {
-        return currencyService.deleteCurrencyInfo(id);
-    }
-
-    // GET with Path
+    // GET By Id
     @GetMapping("/{id}")
-    public CurrencyInfo getCurrencyInfoByIdWithPath(@PathVariable("id") Long id) {
-        return currencyService.getCurrencyInfoById(id);
+    public ResponseEntity<CurrencyRate> getCurrencyRateById(@PathVariable Long id) {
+        CurrencyRate rate = service.findCurrencyRateById(id);
+        return ResponseEntity.ok(rate);
     }
 
-    // GET with Param
-    @GetMapping("/")
-    public CurrencyInfo getCurrencyInfoByIdWithParam(@RequestParam("id") Long id) {
-        return currencyService.getCurrencyInfoById(id);
+    // UPDATE
+    @PutMapping("/{id}")
+    public ResponseEntity<CurrencyRate> updateCurrencyRate(@PathVariable Long id,
+            @RequestBody CurrencyRate rateDetails) {
+        CurrencyRate updatedRate = service.updateCurrencyRate(id, rateDetails);
+        return ResponseEntity.ok(updatedRate);
     }
 
-    // GET with Param
-    // @GetMapping("/")
-    // public CurrencyInfo getCurrencyInfoByDate(@RequestParam("date")
-    // @DateTimeFormat(iso = ISO.DATE) LocalDate date) {
-    // return currencyService.getCurrencyInfoByDate(date);
-    // }
+    // DELETE
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> deleteCurrencyRate(@PathVariable Long id) {
+        Boolean result = service.deleteCurrencyRate(id);
+        return ResponseEntity.ok(result);
+    }
 
-    @GetMapping("/test")
-    public ResponseEntity<String> hello() {
-        return ResponseEntity.ok("Hello!");
+    // GET By Date
+    @GetMapping("/{date}")
+    public ResponseEntity<CurrencyRate> getCurrencyRateByDate(
+            @PathVariable("date") @DateTimeFormat(iso = ISO.DATE) LocalDate date) {
+        CurrencyRate rate = service.findCurrencyRateByDate(date);
+        return ResponseEntity.ok(rate);
     }
 
 }

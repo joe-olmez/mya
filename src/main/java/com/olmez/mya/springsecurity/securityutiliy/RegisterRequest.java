@@ -1,13 +1,15 @@
 package com.olmez.mya.springsecurity.securityutiliy;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
-public class SignupRequest {
+public class RegisterRequest {
 
     private String firstName;
     private String lastName;

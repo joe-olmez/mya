@@ -7,10 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -24,41 +20,37 @@ public class FileUtility {
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 	private static final int BUFFER_SIZE = 1024;
 
-	// READ FILE BASED ON JAVA CLASSESS*********************************************
+	// READ FILE BASED ON JAVA CLASSES *********************************************
 	/**
-	 * This allows reading the file given its url according to the class type
+	 * This allows to read the test file on the project according to the class type
+	 * specified.
+	 * 
+	 * @param <T>     class type
+	 * @param source  the url of the file on the project resources (e.g.
+	 *                "/currency/rates.json")
+	 * @param objType
+	 * @return An object of the given object type
+	 * @throws IOException
+	 */
+	public static <T> T readFileOnTestMode(String source, Class<T> objType) throws IOException {
+		InputStream is = FileUtility.class.getResourceAsStream(source);
+		return MAPPER.readValue(is, objType);
+	}
+
+	/**
+	 * This allows to read the file on the web according to the class type
 	 * specified.
 	 * 
 	 * @param <T>       class type
-	 * @param sourceUrl the url of the file to be read (e.g. "/currency/rates.json")
+	 * @param sourceUrl the url on the web (e.g. "api/v1/currency/rates.json")
 	 * @param objType
 	 * @return An object of the given object type
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	public static <T> T readFile(boolean testMode, String sourceUrl, Class<T> objType)
-			throws IOException, InterruptedException {
-		if (testMode) {
-			InputStream is = FileUtility.class.getResourceAsStream(sourceUrl);
-			return MAPPER.readValue(is, objType);
-		}
-		return readFile(sourceUrl, objType);
-	}
-
-	private <T> T readFile(String sourceUrl, Class<T> objType) throws IOException, InterruptedException {
-		InputStream is = getResponseAsStream(sourceUrl);
+	public static <T> T readFile(String sourceUrl, Class<T> objType) throws IOException, InterruptedException {
+		InputStream is = HttpClientUtility.getResponseAsStream(sourceUrl);
 		return MAPPER.readValue(is, objType);
-	}
-
-	private InputStream getResponseAsStream(String url) throws IOException, InterruptedException {
-		HttpClient httpClient = HttpClient.newHttpClient();
-		HttpRequest request = HttpRequest.newBuilder()
-				.uri(URI.create(url))
-				.header("Accept", "application/json")
-				.GET()
-				.build();
-		HttpResponse<InputStream> response = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
-		return response.body();
 	}
 
 	// GENERATE FILE *************************************************************

@@ -11,7 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.olmez.mya.repositories.CurrencyInfoRepository;
+import com.olmez.mya.model.TestMode;
+import com.olmez.mya.repositories.CurrencyRateRepository;
 
 @ExtendWith(MockitoExtension.class)
 class CurrencyAPIServiceImplTest {
@@ -19,15 +20,14 @@ class CurrencyAPIServiceImplTest {
     @InjectMocks
     private CurrencyAPIServiceImpl apiService;
     @Mock
-    private CurrencyInfoRepository currencyInfoRepository;
+    private CurrencyRateRepository currencyInfoRepository;
 
-    private String jsonResource = "/currency/rates.json";
+    private TestMode testMode = new TestMode(true, "/currency/rates.json");
 
     @Test
     void testUpdate_No_Date() throws IOException, InterruptedException {
         // arrange
-        apiService.setTestMode(true);
-        apiService.setTestResource(jsonResource);
+        apiService.setTestMode(testMode);
 
         // act
         var retVal = apiService.update();
@@ -39,19 +39,17 @@ class CurrencyAPIServiceImplTest {
     @Test
     void testUpdate_With_Date() throws IOException, InterruptedException {
         // arrange
-        apiService.setTestMode(true);
-        apiService.setTestResource(jsonResource);
-
+        apiService.setTestMode(testMode);
         var date = LocalDate.of(2022, 12, 6);
 
         // act
         var retVal = apiService.update(date);
 
         // assert
-        assertThat(retVal.getCAD()).isEqualTo(1.3468);
-        assertThat(retVal.getJPY()).isEqualTo(134.34);
-        assertThat(retVal.getTRY()).isEqualTo(18.61);
-        assertThat(retVal.getGBP()).isEqualTo(0.8147);
+        assertThat(retVal.getCad()).isEqualTo(1.3468);
+        assertThat(retVal.getJpy()).isEqualTo(134.34);
+        assertThat(retVal.getTryy()).isEqualTo(18.61);
+        assertThat(retVal.getGbp()).isEqualTo(0.8147);
     }
 
 }

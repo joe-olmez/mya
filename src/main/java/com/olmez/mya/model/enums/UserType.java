@@ -1,12 +1,5 @@
 package com.olmez.mya.model.enums;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import org.checkerframework.checker.nullness.qual.Nullable;
-
 import com.olmez.mya.model.securitydata.UserRoles;
 
 public enum UserType {
@@ -14,7 +7,7 @@ public enum UserType {
 	/**
 	 * Given all permissions and application not person
 	 */
-	APPLICATION("Application"),
+	APPLICATION("Application", UserRoles.ROLE_APP),
 
 	/**
 	 * Given all permissions
@@ -27,48 +20,22 @@ public enum UserType {
 	/**
 	 * Team
 	 */
-	TEAM("Team");
+	TEAM("Team", UserRoles.ROLE_USER);
 
-	private final String label;
-	private final @Nullable String role;
+	private final String name;
+	private final String role;
 
-	private UserType(String label) {
-		this(label, null);
-	}
-
-	private UserType(String label, @Nullable String role) {
-		this.label = label;
+	private UserType(String label, String role) {
+		this.name = label;
 		this.role = role;
 	}
 
-	@Override
-	public String toString() {
-		return label;
+	public String getName() {
+		return name;
 	}
 
-	public String getLabel() {
-		return label;
-	}
-
-	public static List<UserType> getValuesWithoutTeam() {
-		List<UserType> newList = new ArrayList<>();
-		for (UserType type : Arrays.asList(UserType.values())) {
-			if (!type.equals(UserType.TEAM)) {
-				newList.add(type);
-			}
-		}
-		return newList;
-	}
-
-	/**
-	 * Gives the user's role. A role named {@link UserRoles#ROLE_ADMIN} is currently
-	 * provided for admin users only. Non-admin users do not have a role.
-	 * 
-	 * @return If the user does not have a role, it is empty, if it does, the role
-	 *         returns.
-	 */
-	public Optional<String> getRole() {
-		return Optional.ofNullable(role);
+	public String getRole() {
+		return role;
 	}
 
 }

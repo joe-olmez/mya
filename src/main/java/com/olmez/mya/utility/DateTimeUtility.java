@@ -20,7 +20,7 @@ import java.util.Locale;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class DateUtility {
+public class DateTimeUtility {
 
 	public static final String DATETIME = "yyyy-MM-dd HH:mm:ss";
 	public static final String SHORT_DATETIME_START_MONTH = "MMM d, yyyy HH:mm";
@@ -241,7 +241,7 @@ public class DateUtility {
 	}
 
 	public static long toEpochMilliSecond(LocalDate date) {
-		Instant instant = date.atStartOfDay(DateUtility.DEFAULT_ZONE_ID).toInstant();
+		Instant instant = date.atStartOfDay(DateTimeUtility.DEFAULT_ZONE_ID).toInstant();
 		return instant.toEpochMilli();
 	}
 
@@ -253,20 +253,63 @@ public class DateUtility {
 	}
 
 	public static LocalDateTime toLocalDateTime(long timeInMillis) {
-		return LocalDateTime.ofInstant(Instant.ofEpochMilli(timeInMillis), DateUtility.DEFAULT_ZONE_ID);
+		return LocalDateTime.ofInstant(Instant.ofEpochMilli(timeInMillis), DateTimeUtility.DEFAULT_ZONE_ID);
 	}
 
 	public static long toEpochMilliSecond(LocalDateTime time, ZoneId zoneId) {
 		if (zoneId == null) {
 			return toEpochMilliSecond(time);
 		}
-		Instant instant = time.atZone(DateUtility.DEFAULT_ZONE_ID).toInstant();
+		Instant instant = time.atZone(DateTimeUtility.DEFAULT_ZONE_ID).toInstant();
 		return instant.toEpochMilli();
 	}
 
 	public static long toEpochMilliSecond(LocalDateTime time) {
-		Instant instant = time.atZone(DateUtility.DEFAULT_ZONE_ID).toInstant();
+		Instant instant = time.atZone(DateTimeUtility.DEFAULT_ZONE_ID).toInstant();
 		return instant.toEpochMilli();
+	}
+
+	// JVM
+	public static String showMemoryUsageMB() {
+		long mb = 1024L * 1024L;
+		return String.format("Memory usage in JVM::: Used: %d MB, Free: %d MB, Max: %d MB, Total: %d MB",
+				getUsedMemoryUsageBYTE() / mb,
+				getFreeMemoryUsageBYTE() / mb,
+				getMaxMemoryUsageBYTE() / mb,
+				getTotalMemoryUsageBYTE() / mb);
+	}
+
+	public static String showMemoryUsageKB() {
+		long kb = 1024L;
+		return String.format("Memory usage in JVM::: Used: %d KB, Free: %d KB, Max: %d KB, Total: %d KB",
+				getUsedMemoryUsageBYTE() / kb,
+				getFreeMemoryUsageBYTE() / kb,
+				getMaxMemoryUsageBYTE() / kb,
+				getTotalMemoryUsageBYTE() / kb);
+	}
+
+	public static String showMemoryUsageBYTE() {
+		return String.format("Memory usage in JVM::: Used: %d bytes, Free: %d bytes, Max: %d bytes, Total: %d bytes",
+				getUsedMemoryUsageBYTE(),
+				getFreeMemoryUsageBYTE(),
+				getMaxMemoryUsageBYTE(),
+				getTotalMemoryUsageBYTE());
+	}
+
+	public static long getTotalMemoryUsageBYTE() {
+		return Runtime.getRuntime().totalMemory(); // bytes
+	}
+
+	public static long getFreeMemoryUsageBYTE() {
+		return Runtime.getRuntime().freeMemory(); // bytes
+	}
+
+	public static long getMaxMemoryUsageBYTE() {
+		return Runtime.getRuntime().maxMemory(); // bytes
+	}
+
+	public static long getUsedMemoryUsageBYTE() {
+		return getTotalMemoryUsageBYTE() - getFreeMemoryUsageBYTE(); // bytes
 	}
 
 }
