@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    if (this.authService.getToken()) {
+    if (this.authService.getToken() != null) {
       this.isLoggedIn = true;
     }
   }
@@ -23,10 +23,11 @@ export class LoginComponent implements OnInit {
   async signinUser() {
     (await this.authService.login(this.request)).subscribe({
       next: (resData) => {
-        console.log('*AUTH RESPONSE TOKEN: ', resData);
-        this.authService.setToken(resData);
+        console.log('*AUTH RESPONSE TOKEN: ', resData.token);
+        this.authService.setToken(resData.token);
+        console.log('--------USERNAME', this.authService.getCurrentUserName());
         this.goToHome();
-        //this.reloadPage();
+        this.reloadPage();
       },
       error: (resError) => console.error(resError),
       complete: () => console.info('complete'),

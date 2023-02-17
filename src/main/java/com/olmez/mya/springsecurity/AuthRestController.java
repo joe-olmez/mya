@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.olmez.mya.springsecurity.AuthService.AuthResponse;
 import com.olmez.mya.springsecurity.securityutiliy.AuthRequest;
-import com.olmez.mya.springsecurity.securityutiliy.AuthResponse;
 import com.olmez.mya.springsecurity.securityutiliy.RegisterRequest;
+import com.olmez.mya.utility.StringUtility;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,17 +25,16 @@ public class AuthRestController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<Object> signupUser(@RequestBody RegisterRequest request) {
-        AuthResponse res = authService.register(request);
-        String error = res.getErrorMessage();
-        return error == null ? ResponseEntity.ok(res) : ResponseEntity.badRequest().body(error);
+    public ResponseEntity<Boolean> signupUser(@RequestBody RegisterRequest request) {
+        boolean res = authService.register(request);
+        return (res) ? ResponseEntity.ok(res) : ResponseEntity.badRequest().body(false);
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<Object> signin(@RequestBody AuthRequest request) throws UnexpectedException {
+    public ResponseEntity<AuthResponse> signin(@RequestBody AuthRequest request) throws UnexpectedException {
         AuthResponse res = authService.authenticate(request);
-        String error = res.getErrorMessage();
-        return error == null ? ResponseEntity.ok(res) : ResponseEntity.badRequest().body(error);
+        return (!StringUtility.isEmpty(res.getToken())) ? ResponseEntity.ok(res)
+                : ResponseEntity.badRequest().body(null);
     }
 
 }

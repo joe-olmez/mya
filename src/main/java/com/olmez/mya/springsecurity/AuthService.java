@@ -12,12 +12,12 @@ import com.olmez.mya.model.User;
 import com.olmez.mya.repositories.UserRepository;
 import com.olmez.mya.springsecurity.config.UserDetailsImpl;
 import com.olmez.mya.springsecurity.securityutiliy.AuthRequest;
-import com.olmez.mya.springsecurity.securityutiliy.AuthResponse;
 import com.olmez.mya.springsecurity.securityutiliy.JwtUtility;
 import com.olmez.mya.springsecurity.securityutiliy.PasswordUtility;
 import com.olmez.mya.springsecurity.securityutiliy.RegisterRequest;
 import com.olmez.mya.utility.StringUtility;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,28 +30,23 @@ public class AuthService {
     private final AuthenticationManager authManager;
 
     // Sign Up ********************************************
-    public AuthResponse register(RegisterRequest request) {
+    public boolean register(RegisterRequest request) {
         User user = checkExistingUser(request);
         if (user != null) {
-            var errMsg = String.format("Error: %s is already in use!", user.getName());
-            return new AuthResponse(null, errMsg);
+            log.error("Error: {} is already in use!", user.getName());
         }
-        createNewUser(request);
-        return new AuthResponse(null, null);
+        return createNewUser(request);
     }
 
     // Sign In *************** Generate a token for the user to login***************
     public AuthResponse authenticate(AuthRequest request) throws UnexpectedException {
         UserDetailsImpl userDetailsImpl = grantAuthentication(request);
         User user = userDetailsImpl.getUser();
-        String errorMsg = null;
         if (user == null) {
-            errorMsg = "User not found with " + request.getUsername();
-            return new AuthResponse(null, errorMsg);
+            log.error("User not found with {}", request.getUsername());
+            return null;
         }
-        String jwt = createJWTForUser(userDetailsImpl);
-        log.info("Granted jwt:{} to {}", jwt, user.getName());
-        return new AuthResponse(jwt, null);
+        return createJWTForUser(userDetailsImpl);
     }
 
     //
@@ -66,10 +61,10 @@ public class AuthService {
         return null;
     }
 
-    private void createNewUser(RegisterRequest request) {
+    private boolean createNewUser(RegisterRequest request) {
         User user = new User(request.getFirstName(), request.getLastName(), request.getUsername(), request.getEmail());
         user.setPasswordHash(PasswordUtility.hashPassword(request.getPassword()));
-        userRepository.save(user);
+        return userRepository.save(user) != null;
     }
 
     private UserDetailsImpl grantAuthentication(AuthRequest signinRequest) throws UnexpectedException {
@@ -92,8 +87,18 @@ public class AuthService {
         return (UserDetailsImpl) principal;
     }
 
-    private String createJWTForUser(UserDetails userDetails) {
-        return JwtUtility.generateToken(userDetails);
+    private AuthResponse createJWTForUser(UserDetails userDetails) {
+        String jwt = JwtUtility.generateToken(userDetails);
+        return new AuthResponse(jwt);
+    }
+
+    @Data
+    class AuthResponse {
+        private String token;
+
+        public AuthResponse(String token) {
+            this.token = token;
+        }
     }
 
 }

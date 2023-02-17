@@ -20,7 +20,17 @@ export class UpdateProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.user = this.authService.getCurrentUser();
+    this.getUser();
+  }
+
+  async getUser() {
+    (await this.authService.getCurrentUser()).subscribe({
+      next: (resData) => {
+        this.user = resData;
+      },
+      error: (resError) => console.error(resError),
+      complete: () => console.info('complete'),
+    });
   }
 
   async onSubmit(updateForm: NgForm) {

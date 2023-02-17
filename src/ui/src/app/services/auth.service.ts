@@ -1,56 +1,79 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { Observable } from 'rxjs';
 import { SigninRequest } from '../model/signin.request';
 import { SignupRequest } from '../model/signup.request';
 import { User } from '../model/user';
 import { environment } from './../../environments/environment';
 
 const TOKEN_KEY = 'auth-token';
-const USERNAME_KEY = 'auth-username';
-const USER_ROLE_KEY = 'auth-role';
-const BASE_SERVER_URL = environment.apiServerUrl; // http://localhost:5000
 const AUTH_URL = environment.authUrl; // http://localhost:5000//api/auth
+const BASE_URL = environment.apiServerUrl; // http://localhost:5000
 //
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private currentUserSubject: BehaviorSubject<User>;
-  private currentUser: Observable<User>;
+  currentUser: User;
+  helper = new JwtHelperService();
 
-  constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<User>(
-      JSON.parse(this.getToken())
-    );
-    this.currentUser = this.currentUserSubject.asObservable();
+  constructor(private http: HttpClient) {}
+
+  setToken(token: string) {
+    console.log('in AutService token', token);
+    sessionStorage.setItem(TOKEN_KEY, token);
   }
 
-  setToken(jwt: any) {
-    sessionStorage.setItem(TOKEN_KEY, jwt);
-  }
-
-  getToken(): any {
+  getToken(): string | null {
     return sessionStorage.getItem(TOKEN_KEY);
   }
 
-  getCurrentUser(): User {
-    let rawUser = this.currentUserSubject.value;
-    console.log('Response raw user: ', rawUser);
-    const curUser = new User();
-    curUser.email = rawUser.email;
-    console.log('Response raw user email: ', rawUser.email);
-    return this.currentUserSubject.value;
+  getCurrentUserName(): string {
+    let token = this.getToken();
+    if (token != null) {
+      let decoded = this.decodeToken(token);
+      return decoded.sub;
+    }
+    return '';
+  }
+
+  getCurrentUserRole(): string {
+    let token = this.getToken();
+    if (token != null) {
+      let decoded = this.decodeToken(token);
+      return decoded.authorities[0].authority;
+    }
+    return '';
+  }
+
+  decodeToken(token: string): any {
+    if (token == null) {
+      return '';
+    }
+    return this.helper.decodeToken(token);
+  }
+
+  async getCurrentUser(): Promise<Observable<any>> {
+    let curUsername = this.getCurrentUserName();
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('username', curUsername);
+    let url = BASE_URL + '/user';
+    return this.http.get(url, { params: queryParams });
   }
 
   // *** Sign In ***
-  async login(request: SigninRequest) {
+  async login(request: SigninRequest): Promise<Observable<any>> {
     let url = AUTH_URL + '/signin';
     return this.http.post(url, request);
   }
 
   isLogged() {
     return sessionStorage.getItem(TOKEN_KEY) != null;
+  }
+
+  isAdmin(): boolean {
+    return this.getCurrentUserRole() == 'Admin';
   }
 
   // *** Sign Up ***

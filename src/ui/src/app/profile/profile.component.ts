@@ -13,6 +13,16 @@ export class ProfileComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   async ngOnInit() {
-    this.curUser = this.authService.getCurrentUser();
+    this.getUser();
+  }
+
+  async getUser() {
+    (await this.authService.getCurrentUser()).subscribe({
+      next: (resData) => {
+        this.curUser = resData;
+      },
+      error: (resError) => console.error(resError),
+      complete: () => console.info('complete'),
+    });
   }
 }

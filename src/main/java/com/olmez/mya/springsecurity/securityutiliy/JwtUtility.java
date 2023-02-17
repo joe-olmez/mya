@@ -56,7 +56,7 @@ public class JwtUtility {
                 .setSubject(userDetails.getUsername())
                 .claim(AUTH_KEY, userDetails.getAuthorities())
                 .setIssuedAt(new Date(System.currentTimeMillis())) // now
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24)) // plus 24 hours
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24 * 365)) // plus 365 days
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }

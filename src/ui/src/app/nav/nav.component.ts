@@ -10,17 +10,13 @@ export class NavComponent {
   showAdmin = false;
   isLoggedIn = false;
   userLabel!: string | null;
-  token: string;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.token = this.authService.getToken();
-    console.log('Token: ', this.token);
-
-    // this.showAdmin = this.authService.isAdmin();
+    this.showAdmin = this.authService.isAdmin();
     this.isLoggedIn = this.authService.isLogged();
-    // this.userLabel = this.authService.getUsername();
+    this.userLabel = this.authService.getCurrentUserName();
   }
 
   public onLogout() {
