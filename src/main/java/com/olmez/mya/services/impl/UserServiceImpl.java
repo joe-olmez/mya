@@ -6,10 +6,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.olmez.mya.model.PasswordWrapper;
 import com.olmez.mya.model.User;
 import com.olmez.mya.repositories.UserRepository;
 import com.olmez.mya.services.UserService;
 import com.olmez.mya.springsecurity.config.UserDetailsImpl;
+import com.olmez.mya.springsecurity.securityutiliy.PasswordUtility;
 import com.olmez.mya.utility.StringUtility;
 
 import lombok.RequiredArgsConstructor;
@@ -88,18 +90,10 @@ public class UserServiceImpl implements UserService {
     }
 
     private User copy(User source, User target) {
-        if (source.getFirstName() != null) {
-            target.setFirstName(source.getFirstName());
-        }
-        if (source.getLastName() != null) {
-            target.setLastName(source.getLastName());
-        }
-        if (source.getEmail() != null) {
-            target.setEmail(source.getEmail());
-        }
-        if (source.getUsername() != null) {
-            target.setUsername(source.getUsername());
-        }
+        target.setFirstName(source.getFirstName());
+        target.setLastName(source.getLastName());
+        target.setEmail(source.getEmail());
+        target.setUsername(source.getUsername());
         target = userRepository.save(target);
         log.info("Updated! {}", target);
         return target;
@@ -119,6 +113,24 @@ public class UserServiceImpl implements UserService {
             log.info("Failed to find current user! {}", e);
             return null;
         }
+    }
+
+    @Override
+    @Transactional
+    public boolean updateUserPassword(PasswordWrapper passWrapper) {
+        if (passWrapper == null) {
+            return false;
+        }
+
+        String username = passWrapper.getUsername();
+        String rawPassword = passWrapper.getRawPassword();
+        User existing = getUserByUsername(username);
+
+        if (existing == null || StringUtility.isEmpty(rawPassword)) {
+            return false;
+        }
+        existing.setPasswordHash(PasswordUtility.hashPassword(rawPassword));
+        return true;
     }
 
 }

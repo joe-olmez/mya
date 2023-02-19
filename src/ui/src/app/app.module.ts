@@ -15,6 +15,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { UpdateProfileComponent } from './profile/update-profile/update-profile.component';
 import { RegisterComponent } from './register/register.component';
 import { authInterceptorProviders } from './services/auth.interceptor';
+import { UpdatePasswordComponent } from './profile/update-password/update-password.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { authInterceptorProviders } from './services/auth.interceptor';
     CurrencyListComponent,
     NavComponent,
     UpdateProfileComponent,
+    UpdatePasswordComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [authInterceptorProviders],

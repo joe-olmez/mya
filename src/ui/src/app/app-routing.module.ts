@@ -8,6 +8,7 @@ import { BoardUserComponent } from './board-user/board-user.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
+import { UpdatePasswordComponent } from './profile/update-password/update-password.component';
 import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'update-profile', component: UpdateProfileComponent },
+  { path: 'update-password', component: UpdatePasswordComponent },
   { path: 'user', component: BoardUserComponent },
   { path: 'currency-list', component: CurrencyListComponent },
   { path: 'admin', component: BoardAdminComponent },

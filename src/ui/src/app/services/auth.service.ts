@@ -55,10 +55,10 @@ export class AuthService {
   }
 
   async getCurrentUser(): Promise<Observable<any>> {
-    let curUsername = this.getCurrentUserName();
     let queryParams = new HttpParams();
+    const curUsername = this.getCurrentUserName();
     queryParams = queryParams.append('username', curUsername);
-    let url = BASE_URL + '/user';
+    const url = BASE_URL + '/api/v1/users/username';
     return this.http.get(url, { params: queryParams });
   }
 
