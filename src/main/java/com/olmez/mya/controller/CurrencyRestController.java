@@ -30,13 +30,13 @@ public class CurrencyRestController {
     private final CurrencyService service;
 
     // GET All
-    @GetMapping("/")
+    @GetMapping()
     public List<CurrencyRate> getAllRates() {
         return service.getAllRates();
     }
 
     // CREATE
-    @PostMapping("/")
+    @PostMapping()
     public boolean createCurrencyRate(@RequestBody CurrencyRate rate) {
         return service.createCurrencyRate(rate);
     }
