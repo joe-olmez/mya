@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CurrencyListComponent } from './currency-list/currency-list.component';
 import { UpdateProfileComponent } from './profile/update-profile/update-profile.component';
 
 import { BoardAdminComponent } from './board-admin/board-admin.component';
@@ -9,6 +8,10 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UpdatePasswordComponent } from './profile/update-password/update-password.component';
+import { CreateRateComponent } from './rates/create-rate/create-rate.component';
+import { RateDetailsComponent } from './rates/rate-details/rate-details.component';
+import { RateListComponent } from './rates/rate-list/rate-list.component';
+import { UpdateRateComponent } from './rates/update-rate/update-rate.component';
 import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
@@ -20,8 +23,12 @@ const routes: Routes = [
   { path: 'update-profile', component: UpdateProfileComponent },
   { path: 'update-password', component: UpdatePasswordComponent },
   { path: 'user', component: BoardUserComponent },
-  { path: 'currency-list', component: CurrencyListComponent },
   { path: 'admin', component: BoardAdminComponent },
+  //
+  { path: 'rates', component: RateListComponent },
+  { path: 'create-rate', component: CreateRateComponent },
+  { path: 'update-rate/:id', component: UpdateRateComponent },
+  { path: 'rate-details/:id', component: RateDetailsComponent },
 ];
 
 @NgModule({
