@@ -62,6 +62,16 @@ public class UserRestController {
         return ResponseEntity.ok(updated);
     }
 
+    // UPDATE
+    @PutMapping()
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        if (user == null || user.getId() == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        User updated = userService.updateUser(user.getId(), user);
+        return ResponseEntity.ok(updated);
+    }
+
     // DELETE using @PathVariable
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteUser(@PathVariable Long id) {

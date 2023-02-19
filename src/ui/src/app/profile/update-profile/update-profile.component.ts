@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../../model/user';
 import { AuthService } from './../../services/auth.service';
@@ -33,22 +32,22 @@ export class UpdateProfileComponent implements OnInit {
     });
   }
 
-  async onSubmit(updateForm: NgForm) {
-    let formUser: User = updateForm.value;
-    formUser.id = this.user.id;
-    console.log('Form value: ', formUser);
-
-    (await this.userService.updateUser(formUser)).subscribe({
+  async onSubmit() {
+    (await this.userService.updateUser(this.user)).subscribe({
       next: (resData) => {
         console.log('Response data:', resData);
-        this.router.navigateByUrl('/profile');
+        this.goToProfile();
       },
       error: (resError) => console.error(resError),
       complete: () => console.info('complete'),
     });
   }
 
-  onBack() {
+  goToProfile() {
     this.router.navigateByUrl('/profile');
+  }
+
+  onBack() {
+    this.goToProfile();
   }
 }
