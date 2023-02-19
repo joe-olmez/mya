@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.olmez.mya.model.PasswordWrapper;
 import com.olmez.mya.model.User;
 import com.olmez.mya.services.UserService;
 
@@ -91,6 +92,13 @@ public class UserRestController {
     public ResponseEntity<User> getUserByUsername(@RequestParam("username") String username) {
         User user = userService.getUserByUsername(username);
         return ResponseEntity.ok(user);
+    }
+
+    // UPDATE Password
+    @PutMapping("/pro")
+    public ResponseEntity<Boolean> updatePassword(@RequestBody PasswordWrapper passWrapper) {
+        boolean res = userService.updateUserPassword(passWrapper);
+        return ResponseEntity.ok(res);
     }
 
 }

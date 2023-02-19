@@ -50,4 +50,8 @@ export class UpdateProfileComponent implements OnInit {
   onBack() {
     this.goToProfile();
   }
+
+  onUpdatePassword() {
+    this.router.navigateByUrl('/update-password');
+  }
 }

@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { PasswordWrapper } from '../model/password.wrapper';
 import { User } from '../model/user';
 import { environment } from './../../environments/environment';
 
@@ -25,6 +26,11 @@ export class UserService {
   async updateUser(user: User) {
     let url = API_BASE_URL + `/api/v1/users`;
     return this.http.put(url, user);
+  }
+
+  async updatePassword(passWrapper: PasswordWrapper) {
+    let url = API_BASE_URL + `/api/v1/users/pro`;
+    return this.http.put(url, passWrapper);
   }
 
   addParam(key: string, value: any) {

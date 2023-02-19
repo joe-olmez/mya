@@ -2,6 +2,7 @@ package com.olmez.mya.services;
 
 import java.util.List;
 
+import com.olmez.mya.model.PasswordWrapper;
 import com.olmez.mya.model.User;
 
 public interface UserService {
@@ -21,4 +22,6 @@ public interface UserService {
     User updateUser(User givenUser);
 
     User getCurrentUser();
+
+    boolean updateUserPassword(PasswordWrapper passWrapper);
 }
