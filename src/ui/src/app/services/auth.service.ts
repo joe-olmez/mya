@@ -47,7 +47,7 @@ export class AuthService {
     return '';
   }
 
-  decodeToken(token: string): any {
+  private decodeToken(token: string): any {
     if (token == null) {
       return '';
     }
