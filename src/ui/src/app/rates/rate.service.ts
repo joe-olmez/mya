@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { CurrencyWrapper } from '../model/currency.wrapper';
 import { AuthService } from '../services/auth.service';
 import { CurrencyRate } from './currency.rate';
 
@@ -40,5 +41,11 @@ export class RateService {
   deleteRate(id: number): Observable<Object> {
     let url = this.ratesURL + `/${id}`;
     return this.http.delete(url, this.headerObj);
+  }
+
+  getConvertedAmount(curWrapper: CurrencyWrapper) {
+    let url = this.ratesURL + `/convert`;
+    console.log('Convert url: ', url);
+    return this.http.post<number>(url, curWrapper, this.headerObj);
   }
 }

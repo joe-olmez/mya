@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import com.olmez.mya.model.CurrencyRate;
+import com.olmez.mya.model.enums.CurrencyCode;
 import com.olmez.mya.repositories.CurrencyRateRepository;
 
 import jakarta.transaction.Transactional;
@@ -128,6 +131,43 @@ public class CurrencyServiceImpl implements CurrencyService {
         existing.setTryy(given.getTryy());
         log.info("Updated existing currency rate: {}", existing.getDate());
         return existing;
+    }
+
+    @Override
+    public Double convert(CurrencyWrapper curWrapper) {
+        if (curWrapper == null) {
+            return null;
+        }
+        var map = rateMap(curWrapper.getDate());
+        if (map.isEmpty()) {
+            return null;
+        }
+
+        var fromCode = curWrapper.getFrom();
+        var toCode = curWrapper.getTo();
+        var amount = curWrapper.getAmount();
+
+        Double converted;
+        if (fromCode == CurrencyCode.USD) {
+            converted = amount * map.get(toCode);
+        } else {
+            converted = (amount * map.get(toCode)) / map.get(fromCode);
+        }
+        return converted;
+    }
+
+    private Map<CurrencyCode, Double> rateMap(LocalDate date) {
+        Map<CurrencyCode, Double> map = new HashMap<>();
+        var rate = repository.findByDate(date);
+        if (rate != null) {
+            map.put(CurrencyCode.CAD, rate.getCad());
+            map.put(CurrencyCode.EUR, rate.getEur());
+            map.put(CurrencyCode.GBP, rate.getGbp());
+            map.put(CurrencyCode.JPY, rate.getJpy());
+            map.put(CurrencyCode.TRY, rate.getTryy());
+            map.put(CurrencyCode.USD, rate.getUsd());
+        }
+        return map;
     }
 
 }

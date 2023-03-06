@@ -11,7 +11,7 @@ export class CurrencyRate {
   usd!: number;
 }
 
-enum Code {
+export enum Code {
   CAD = 'CAD',
   EUR = 'EUR',
   GBP = 'GBP',

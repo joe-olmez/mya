@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.olmez.mya.currency.CurrencyService;
+import com.olmez.mya.currency.CurrencyWrapper;
 import com.olmez.mya.model.CurrencyRate;
 
 import lombok.RequiredArgsConstructor;
@@ -71,6 +72,13 @@ public class CurrencyRestController {
             @PathVariable("date") @DateTimeFormat(iso = ISO.DATE) LocalDate date) {
         CurrencyRate rate = service.findCurrencyRateByDate(date);
         return ResponseEntity.ok(rate);
+    }
+
+    // POST
+    @PostMapping("/convert")
+    public ResponseEntity<Double> getConvertedAmount(@RequestBody CurrencyWrapper curWrapper) {
+        Double result = service.convert(curWrapper);
+        return ResponseEntity.ok(result);
     }
 
 }

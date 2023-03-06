@@ -25,4 +25,6 @@ public interface CurrencyService {
     boolean deleteCurrencyRate(Long id);
 
     CurrencyRate findCurrencyRateByDate(LocalDate date);
+
+    Double convert(CurrencyWrapper curWrapper);
 }
