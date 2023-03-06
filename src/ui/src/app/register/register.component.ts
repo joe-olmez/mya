@@ -24,6 +24,7 @@ export class RegisterComponent implements OnInit {
     (await this.authService.register(this.signup)).subscribe({
       next: () => {
         console.log('Signup User:', this.signup);
+        alert('Created a new user');
         this.goToHome();
       },
       error: (resError) => console.error(resError),

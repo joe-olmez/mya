@@ -8,7 +8,6 @@
             <th> GBP </th>
             <th> JPY </th>
             <th> TRY </th>
-            <th> USD </th>
             <th> Action </th>
         </tr>
     </thead>
@@ -20,7 +19,6 @@
             <td> {{ rate.gbp }} </td>
             <td> {{ rate.jpy }} </td>
             <td> {{ rate.tryy }} </td>
-            <td> {{ rate.usd }} </td>
             <td>
                 <button (click) = "updateRate(rate.id)" class = "btn btn-info"> Update</button>
                 <button (click) = "deleteRate(rate.id)" class = "btn btn-danger" style="margin-left: 10px"> Delete</button>
