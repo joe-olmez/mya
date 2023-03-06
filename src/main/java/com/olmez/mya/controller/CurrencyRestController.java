@@ -29,23 +29,10 @@ public class CurrencyRestController {
 
     private final CurrencyService service;
 
-    // GET All
-    @GetMapping()
-    public List<CurrencyRate> getAllRates() {
-        return service.getAllRates();
-    }
-
     // CREATE
     @PostMapping()
     public boolean createCurrencyRate(@RequestBody CurrencyRate rate) {
         return service.createCurrencyRate(rate);
-    }
-
-    // GET By Id
-    @GetMapping("/{id}")
-    public ResponseEntity<CurrencyRate> getCurrencyRateById(@PathVariable Long id) {
-        CurrencyRate rate = service.findCurrencyRateById(id);
-        return ResponseEntity.ok(rate);
     }
 
     // UPDATE
@@ -63,8 +50,23 @@ public class CurrencyRestController {
         return ResponseEntity.ok(result);
     }
 
+    /////////////////////////////////////////////////////////////////////////////
+    // GET All
+    @GetMapping()
+    public ResponseEntity<List<CurrencyRate>> getAllRates() {
+        List<CurrencyRate> list = service.getAllRates();
+        return ResponseEntity.ok(list);
+    }
+
+    // GET By Id
+    @GetMapping("/{id}")
+    public ResponseEntity<CurrencyRate> getRateById(@PathVariable Long id) {
+        CurrencyRate rate = service.findCurrencyRateById(id);
+        return ResponseEntity.ok(rate);
+    }
+
     // GET By Date
-    @GetMapping("/{date}")
+    @GetMapping("/date/{date}")
     public ResponseEntity<CurrencyRate> getCurrencyRateByDate(
             @PathVariable("date") @DateTimeFormat(iso = ISO.DATE) LocalDate date) {
         CurrencyRate rate = service.findCurrencyRateByDate(date);

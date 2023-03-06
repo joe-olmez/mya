@@ -21,21 +21,24 @@ export class UpdateRateComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
 
-    this.rateService.getRateById(this.id).subscribe(
-      (data) => {
+    this.rateService.getRateById(this.id).subscribe({
+      next: (data) => {
         this.rate = data;
       },
-      (error) => console.log(error)
-    );
+      error: (resError) => console.error(resError),
+      complete: () => console.info('complete'),
+    });
   }
 
   onSubmit() {
-    this.rateService.updateRate(this.id, this.rate).subscribe(
-      (data) => {
+    this.rateService.updateRate(this.id, this.rate).subscribe({
+      next: (data) => {
+        console.log('Received data', data);
         this.goToRateList();
       },
-      (error) => console.log(error)
-    );
+      error: (resError) => console.error(resError),
+      complete: () => console.info('complete'),
+    });
   }
 
   goToRateList() {

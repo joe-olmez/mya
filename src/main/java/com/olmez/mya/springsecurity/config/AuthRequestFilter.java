@@ -34,7 +34,7 @@ public class AuthRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         final String header = request.getHeader(HEADER_KEY);
-        if (header == null || !header.startsWith(TOKEN_TYPE)) {
+        if (!hasToken(header)) {
             filterChain.doFilter(request, response); // No jwt then generate one
             return;
         }
@@ -52,6 +52,10 @@ public class AuthRequestFilter extends OncePerRequestFilter {
             log.info("A request is made by {}", username);
         }
         filterChain.doFilter(request, response);
+    }
+
+    private boolean hasToken(String header) {
+        return (header != null) && (header.startsWith(TOKEN_TYPE)) && header.length() > 20;
     }
 
     private boolean isRequiredAuth(String username) {

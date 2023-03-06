@@ -19,6 +19,7 @@ export class ProfileComponent implements OnInit {
   async getUser() {
     (await this.authService.getCurrentUser()).subscribe({
       next: (resData) => {
+        console.log('Current user:', resData);
         this.curUser = resData;
       },
       error: (resError) => console.error(resError),
