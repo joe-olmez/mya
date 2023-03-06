@@ -8,18 +8,6 @@ import com.olmez.mya.model.CurrencyRate;
 
 public interface CurrencyService {
 
-    CurrencyRate update() throws IOException, InterruptedException;
-
-    /**
-     * Updates data as much as the number of days from today backward
-     * 
-     * @param numOfDays number of days
-     * @return list of currency info
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    List<CurrencyRate> update(int numOfDays) throws InterruptedException, IOException;
-
     CurrencyRate update(LocalDate date) throws IOException, InterruptedException;
 
     List<CurrencyRate> update(LocalDate startDate, LocalDate endDate)
@@ -37,4 +25,6 @@ public interface CurrencyService {
     boolean deleteCurrencyRate(Long id);
 
     CurrencyRate findCurrencyRateByDate(LocalDate date);
+
+    Double convert(CurrencyWrapper curWrapper);
 }

@@ -20,8 +20,8 @@ public class BaseObject implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private boolean deleted = false;
+    protected Long id;
+    protected boolean deleted = false;
 
     @Override
     public boolean equals(Object obj) {

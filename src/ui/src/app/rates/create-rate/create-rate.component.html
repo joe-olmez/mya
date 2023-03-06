@@ -1,0 +1,50 @@
+<div class="col-md-6 offset-md-3">
+    <h3> Create Currency Rate </h3>
+    <form (ngSubmit) = "onSubmit()">
+    
+        <div class="form-group">
+            <label> Date</label>
+            <input type="text" class ="form-control" id = "date"
+                [(ngModel)] = "rate.date" name = "date">
+        </div>
+    
+        <div class="form-group">
+            <label> CAD</label>
+            <input type="text" class ="form-control" id = "cad"
+                [(ngModel)] = "rate.cad" name = "cad">
+        </div>
+    
+        <div class="form-group">
+            <label> EUR</label>
+            <input type="text" class ="form-control" id = "eur"
+                [(ngModel)] = "rate.eur" name = "eur">
+        </div>
+
+        <div class="form-group">
+            <label> GBP</label>
+            <input type="text" class ="form-control" id = "gbp"
+                [(ngModel)] = "rate.gbp" name = "gbp">
+        </div>
+
+        <div class="form-group">
+            <label> JPY</label>
+            <input type="text" class ="form-control" id = "jpy"
+                [(ngModel)] = "rate.jpy" name = "jpy">
+        </div>
+
+        <div class="form-group">
+            <label> TRY</label>
+            <input type="text" class ="form-control" id = "try"
+                [(ngModel)] = "rate.tryy" name = "try">
+        </div>
+
+        <div class="form-group">
+            <label> USD</label>
+            <input type="text" class ="form-control" id = "usd"
+                [(ngModel)] = "rate.usd" name = "usd">
+        </div>
+    
+        <button class = "btn btn-success" type ="submit">Submit</button>
+    
+    </form>
+    </div> 

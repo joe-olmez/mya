@@ -1,12 +1,14 @@
 package com.olmez.mya;
 
+import java.util.List;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.olmez.mya.model.User;
+import com.olmez.mya.model.securitydata.UserRoles;
 import com.olmez.mya.repositories.UserRepository;
-import com.olmez.mya.services.ScheduledService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 public class MyaApplication implements CommandLineRunner {
 
 	private final UserRepository userRepository;
-	private final ScheduledService scheduledService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(MyaApplication.class, args);
@@ -25,16 +26,13 @@ public class MyaApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		User appUser = userRepository.getAppUser();
-		if (appUser == null) {
-			log.info("Failed to connect to database! * * *");
-		} else {
-			log.info("*The database connection is successful! * * *");
-			log.info("**Mya application has started! * * *");
+		List<User> users = userRepository.findAll();
+		if (users.isEmpty()) {
+			userRepository.save(UserRoles.createTempUser());
 		}
-		log.info("***App user: {}", appUser);
+		log.info("*Database connection is OK! {} users", users.size());
+		log.info("**Core application has started! * * *");
 
-		scheduledService.dailyUpdateCurrencyData();
 	}
 
 }

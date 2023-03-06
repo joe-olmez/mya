@@ -95,7 +95,7 @@ public class UserRestController {
     }
 
     // UPDATE Password
-    @PutMapping("/pro")
+    @PutMapping("/pass")
     public ResponseEntity<Boolean> updatePassword(@RequestBody PasswordWrapper passWrapper) {
         boolean res = userService.updateUserPassword(passWrapper);
         return ResponseEntity.ok(res);

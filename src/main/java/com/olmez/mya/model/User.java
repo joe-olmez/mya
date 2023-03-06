@@ -61,12 +61,7 @@ public class User extends BaseObject {
 			return false;
 
 		User other = (User) obj;
-		return isValid(other.getUsername(), other.getEmail());
-	}
-
-	private boolean isValid(String oUsername, String oEmail) {
-		return (StringUtility.isEmpty(username) && username.equalsIgnoreCase(oUsername)) ||
-				(StringUtility.isEmpty(email) && email.equalsIgnoreCase(oEmail));
+		return (other.getId() != null) && (id != null) && (other.getId().equals(id));
 	}
 
 	@Override

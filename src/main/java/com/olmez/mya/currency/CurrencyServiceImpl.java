@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import com.olmez.mya.model.CurrencyRate;
+import com.olmez.mya.model.enums.CurrencyCode;
 import com.olmez.mya.repositories.CurrencyRateRepository;
 
 import jakarta.transaction.Transactional;
@@ -22,16 +25,6 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     private final CurrencyAPIService apiService;
     private final CurrencyRateRepository repository;
-
-    @Override
-    public List<CurrencyRate> update(int numOfDays) throws InterruptedException, IOException {
-        return update(LocalDate.now().minusDays(numOfDays), LocalDate.now());
-    }
-
-    @Override
-    public CurrencyRate update() throws IOException, InterruptedException {
-        return update(LocalDate.now());
-    }
 
     @Override
     public List<CurrencyRate> update(LocalDate startInclusive, LocalDate endInclusive)
@@ -67,17 +60,13 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Transactional
     public CurrencyRate update(LocalDate date) throws IOException, InterruptedException {
         CurrencyRate existing = repository.findByDate(date);
-
-        if ((existing != null) && (!date.isEqual(LocalDate.now()))) {
+        if (existing != null) {
             log.info("Data exist on {}", existing.getDate());
             return existing;
         }
 
         CurrencyRate rate = apiService.update(date);
         if (rate != null) {
-            if ((existing != null) && (rate.getDate().isEqual(LocalDate.now()))) {
-                rate = updateExisting(existing, rate);
-            }
             rate = repository.save(rate);
         }
         return rate;
@@ -142,6 +131,43 @@ public class CurrencyServiceImpl implements CurrencyService {
         existing.setTryy(given.getTryy());
         log.info("Updated existing currency rate: {}", existing.getDate());
         return existing;
+    }
+
+    @Override
+    public Double convert(CurrencyWrapper curWrapper) {
+        if (curWrapper == null) {
+            return null;
+        }
+        var map = rateMap(curWrapper.getDate());
+        if (map.isEmpty()) {
+            return null;
+        }
+
+        var fromCode = curWrapper.getFrom();
+        var toCode = curWrapper.getTo();
+        var amount = curWrapper.getAmount();
+
+        Double converted;
+        if (fromCode == CurrencyCode.USD) {
+            converted = amount * map.get(toCode);
+        } else {
+            converted = (amount * map.get(toCode)) / map.get(fromCode);
+        }
+        return converted;
+    }
+
+    private Map<CurrencyCode, Double> rateMap(LocalDate date) {
+        Map<CurrencyCode, Double> map = new HashMap<>();
+        var rate = repository.findByDate(date);
+        if (rate != null) {
+            map.put(CurrencyCode.CAD, rate.getCad());
+            map.put(CurrencyCode.EUR, rate.getEur());
+            map.put(CurrencyCode.GBP, rate.getGbp());
+            map.put(CurrencyCode.JPY, rate.getJpy());
+            map.put(CurrencyCode.TRY, rate.getTryy());
+            map.put(CurrencyCode.USD, rate.getUsd());
+        }
+        return map;
     }
 
 }

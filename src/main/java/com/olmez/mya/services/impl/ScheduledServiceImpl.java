@@ -1,6 +1,7 @@
 package com.olmez.mya.services.impl;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -26,13 +27,13 @@ public class ScheduledServiceImpl implements ScheduledService {
      * 
      * @throws Exception
      */
-    @Scheduled(cron = "0 45 17 * * ?") // 17:45:00 or 5:45:00 PM
+    @Scheduled(cron = "0 45 23 * * ?") // 23:45:00
     @Override
     @Transactional
     public void dailyUpdateCurrencyData() throws InterruptedException {
         log.info("Currency data are being pulled...");
         try {
-            currencyService.update();
+            currencyService.update(LocalDate.now());
             log.info("Pulling currencies data is completed.");
         } catch (IOException e) {
             log.info("Failed to currency data pulling. {}", e.getMessage());

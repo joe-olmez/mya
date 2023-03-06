@@ -3,33 +3,32 @@
 
 <div class="main">
 
-
+<form (ngSubmit) = "convert()">
+    
     <div class="form-group">
         <label for="date"> Date : </label>
-        <input id="date" type="date" class="form-control searchBox"
-            placeholder="date">
+        <input  [(ngModel)] = "curWrapper.date" name = "date" type="date" class="form-control searchBox" placeholder="date">
+        
         <label for="amount"> Amount to Convert : </label>
-        <input id="amount" type="text" class="form-control searchBox"
-            placeholder="0.00">
+        <input [(ngModel)] = "curWrapper.amount" type="text" class="form-control searchBox"
+           name = "amount">
     </div>
-
+    
+    
     <div class="row">
         <div class="col-sm-6">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text">From</span>
                 </div>
-                <select class="form-control from" id="sel1">
+                <select class="form-control from" [(ngModel)]="curWrapper.from" name="from">
                     <option value="">Select One …</option>
-                    <option value="AUD">AUD</option>
                     <option value="CAD">CAD</option>
-                    <option value="USD">USD</option>
-                    <option value="CHF">CHF</option>
                     <option value="EUR">EUR</option>
                     <option value="GBP">GBP</option>
                     <option value="JPY">JPY</option>
-                    <option value="RUB">RUB</option>
                     <option value="TRY">TRY</option>
+                    <option value="USD">USD</option>
                 </select>
             </div>
         </div>
@@ -39,45 +38,36 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">To</span>
                 </div>
-                <select class="form-control to" id="sel2">
+                <select class="form-control to" [(ngModel)]="curWrapper.to" name="to">
                     <option value="">Select One …</option>
-                    <option value="AUD">AUD</option>
                     <option value="CAD">CAD</option>
-                    <option value="USD">USD</option>
-                    <option value="CHF">CHF</option>
                     <option value="EUR">EUR</option>
                     <option value="GBP">GBP</option>
                     <option value="JPY">JPY</option>
-                    <option value="RUB">RUB</option>
                     <option value="TRY">TRY</option>
+                    <option value="USD">USD</option>
                 </select>
             </div>
         </div>
     </div>
-
-    <div class="text-center">
-
-        <!-- convert button -->
-        <button class="btn btn-primary m-2"
-            type="submit">
-            Convert
-        </button>
-
-        <!-- reset button -->
-        <button class="btn btn-primary m-2"
-            onclick="clearVal()">
-            Reset
-        </button>
-    </div>
-
+    
+    <!-- Display the converted amount -->
+    <div class="col-sm-6">
+    <h4>Converted: <span style="color:rgb(72, 255, 0);"> {{ result }} </span>
+    </h4> 
 </div>
 
-<div id="finalAmount" class="text-center">
+    <div class="text-center">
+        
+        <!-- convert button -->
+        <button class="btn btn-primary m-2" type ="submit" >Convert</button>
+        
+        <!-- reset button -->
+        <button class="btn btn-primary m-2" type ="submit">Reset</button>
+   
+    </div>
+    
+    
 
-    <!-- Display the converted amount -->
-    <h2>Converted Amount :
-        <span class="finalValue"
-            style="color:green;">
-        </span>
-    </h2>
+</form>
 </div>

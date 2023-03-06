@@ -1,5 +1,8 @@
 package com.olmez.mya.model.securitydata;
 
+import com.olmez.mya.model.User;
+import com.olmez.mya.model.enums.UserType;
+
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -17,5 +20,9 @@ public class UserRoles {
     public static final String ROLE_APP = "Application";
 
     public static final String ROLE_TEAM = "Team";
+
+    public static User createTempUser() {
+        return new User("First", "Last", "appUser", "app@user.com", UserType.APPLICATION);
+    }
 
 }
