@@ -23,7 +23,7 @@ export class RateService {
 
   createRate(rate: CurrencyRate): Observable<Object> {
     let url = this.ratesURL;
-    return this.http.post(url, rate);
+    return this.http.post(url, rate, this.headerObj);
   }
 
   getRateById(id: number): Observable<CurrencyRate> {
@@ -34,11 +34,11 @@ export class RateService {
 
   updateRate(id: number, rate: CurrencyRate): Observable<Object> {
     let url = this.ratesURL + `/${id}`;
-    return this.http.put(url, rate);
+    return this.http.put(url, rate, this.headerObj);
   }
 
   deleteRate(id: number): Observable<Object> {
     let url = this.ratesURL + `/${id}`;
-    return this.http.delete(url);
+    return this.http.delete(url, this.headerObj);
   }
 }

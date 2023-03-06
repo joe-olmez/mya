@@ -1,42 +1,39 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PasswordWrapper } from '../model/password.wrapper';
 import { User } from '../model/user';
 import { environment } from './../../environments/environment';
+import { AuthService } from './auth.service';
 
 const API_BASE_URL = environment.apiServerUrl; // http://localhost:5000
+const USER_URL = API_BASE_URL + '/api/v1/users';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private http: HttpClient) {}
+  private headerObj;
+
+  constructor(private http: HttpClient, private authService: AuthService) {
+    this.headerObj = this.authService.getHeaderObject();
+  }
 
   async getAdminBoard() {
-    let url = API_BASE_URL + '/api/v1/users';
-    return this.http.get(url);
+    return this.http.get(USER_URL, this.headerObj);
   }
 
   async getUserByUsername(username: string) {
-    let url = API_BASE_URL + `'/api/v1/users/username`;
-    let param = this.addParam('username', username);
-    return this.http.get(url, param);
+    let url = USER_URL + `'/username`;
+    let httpOptions = this.authService.addHeaderAndParam('username', username);
+    return this.http.get(url, httpOptions);
   }
 
   async updateUser(user: User) {
-    let url = API_BASE_URL + `/api/v1/users`;
-    return this.http.put(url, user);
+    return this.http.put(USER_URL, user, this.headerObj);
   }
 
   async updatePassword(passWrapper: PasswordWrapper) {
-    let url = API_BASE_URL + `/api/v1/users/pro`;
+    let url = USER_URL + `/pass`;
     return this.http.put(url, passWrapper);
-  }
-
-  addParam(key: string, value: any) {
-    let httpParams = new HttpParams();
-    httpParams = httpParams.append(key, value);
-    let objectParam = { params: httpParams };
-    return objectParam;
   }
 }

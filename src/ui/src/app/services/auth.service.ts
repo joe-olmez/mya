@@ -9,6 +9,7 @@ import { environment } from './../../environments/environment';
 
 const AUTH_URL = environment.authUrl; // http://localhost:5000//api/auth
 const BASE_URL = environment.apiServerUrl; // http://localhost:5000
+const USER_URL = BASE_URL + '/api/v1/users';
 const TOKEN_KEY = 'auth-token';
 const HEADER_KEY = 'Authorization';
 const BEARER_KEY = 'Bearer ';
@@ -21,18 +22,6 @@ export class AuthService {
   helper = new JwtHelperService();
 
   constructor(private http: HttpClient) {}
-
-  // For each request, add the JWT to the header and send it to the server.
-  getHeaderObject(): object {
-    let headersValue = new HttpHeaders().set(
-      HEADER_KEY,
-      BEARER_KEY + this.getToken()
-    );
-    const headerObject = {
-      headers: headersValue,
-    };
-    return headerObject;
-  }
 
   setToken(token: string) {
     console.log('Token in authService: ', token);
@@ -69,16 +58,12 @@ export class AuthService {
   }
 
   async getCurrentUser(): Promise<Observable<any>> {
-    const url = BASE_URL + '/api/v1/users/username';
-    let param = this.addParam('username', this.getCurrentUserName());
-    return this.http.get(url, param);
-  }
-
-  addParam(key: string, value: any) {
-    let httpParams = new HttpParams();
-    httpParams = httpParams.append(key, value);
-    let objectParam = { params: httpParams };
-    return objectParam;
+    const url = USER_URL + '/username';
+    let httpOptions = this.addHeaderAndParam(
+      'username',
+      this.getCurrentUserName()
+    );
+    return this.http.get(url, httpOptions);
   }
 
   // *** Sign In ***
@@ -105,5 +90,26 @@ export class AuthService {
   // Logout
   logout(): void {
     window.sessionStorage.clear();
+  }
+
+  // For each request, add the JWT to the header and send it to the server.
+  getHeaderObject(): object {
+    let valueHeader = new HttpHeaders().set(
+      HEADER_KEY,
+      BEARER_KEY + this.getToken()
+    );
+    return { headers: valueHeader };
+  }
+
+  addHeaderAndParam(key: string, value: any): object {
+    let valueHeader = new HttpHeaders().set(
+      HEADER_KEY,
+      BEARER_KEY + this.getToken()
+    );
+    let valueParam = new HttpParams().set(key, value);
+    return {
+      headers: valueHeader,
+      params: valueParam,
+    };
   }
 }
