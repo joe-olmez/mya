@@ -1,9 +1,8 @@
-#application.yml
-#Connecting with the MySQL Database
+#application.yml - Connecting with the MySQL Database instance on Docker
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/mya
-    username: root
+    url: jdbc:mysql://localhost:5000/myadb
+    username: admin
     password: 1234
   jpa:
     show-sql: true
@@ -13,20 +12,19 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
 
-#Port number
-server:
-  port: 5000
-
 #Log location
 logging:
   file:
-    name: C:/logs/myapp.log
-###############################################################################
-#We can use application.properties insteed                                    #
-#*application.properties#######################################################
-# #MySQL Configuration                                                        #
-# spring.datasource.driverClassName=com.mysql.jdbc.Driver                     #
-# spring.datasource.url=jdbc:mysql://localhost:3306/mya                     #
+    name: C:/logs/doc-myapp.log
+#Port number
+# server:
+#   port: 5000
+
+#
+#
+# We can use "application.properties" insteed #################################
+#                                                                             #
+# spring.datasource.url=jdbc:mysql://localhost:3306/mya                       #
 # spring.datasource.username=root                                             #
 # spring.datasource.password=1234                                             #
 #                                                                             #
@@ -34,7 +32,6 @@ logging:
 # spring.jpa.hibernate.ddl-auto=update                                        #
 # spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect #
 #                                                                             #
-# #Thymeleaf                                                                  #
-# spring.thymeleaf.cache=false                                                #
-# spring.thymeleaf.suffix: .html                                              #
+# server.port: 5000                                                           #
+# logging.file.name: C:/logs/myapp.log                                        #
 ###############################################################################
