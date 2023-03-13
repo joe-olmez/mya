@@ -1,23 +1,21 @@
 version: '3.8'
 
 services:
-  mysqldb:
+  db-mysql:
     image: mysql
     restart: always
     environment:
-      # myadb is my default db
       MYSQL_DATABASE: myadb
-      MYSQL_USER: admin
+      MYSQL_USER: joe
       MYSQL_PASSWORD: 1234
       MYSQL_ROOT_PASSWORD: 1234
     ports:
         #host:container
       - 5000:3306
-    # Need to add to map 5000 this (localhost:5000)
     expose:
       - 3306
     volumes:
-        #Where my data will be persisted on the docker
-      - db-data:/var/lib/mysql
+      - data:/var/lib/mysql
+
 volumes:
-  db-data:
+  data:

@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.olmez.mya.currency.CurrencyService;
 import com.olmez.mya.model.User;
 import com.olmez.mya.model.securitydata.UserRoles;
 import com.olmez.mya.repositories.UserRepository;
@@ -19,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MyaApplication implements CommandLineRunner {
 
 	private final UserRepository userRepository;
+	private final CurrencyService currencyService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(MyaApplication.class, args);
@@ -32,6 +34,7 @@ public class MyaApplication implements CommandLineRunner {
 		}
 		log.info("*Database connection is OK! {} users", users.size());
 		log.info("**Core application has started! * * *");
+		currencyService.checkLastWeek();
 
 	}
 

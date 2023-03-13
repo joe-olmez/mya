@@ -2,7 +2,7 @@
 spring:
   datasource:
     url: jdbc:mysql://localhost:5000/myadb
-    username: admin
+    username: joe
     password: 1234
   jpa:
     show-sql: true
