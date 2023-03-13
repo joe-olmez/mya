@@ -27,6 +27,11 @@ public class CurrencyServiceImpl implements CurrencyService {
     private final CurrencyRateRepository repository;
 
     @Override
+    public List<CurrencyRate> checkLastWeek() throws InterruptedException, IOException {
+        return update(LocalDate.now().minusWeeks(1), LocalDate.now());
+    }
+
+    @Override
     public List<CurrencyRate> update(LocalDate startInclusive, LocalDate endInclusive)
             throws InterruptedException, IOException {
         if (endInclusive == null || endInclusive.isAfter(LocalDate.now())) {
@@ -50,9 +55,19 @@ public class CurrencyServiceImpl implements CurrencyService {
         LocalDate curDate = startInclusive;
 
         while (curDate.isBefore(endInclusive.plusDays(1))) {
-            rates.add(update(curDate));
+            var rate = update(curDate);
+            if (rate != null) {
+                rates.add(update(curDate));
+            }
             curDate = curDate.plusDays(1);
         }
+
+        if (rates.isEmpty()) {
+            log.info("Completed! The data are already up to date.");
+        } else {
+            log.info("Completed! Received data for {} days", rates.size());
+        }
+
         return rates;
     }
 
@@ -62,7 +77,7 @@ public class CurrencyServiceImpl implements CurrencyService {
         CurrencyRate existing = repository.findByDate(date);
         if (existing != null) {
             log.info("Data exist on {}", existing.getDate());
-            return existing;
+            return null;
         }
 
         CurrencyRate rate = apiService.update(date);

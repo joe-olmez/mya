@@ -8,6 +8,8 @@ import com.olmez.mya.model.CurrencyRate;
 
 public interface CurrencyService {
 
+    List<CurrencyRate> checkLastWeek() throws InterruptedException, IOException;
+
     CurrencyRate update(LocalDate date) throws IOException, InterruptedException;
 
     List<CurrencyRate> update(LocalDate startDate, LocalDate endDate)
