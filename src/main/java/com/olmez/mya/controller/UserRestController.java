@@ -75,15 +75,15 @@ public class UserRestController {
 
     // DELETE using @PathVariable
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Boolean> deleteUserById(@PathVariable Long id) {
         boolean res = userService.deleteUser(id);
         return ResponseEntity.ok(res);
     }
 
     // DELETE using @RequestParam
     @DeleteMapping("/")
-    public ResponseEntity<Boolean> delete(@RequestParam Long id) {
-        boolean res = userService.deleteUser(id);
+    public ResponseEntity<Boolean> deleteUser(@RequestBody User user) {
+        boolean res = userService.deleteUser(user.getId());
         return ResponseEntity.ok(res);
     }
 

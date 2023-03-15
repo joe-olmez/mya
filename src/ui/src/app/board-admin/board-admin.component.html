@@ -1,8 +1,44 @@
 <div class="container">
     <p></p>
+    <div>
     <h3>{{ content }}</h3>
     <p></p>
-    <p>Admin-Board page works!</p>
-    <p>Admin-Board page works!</p>
-    <p>Admin-Board page works!</p>
+    
+<div>
+    <button (click) = "getAllUsers()" class = "btn btn-info"> Users </button>
+    <button (click) = "updateRates()" class = "btn btn-info" style="margin-left: 10px"> Update Currency </button>
+    <button (click) = "goToConverter()" class = "btn btn-info" style="margin-left: 10px"> Convertor </button>
+</div>
+</div>
+<p></p>
+
+<!-- USER LIST -->
+<div *ngIf="isShowUserList">
+<table class = "table table-striped">
+    <thead>
+        <tr>
+            <th> First Name </th>
+            <th> Last Name</th>
+            <th> Username </th>
+            <th> Email </th>
+            <th> Role </th>
+            <th> Action </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor = "let user of users" >
+            <td> {{ user.firstName }} </td>
+            <td> {{ user.lastName }} </td>
+            <td> {{ user.username }} </td>
+            <td> {{ user.email }} </td>
+            <td> {{ user.role }} </td>
+            <td>
+                <button (click) = "updateUser(user)" class = "btn btn-info"> Update</button>
+                <button (click) = "deleteUser(user)" class = "btn btn-danger" style="margin-left: 10px"> Delete</button>
+            </td>
+            
+        </tr>
+    </tbody>
+</table>
+</div>
 </div>

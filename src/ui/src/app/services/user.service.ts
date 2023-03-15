@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { PasswordWrapper } from '../model/password.wrapper';
 import { User } from '../model/user';
 import { environment } from './../../environments/environment';
@@ -35,5 +36,19 @@ export class UserService {
   async updatePassword(passWrapper: PasswordWrapper) {
     let url = USER_URL + `/pass`;
     return this.http.put(url, passWrapper);
+  }
+
+  async getAllUsers(): Promise<Observable<User[]>> {
+    return this.http.get<User[]>(USER_URL, this.headerObj);
+  }
+
+  updateUserById(id: number, user: User): Observable<Object> {
+    let url = USER_URL + `/${id}`;
+    return this.http.put(url, user, this.headerObj);
+  }
+
+  deleteUser(user: User) {
+    let url = USER_URL + `/${user.id}`;
+    return this.http.delete(url, this.headerObj);
   }
 }
