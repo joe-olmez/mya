@@ -46,6 +46,6 @@ export class RateService {
   getConvertedAmount(curWrapper: CurrencyWrapper) {
     let url = this.ratesURL + `/convert`;
     console.log('Convert url: ', url);
-    return this.http.post<number>(url, curWrapper, this.headerObj);
+    return this.http.post<string>(url, curWrapper, this.headerObj);
   }
 }

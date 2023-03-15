@@ -1,5 +1,6 @@
 package com.olmez.mya.controller;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -29,6 +30,8 @@ import lombok.RequiredArgsConstructor;
 public class CurrencyRestController {
 
     private final CurrencyService service;
+
+    private DecimalFormat df = new DecimalFormat("#.####");
 
     // CREATE
     @PostMapping()
@@ -76,9 +79,10 @@ public class CurrencyRestController {
 
     // POST
     @PostMapping("/convert")
-    public ResponseEntity<Double> getConvertedAmount(@RequestBody CurrencyWrapper curWrapper) {
+    public ResponseEntity<String> getConvertedAmount(@RequestBody CurrencyWrapper curWrapper) {
         Double result = service.convert(curWrapper);
-        return ResponseEntity.ok(result);
+        String strRes = df.format(result);
+        return ResponseEntity.ok(strRes);
     }
 
 }

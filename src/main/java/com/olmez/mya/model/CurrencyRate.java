@@ -5,6 +5,8 @@ import java.util.Objects;
 
 import org.springframework.lang.Nullable;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.olmez.mya.currency.parser.DoubleDeserializer;
 import com.olmez.mya.model.enums.CurrencyCode;
 
 import jakarta.persistence.Entity;
@@ -26,6 +28,10 @@ public class CurrencyRate extends BaseObject {
     private @Nullable Double gbp;
     private @Nullable Double jpy;
     private @Nullable Double tryy;
+    /**
+     * for test purposing {@link DoubleDeserializer}
+     */
+    @JsonSerialize(using = DoubleDeserializer.class)
     private @Nullable Double usd;
 
     public CurrencyRate(LocalDate date, @Nullable Double cad, @Nullable Double eur, @Nullable Double gbp,
