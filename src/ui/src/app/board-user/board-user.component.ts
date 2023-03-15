@@ -9,25 +9,28 @@ import { RateService } from '../rates/rate.service';
 })
 export class BoardUserComponent {
   curWrapper = new CurrencyWrapper();
-  result: number = 0.0;
+  result = '0.0';
 
   constructor(private rateServise: RateService) {}
 
   ngOnInit(): void {}
 
   async convert() {
-    console.log('Wrapper info:', this.curWrapper);
-    this.rateServise.getConvertedAmount(this.curWrapper).subscribe({
-      next: (data) => {
-        this.result = data;
-        console.log('Response data:', this.result);
-      },
-      error: (resError) => console.error(resError),
-      complete: () => console.info('complete'),
-    });
+    if (this.curWrapper.date != null) {
+      this.rateServise.getConvertedAmount(this.curWrapper).subscribe({
+        next: (data) => {
+          this.result = data;
+          console.log('Response data:', this.result);
+        },
+        error: (resError) => console.error(resError),
+        complete: () => console.info('complete'),
+      });
+    }
   }
 
-  clearVal() {
-    // TODO
+  reset() {
+    console.log('Wrapper info:', this.curWrapper);
+    this.curWrapper = new CurrencyWrapper();
+    this.result = '0.0';
   }
 }
