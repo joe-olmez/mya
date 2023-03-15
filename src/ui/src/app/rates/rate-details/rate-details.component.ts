@@ -17,11 +17,11 @@ export class RateDetailsComponent implements OnInit {
     private rateService: RateService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.id = this.route.snapshot.params['id'];
 
     this.rate = new CurrencyRate();
-    this.rateService.getRateById(this.id).subscribe((data) => {
+    (await this.rateService.getRateById(this.id)).subscribe((data) => {
       this.rate = data;
     });
   }

@@ -17,35 +17,43 @@ export class RateService {
     this.headerObj = this.authService.getHeaderObject();
   }
 
-  getRateList(): Observable<CurrencyRate[]> {
+  async getRateList(): Promise<Observable<CurrencyRate[]>> {
     let url = this.ratesURL;
     return this.http.get<CurrencyRate[]>(url, this.headerObj);
   }
 
-  createRate(rate: CurrencyRate): Observable<Object> {
+  async createRate(rate: CurrencyRate): Promise<Observable<Object>> {
     let url = this.ratesURL;
     return this.http.post(url, rate, this.headerObj);
   }
 
-  getRateById(id: number): Observable<CurrencyRate> {
+  async getRateById(id: number): Promise<Observable<CurrencyRate>> {
     let url = this.ratesURL + `/${id}`;
     console.log('Response update url: ', url);
     return this.http.get<CurrencyRate>(url, this.headerObj);
   }
 
-  updateRate(id: number, rate: CurrencyRate): Observable<Object> {
+  async updateRate(
+    id: number,
+    rate: CurrencyRate
+  ): Promise<Observable<Object>> {
     let url = this.ratesURL + `/${id}`;
     return this.http.put(url, rate, this.headerObj);
   }
 
-  deleteRate(id: number): Observable<Object> {
+  async deleteRate(id: number): Promise<Observable<Object>> {
     let url = this.ratesURL + `/${id}`;
     return this.http.delete(url, this.headerObj);
   }
 
-  getConvertedAmount(curWrapper: CurrencyWrapper) {
+  async getConvertedAmount(curWrapper: CurrencyWrapper) {
     let url = this.ratesURL + `/convert`;
     console.log('Convert url: ', url);
     return this.http.post<string>(url, curWrapper, this.headerObj);
+  }
+
+  async updateRatesByLastMonth() {
+    let url = this.ratesURL + `/update/last`;
+    return this.http.get(url, this.headerObj);
   }
 }

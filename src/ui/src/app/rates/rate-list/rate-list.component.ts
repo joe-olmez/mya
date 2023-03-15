@@ -17,8 +17,8 @@ export class RateListComponent implements OnInit {
     this.getRates();
   }
 
-  private getRates() {
-    this.rateService.getRateList().subscribe((data) => {
+  async getRates() {
+    (await this.rateService.getRateList()).subscribe((data) => {
       this.rates = data;
     });
   }
@@ -31,8 +31,8 @@ export class RateListComponent implements OnInit {
     this.router.navigate(['update-rate', id]);
   }
 
-  deleteRate(id: number) {
-    this.rateService.deleteRate(id).subscribe((data) => {
+  async deleteRate(id: number) {
+    (await this.rateService.deleteRate(id)).subscribe((data) => {
       console.log(data);
       this.getRates();
     });

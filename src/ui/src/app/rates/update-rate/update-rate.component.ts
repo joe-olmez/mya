@@ -18,10 +18,10 @@ export class UpdateRateComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.id = this.route.snapshot.params['id'];
 
-    this.rateService.getRateById(this.id).subscribe({
+    (await this.rateService.getRateById(this.id)).subscribe({
       next: (data) => {
         this.rate = data;
       },
@@ -30,8 +30,8 @@ export class UpdateRateComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    this.rateService.updateRate(this.id, this.rate).subscribe({
+  async onSubmit() {
+    (await this.rateService.updateRate(this.id, this.rate)).subscribe({
       next: (data) => {
         console.log('Received data', data);
         this.goToRateList();

@@ -17,7 +17,7 @@ export class BoardUserComponent {
 
   async convert() {
     if (this.curWrapper.date != null) {
-      this.rateServise.getConvertedAmount(this.curWrapper).subscribe({
+      (await this.rateServise.getConvertedAmount(this.curWrapper)).subscribe({
         next: (data) => {
           this.result = data;
           console.log('Response data:', this.result);

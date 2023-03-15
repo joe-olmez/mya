@@ -1,5 +1,6 @@
 package com.olmez.mya.controller;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
@@ -83,6 +84,12 @@ public class CurrencyRestController {
         Double result = service.convert(curWrapper);
         String strRes = df.format(result);
         return ResponseEntity.ok(strRes);
+    }
+
+    // GET
+    @GetMapping("/update/last")
+    public void updateRatesByLastMonth() throws InterruptedException, IOException {
+        service.update(LocalDate.now().minusMonths(1), LocalDate.now());
     }
 
 }
