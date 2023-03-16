@@ -2,6 +2,7 @@ package com.olmez.mya.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,7 +40,7 @@ public class UserRestController {
     @PostMapping()
     public ResponseEntity<Boolean> addUser(@RequestBody User user) {
         boolean res = userService.addUser(user);
-        return ResponseEntity.ok(res);
+        return (res) ? new ResponseEntity<>(HttpStatus.CREATED) : ResponseEntity.badRequest().body(res);
     }
 
     // GET By Id using @PathVariable
@@ -70,13 +71,6 @@ public class UserRestController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteUserById(@PathVariable Long id) {
         boolean res = userService.deleteUser(id);
-        return ResponseEntity.ok(res);
-    }
-
-    // DELETE using @RequestParam
-    @DeleteMapping("/")
-    public ResponseEntity<Boolean> deleteUser(@RequestBody User user) {
-        boolean res = userService.deleteUser(user.getId());
         return ResponseEntity.ok(res);
     }
 

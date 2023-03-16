@@ -2,6 +2,7 @@ package com.olmez.mya.springsecurity;
 
 import java.rmi.UnexpectedException;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,7 @@ public class AuthRestController {
     @PostMapping("/signup")
     public ResponseEntity<Boolean> signupUser(@RequestBody RegisterRequest request) {
         boolean res = authService.register(request);
-        return (res) ? ResponseEntity.ok(res) : ResponseEntity.badRequest().body(false);
+        return (res) ? new ResponseEntity<>(HttpStatus.CREATED) : ResponseEntity.badRequest().body(false);
     }
 
     @PostMapping("/signin")
