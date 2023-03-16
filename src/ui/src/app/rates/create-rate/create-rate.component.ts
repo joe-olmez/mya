@@ -13,16 +13,19 @@ export class CreateRateComponent implements OnInit {
 
   constructor(private rateService: RateService, private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // ignorable
+  }
 
-  saveRate() {
-    this.rateService.createRate(this.rate).subscribe(
-      (data) => {
+  async saveRate() {
+    (await this.rateService.createRate(this.rate)).subscribe({
+      next: (data) => {
         console.log(data);
         this.goToRateList();
       },
-      (error) => console.log(error)
-    );
+      error: (resError) => console.error(resError),
+      complete: () => console.info('complete'),
+    });
   }
 
   goToRateList() {

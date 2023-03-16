@@ -13,7 +13,9 @@ export class RegisterComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // ignorable
+  }
 
   onSubmit() {
     console.log(this.signup);

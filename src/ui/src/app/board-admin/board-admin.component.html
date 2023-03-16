@@ -1,8 +1,127 @@
 <div class="container">
-    <p></p>
-    <h3>{{ content }}</h3>
-    <p></p>
-    <p>Admin-Board page works!</p>
-    <p>Admin-Board page works!</p>
-    <p>Admin-Board page works!</p>
+    <br />
+    <div>
+        <h3>{{ content }}</h3>
+        <br />
+        <div>
+            <button (click)="getAllUsers()" class="btn btn-info">Users</button>
+            <button (click)="updateRates()" class="btn btn-info" style="margin-left: 10px">
+                Update Currency
+            </button>
+            <button (click)="goToConverter()" class="btn btn-info" style="margin-left: 10px">
+                Convertor
+            </button>
+        </div>
+    </div>
+    <br />
+
+    <!-- USERS TAB -->
+    <div *ngIf="showUsersTab">
+        <table class="table table-striped">
+            <caption>users tab </caption>
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users">
+                    <td>{{ user.firstName }}</td>
+                    <td>{{ user.lastName }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>
+                        <button (click)="updateUser(user)" class="btn btn-info">
+                            Update
+                        </button>
+                        <button (click)="deleteUser(user)" class="btn btn-danger" style="margin-left: 10px">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- CONVERTOR TAB-->
+    <div *ngIf="showConvertorTab">
+        <div class="main">
+            <form (ngSubmit)="convert()">
+                <div class="form-group">
+                    <label for="date"> Date : </label>
+                    <input [(ngModel)]="curWrapper.date" name="date" type="date" class="form-control searchBox"
+                        placeholder="date" />
+
+                    <label for="amount"> Amount to Convert : </label>
+                    <input [(ngModel)]="curWrapper.amount" type="text" class="form-control searchBox" name="amount" />
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">From</span>
+                            </div>
+                            <select class="form-control from" [(ngModel)]="curWrapper.from" name="from">
+                                <option value="">Select One …</option>
+                                <option value="CAD">CAD</option>
+                                <option value="EUR">EUR</option>
+                                <option value="GBP">GBP</option>
+                                <option value="JPY">JPY</option>
+                                <option value="TRY">TRY</option>
+                                <option value="USD">USD</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">To</span>
+                            </div>
+                            <select class="form-control to" [(ngModel)]="curWrapper.to" name="to">
+                                <option value="">Select One …</option>
+                                <option value="CAD">CAD</option>
+                                <option value="EUR">EUR</option>
+                                <option value="GBP">GBP</option>
+                                <option value="JPY">JPY</option>
+                                <option value="TRY">TRY</option>
+                                <option value="USD">USD</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Display the converted amount -->
+                <div class="col-sm-6">
+                    <h4>
+                        Converted:
+                        <span style="color: rgb(72, 255, 0)"> {{ result }} </span>
+                    </h4>
+                </div>
+
+                <div class="text-center">
+                    <!-- convert button -->
+                    <button class="btn btn-primary m-2" type="submit">Convert</button>
+
+                    <!-- reset button -->
+                    <button class="btn btn-primary m-2" (click)="reset()">Reset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- CURRENCY TAB -->
+    <div *ngIf="showCurrencyTab">
+        <h5> Currency rates has been updated. <br> Please click on Currencies tab on the navigation bar to see them.
+        </h5>
+    </div>
+
+
 </div>

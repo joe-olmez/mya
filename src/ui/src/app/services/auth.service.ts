@@ -101,12 +101,12 @@ export class AuthService {
     return { headers: valueHeader };
   }
 
-  addHeaderAndParam(key: string, value: any): object {
+  addHeaderAndParam(key: string, paramValue: any): object {
     let valueHeader = new HttpHeaders().set(
       HEADER_KEY,
       BEARER_KEY + this.getToken()
     );
-    let valueParam = new HttpParams().set(key, value);
+    let valueParam = new HttpParams().set(key, paramValue);
     return {
       headers: valueHeader,
       params: valueParam,

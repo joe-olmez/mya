@@ -49,13 +49,6 @@ public class UserRestController {
         return ResponseEntity.ok(user);
     }
 
-    // // GET By Id using @RequestParam
-    @GetMapping("/user")
-    public ResponseEntity<User> getUserByIdParam(@RequestParam Long id) {
-        User user = userService.getUserById(id);
-        return ResponseEntity.ok(user);
-    }
-
     // UPDATE
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
@@ -75,15 +68,15 @@ public class UserRestController {
 
     // DELETE using @PathVariable
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Boolean> deleteUserById(@PathVariable Long id) {
         boolean res = userService.deleteUser(id);
         return ResponseEntity.ok(res);
     }
 
     // DELETE using @RequestParam
     @DeleteMapping("/")
-    public ResponseEntity<Boolean> delete(@RequestParam Long id) {
-        boolean res = userService.deleteUser(id);
+    public ResponseEntity<Boolean> deleteUser(@RequestBody User user) {
+        boolean res = userService.deleteUser(user.getId());
         return ResponseEntity.ok(res);
     }
 

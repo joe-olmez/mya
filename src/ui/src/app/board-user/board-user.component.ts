@@ -13,11 +13,13 @@ export class BoardUserComponent {
 
   constructor(private rateServise: RateService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // ignorable
+  }
 
   async convert() {
     if (this.curWrapper.date != null) {
-      this.rateServise.getConvertedAmount(this.curWrapper).subscribe({
+      (await this.rateServise.getConvertedAmount(this.curWrapper)).subscribe({
         next: (data) => {
           this.result = data;
           console.log('Response data:', this.result);

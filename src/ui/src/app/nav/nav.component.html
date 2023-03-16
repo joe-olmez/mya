@@ -1,4 +1,4 @@
- <nav class="navbar navbar-expand navbar-dark bg-dark">
+<nav class="navbar navbar-expand navbar-dark bg-dark">
 
     <!-- LEFT part of Nav -->
     <ul class="navbar-nav mr-auto" routerLinkActive="active">
@@ -9,12 +9,10 @@
             <a href="/home" routerLink="home" class="nav-link">Home </a>
         </li>
         <li class="nav-item">
-            <a href="/admin" *ngIf="showAdmin" routerLink="admin"
-                class="nav-link">Board Admin</a>
+            <a href="/admin" *ngIf="showAdmin" routerLink="admin-board" class="nav-link">Board Admin</a>
         </li>
         <li class="nav-item">
-            <a href="/user" *ngIf="(isLoggedIn && !showAdmin)" routerLink="user"
-                class="nav-link">Board User</a>
+            <a href="/user" *ngIf="(isLoggedIn && !showAdmin)" routerLink="user-board" class="nav-link">Board User</a>
         </li>
         <li class="nav-item">
             <a href="/rates" *ngIf="isLoggedIn" routerLink="rates" class="nav-link">Currencies</a>
