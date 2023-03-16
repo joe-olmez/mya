@@ -13,7 +13,9 @@ export class BoardUserComponent {
 
   constructor(private rateServise: RateService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // ignorable
+  }
 
   async convert() {
     if (this.curWrapper.date != null) {

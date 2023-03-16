@@ -13,7 +13,9 @@ export class CreateRateComponent implements OnInit {
 
   constructor(private rateService: RateService, private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // ignorable
+  }
 
   async saveRate() {
     (await this.rateService.createRate(this.rate)).subscribe({

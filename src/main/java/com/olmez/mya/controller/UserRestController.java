@@ -49,13 +49,6 @@ public class UserRestController {
         return ResponseEntity.ok(user);
     }
 
-    // // GET By Id using @RequestParam
-    @GetMapping("/user")
-    public ResponseEntity<User> getUserByIdParam(@RequestParam Long id) {
-        User user = userService.getUserById(id);
-        return ResponseEntity.ok(user);
-    }
-
     // UPDATE
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {

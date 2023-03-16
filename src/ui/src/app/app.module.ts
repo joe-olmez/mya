@@ -19,6 +19,7 @@ import { RateListComponent } from './rates/rate-list/rate-list.component';
 import { UpdateRateComponent } from './rates/update-rate/update-rate.component';
 import { RegisterComponent } from './register/register.component';
 import { authInterceptorProviders } from './services/auth.interceptor';
+import { UpdateUserComponent } from './board-admin/update-user/update-user.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { authInterceptorProviders } from './services/auth.interceptor';
     UpdateRateComponent,
     CreateRateComponent,
     RateDetailsComponent,
+    UpdateUserComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [authInterceptorProviders],

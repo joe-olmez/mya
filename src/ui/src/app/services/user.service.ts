@@ -29,8 +29,9 @@ export class UserService {
     return this.http.get(url, httpOptions);
   }
 
-  async updateUser(user: User) {
-    return this.http.put(USER_URL, user, this.headerObj);
+  async getUserById(id: number): Promise<Observable<User>> {
+    let url = USER_URL + `/${id}`;
+    return this.http.get<User>(url, this.headerObj);
   }
 
   async updatePassword(passWrapper: PasswordWrapper) {
@@ -42,12 +43,16 @@ export class UserService {
     return this.http.get<User[]>(USER_URL, this.headerObj);
   }
 
-  updateUserById(id: number, user: User): Observable<Object> {
+  async updateUser(user: User) {
+    return this.http.put(USER_URL, user, this.headerObj);
+  }
+
+  async updateUserById(id: number, user: User): Promise<Observable<Object>> {
     let url = USER_URL + `/${id}`;
     return this.http.put(url, user, this.headerObj);
   }
 
-  deleteUser(user: User) {
+  async deleteUser(user: User) {
     let url = USER_URL + `/${user.id}`;
     return this.http.delete(url, this.headerObj);
   }

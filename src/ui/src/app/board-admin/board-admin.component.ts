@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CurrencyWrapper } from '../model/currency.wrapper';
 import { User } from '../model/user';
 import { RateService } from '../rates/rate.service';
@@ -22,7 +23,8 @@ export class BoardAdminComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private rateService: RateService
+    private rateService: RateService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -74,19 +76,12 @@ export class BoardAdminComponent implements OnInit {
   }
 
   async updateUser(user: User) {
-    (await this.userService.updateUser(this.user)).subscribe({
-      next: (d) => {
-        console.log('Updated');
-        this.getAllUsers();
-      },
-      error: (resError) => console.error(resError),
-      complete: () => console.info('complete'),
-    });
+    this.router.navigate(['update-user', user.id]);
   }
 
-  deleteUser(user: User) {
-    this.userService.deleteUser(user).subscribe((data) => {
-      console.log(data);
+  async deleteUser(user: User) {
+    (await this.userService.deleteUser(user)).subscribe((resData) => {
+      console.log(resData);
       this.getAllUsers();
     });
   }
