@@ -5,6 +5,8 @@ import { UpdateProfileComponent } from './profile/update-profile/update-profile.
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { UpdateUserComponent } from './board-admin/update-user/update-user.component';
 import { BoardUserComponent } from './board-user/board-user.component';
+import { EmployeeListComponent } from './employees/employee-list/employee-list.component';
+import { UpdateEmpComponent } from './employees/update-emp/update-emp.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -32,6 +34,9 @@ const routes: Routes = [
   { path: 'rate-details/:id', component: RateDetailsComponent },
   //
   { path: 'update-user/:id', component: UpdateUserComponent },
+  //
+  { path: 'employees', component: EmployeeListComponent },
+  { path: 'update-emp/:id', component: UpdateEmpComponent },
 ];
 
 @NgModule({

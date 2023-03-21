@@ -53,6 +53,7 @@
     <div *ngIf="showConvertorTab">
         <div class="main">
             <form (ngSubmit)="convert()">
+
                 <div class="form-group">
                     <label for="date"> Date : </label>
                     <input [(ngModel)]="curWrapper.date" name="date" type="date" class="form-control searchBox"

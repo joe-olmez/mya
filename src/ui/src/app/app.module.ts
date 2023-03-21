@@ -6,7 +6,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
+import { UpdateUserComponent } from './board-admin/update-user/update-user.component';
 import { BoardUserComponent } from './board-user/board-user.component';
+import { EmployeeListComponent } from './employees/employee-list/employee-list.component';
+import { UpdateEmpComponent } from './employees/update-emp/update-emp.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { NavComponent } from './nav/nav.component';
@@ -19,8 +22,6 @@ import { RateListComponent } from './rates/rate-list/rate-list.component';
 import { UpdateRateComponent } from './rates/update-rate/update-rate.component';
 import { RegisterComponent } from './register/register.component';
 import { authInterceptorProviders } from './services/auth.interceptor';
-import { UpdateUserComponent } from './board-admin/update-user/update-user.component';
-import { EmployeeListComponent } from './employees/employee-list/employee-list.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { EmployeeListComponent } from './employees/employee-list/employee-list.c
     RateDetailsComponent,
     UpdateUserComponent,
     EmployeeListComponent,
+    UpdateEmpComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [authInterceptorProviders],

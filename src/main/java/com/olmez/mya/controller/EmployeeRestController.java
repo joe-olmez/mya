@@ -49,12 +49,13 @@ public class EmployeeRestController {
         return empService.deleteEmployeeById(id);
     }
 
-    // Extra
+    // Extra GET
     @GetMapping("/{id}")
     public Employee getEmployeeById(@PathVariable("id") Long id) {
         return empService.getEmployeeById(id);
     }
 
+    // Extra PUT
     @PutMapping("/update")
     public Long updateEmployee(@RequestBody Employee model) {
         return empService.updateEmployee(model);

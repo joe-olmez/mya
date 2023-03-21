@@ -1,6 +1,7 @@
 package com.olmez.mya.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -31,7 +32,7 @@ class EmployeeServiceImplTest {
     @BeforeEach
     public void setup() {
         emp = new MockEmployee("Employee");
-        emp = new MockEmployee("Employee2");
+        emp2 = new MockEmployee("Employee2");
     }
 
     @Test
@@ -50,6 +51,7 @@ class EmployeeServiceImplTest {
     void testUpdateEmployee() {
         // arrange
         when(empRepository.getById(emp.getId())).thenReturn(emp);
+        when(empRepository.save(any(Employee.class))).thenReturn(emp);
         var newEmp = new MockEmployee("New Employee");
         // act
         var updated = service.updateEmployee(emp.getId(), newEmp);
