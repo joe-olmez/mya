@@ -1,5 +1,7 @@
 package com.olmez.mya.model;
 
+import java.util.Objects;
+
 import com.olmez.mya.model.enums.UserType;
 import com.olmez.mya.utility.StringUtility;
 
@@ -54,23 +56,12 @@ public class User extends BaseObject {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-
-		if (!(obj instanceof User))
-			return false;
-
-		User other = (User) obj;
-		return (other.getId() != null) && (id != null) && (other.getId().equals(id));
+		return super.equals(obj);
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 7;
-		int result = 11;
-		result = prime * result + ((username == null) ? 0 : username.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		return result;
+		return Objects.hash(id, username, email);
 	}
 
 }

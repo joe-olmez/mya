@@ -2,9 +2,7 @@ package com.olmez.mya.services.impl;
 
 import java.util.List;
 
-
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.olmez.mya.model.Employee;
 import com.olmez.mya.repositories.EmployeeRepository;
@@ -21,55 +19,66 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository empRepository;
 
     @Override
-    @Transactional
-    public List<Employee> getEmployees() {
+    public Long addEmployee(Employee emp) {
+        if (emp == null) {
+            return null;
+        }
+        emp = empRepository.save(emp);
+        return emp.getId();
+    }
+
+    @Override
+    public List<Employee> getAllEmployees() {
         return empRepository.findAll();
     }
 
     @Override
-    @Transactional
-    public boolean addEmployee(Employee newEmployee) {
-        if (newEmployee == null) {
-            return false;
-        }
-        newEmployee = empRepository.save(newEmployee);
-        return newEmployee.getId() != null;
+    public Employee getEmployeeById(Long empId) {
+        return (empId != null) ? empRepository.getById(empId) : null;
     }
 
     @Override
-    @Transactional
-    public Employee getEmployeeById(Long empId) {
-        if (empId == null) {
+    public Long updateEmployee(Employee givenEmp) {
+        if ((givenEmp == null) || (givenEmp.getId() == null)) {
             return null;
         }
-        return empRepository.getById(empId);
+        Employee existing = getEmployeeById(givenEmp.getId());
+        if (existing == null) {
+            return null;
+        }
+        return update(existing, givenEmp).getId();
     }
 
     @Override
-    @Transactional
-    public boolean deleteEmployee(Long empId) {
+    public Long updateEmployee(Long id, Employee givenEmp) {
+        if ((id == null) || (givenEmp == null)) {
+            return null;
+        }
+        Employee existing = getEmployeeById(id);
+        if (existing == null) {
+            return null;
+        }
+        return update(existing, givenEmp).getId();
+    }
+
+    private Employee update(Employee existing, Employee given) {
+        existing.setName(given.getName());
+        existing.setEmail(given.getEmail());
+        existing.setDob(given.getDob());
+        existing.setSalaried(given.isSalaried());
+        existing = empRepository.save(existing);
+        log.info("Updated! {}", existing);
+        return existing;
+    }
+
+    @Override
+    public boolean deleteEmployeeById(Long empId) {
         Employee existing = getEmployeeById(empId);
         if (existing == null) {
             return false;
         }
         empRepository.deleted(existing);
-        log.info("Deleted! {}", existing);
         return true;
-    }
-
-    @Override
-    @Transactional
-    public Employee updateEmployee(Long id, Employee givenEmployee) {
-        Employee existing = getEmployeeById(id);
-        if (existing == null) {
-            return null;
-        }
-
-        existing.setName(givenEmployee.getName());
-        existing.setEmail(givenEmployee.getEmail());
-        empRepository.save(existing);
-        log.info("Updated! {}", existing);
-        return existing;
     }
 
 }

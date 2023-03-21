@@ -16,12 +16,25 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonIdentityInfo(generator = PropertyGenerator.class, property = "id")
-public class BaseObject implements Serializable {
+public class BaseObject implements Serializable, Comparable<BaseObject> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
     protected boolean deleted = false;
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    @Override
+    public int compareTo(BaseObject obj) {
+        return hasId(obj) ? this.id.compareTo(obj.getId()) : 0;
+    }
+
+    private boolean hasId(BaseObject obj) {
+        return (obj != null) && (id != null) && (obj.getId() != null);
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -33,16 +46,14 @@ public class BaseObject implements Serializable {
             return false;
         }
         BaseObject bo = (BaseObject) obj;
-        return (bo.getId() != null) && (this.id != null) && (this.id.equals(bo.getId()));
+        return hasId(bo) && (this.id.equals(bo.getId()));
     }
 
     @Override
     public int hashCode() {
-        return (id != null) ? id.hashCode() : 0;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
+        final int prime = 31;
+        int result = 79;
+        return prime * result + ((id == null) ? 0 : id.hashCode());
     }
 
 }

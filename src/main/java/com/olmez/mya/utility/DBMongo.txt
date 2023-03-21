@@ -1,0 +1,33 @@
+package com.olmez.mya.utility;
+
+import com.mongodb.MongoException;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+public class DBMongo {
+
+    private static final MongoClient mongoClient;
+    private static final MongoDatabase db;
+
+    static {
+        try {
+            mongoClient = MongoClients.create("mongodb://localhost:27017");
+            db = mongoClient.getDatabase("core");
+            log.info("Connection to MongoDB successful");
+        } catch (MongoException e) {
+            log.error("Failed to connect to MongoDB. {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    private DBMongo() {
+    }
+
+    public static MongoDatabase getDatabase() {
+        return db;
+    }
+}

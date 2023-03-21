@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 
-import com.olmez.mya.MyaApplicationTest;
+import com.olmez.mya.MyaTestApplication;
 import com.olmez.mya.model.Employee;
 import com.olmez.mya.services.TestRepoCleanerService;
 import com.olmez.mya.utility.TestUtility;
@@ -17,7 +17,7 @@ import com.olmez.mya.utility.TestUtility;
 /**
  * Test classes use test database!
  */
-@SpringBootTest(classes = MyaApplicationTest.class)
+@SpringBootTest(classes = MyaTestApplication.class)
 @TestPropertySource(TestUtility.SOURCE_PROPERTIES)
 @ActiveProfiles(TestUtility.PROFILE)
 class EmployeeRepositoryTest {

@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.olmez.mya.currency.CurrencyService;
 import com.olmez.mya.model.User;
-import com.olmez.mya.model.securitydata.UserRoles;
 import com.olmez.mya.repositories.UserRepository;
+import com.olmez.mya.utility.UserRoles;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

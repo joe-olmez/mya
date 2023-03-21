@@ -1,0 +1,28 @@
+package com.olmez.mya.utility;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
+import org.postgresql.ds.PGSimpleDataSource;
+
+public class DBPostgreSql {
+    private static final DataSource dataSource;
+
+    static {
+        PGSimpleDataSource db = new PGSimpleDataSource();
+        db.setURL("jdbc:postgresql://localhost/core");
+        db.setUser("postgres");
+        db.setPassword("1234");
+        dataSource = db;
+    }
+
+    private DBPostgreSql() {
+    }
+
+    public static Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
+    }
+
+}

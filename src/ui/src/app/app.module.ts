@@ -20,6 +20,7 @@ import { UpdateRateComponent } from './rates/update-rate/update-rate.component';
 import { RegisterComponent } from './register/register.component';
 import { authInterceptorProviders } from './services/auth.interceptor';
 import { UpdateUserComponent } from './board-admin/update-user/update-user.component';
+import { EmployeeListComponent } from './employees/employee-list/employee-list.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { UpdateUserComponent } from './board-admin/update-user/update-user.compo
     CreateRateComponent,
     RateDetailsComponent,
     UpdateUserComponent,
+    EmployeeListComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [authInterceptorProviders],
