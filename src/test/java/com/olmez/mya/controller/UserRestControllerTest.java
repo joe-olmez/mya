@@ -12,7 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MvcResult;
 
-import com.olmez.mya.MyaApplicationTest;
+import com.olmez.mya.MyaTestApplication;
 import com.olmez.mya.model.User;
 import com.olmez.mya.repositories.UserRepository;
 import com.olmez.mya.services.TestRepoCleanerService;
@@ -21,7 +21,7 @@ import com.olmez.mya.utility.TestUtility;
 /**
  * Test classes use test database!
  */
-@SpringBootTest(classes = MyaApplicationTest.class)
+@SpringBootTest(classes = MyaTestApplication.class)
 @TestPropertySource(TestUtility.SOURCE_PROPERTIES)
 @ActiveProfiles(TestUtility.PROFILE)
 @AutoConfigureMockMvc

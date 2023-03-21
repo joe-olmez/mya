@@ -1,6 +1,7 @@
 package com.olmez.mya.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.olmez.mya.model.Employee;
+import com.olmez.mya.model.mock.MockEmployee;
 import com.olmez.mya.repositories.EmployeeRepository;
 import com.olmez.mya.services.impl.EmployeeServiceImpl;
 
@@ -29,10 +31,8 @@ class EmployeeServiceImplTest {
 
     @BeforeEach
     public void setup() {
-        emp = new Employee("First", "Last");
-        emp.setId(1L);
-        emp2 = new Employee("Employee", "Sec");
-        emp2.setId(2L);
+        emp = new MockEmployee("Employee");
+        emp2 = new MockEmployee("Employee2");
     }
 
     @Test
@@ -40,9 +40,9 @@ class EmployeeServiceImplTest {
         // arrange
         when(empRepository.findAll()).thenReturn(List.of(emp, emp2));
         // act
-        var employees = service.getEmployees();
+        var employees = service.getAllEmployees();
         // assert
-        assertThat(employees).isNotEmpty();
+        assertThat(employees).hasSize(2);
         assertThat(employees.get(0)).isEqualTo(emp);
         assertThat(employees.get(1)).isEqualTo(emp2);
     }
@@ -51,12 +51,12 @@ class EmployeeServiceImplTest {
     void testUpdateEmployee() {
         // arrange
         when(empRepository.getById(emp.getId())).thenReturn(emp);
-        Employee newEmp = new Employee("New Name", "employee@email.com");
+        when(empRepository.save(any(Employee.class))).thenReturn(emp);
+        var newEmp = new MockEmployee("New Employee");
         // act
         var updated = service.updateEmployee(emp.getId(), newEmp);
         // assert
-        assertThat(updated.getId()).isEqualTo(emp.getId());
-        assertThat(updated.getName()).isEqualTo(newEmp.getName());
+        assertThat(updated).isEqualTo(emp.getId());
     }
 
 }

@@ -6,14 +6,21 @@ import com.olmez.mya.model.Employee;
 
 public interface EmployeeService {
 
-    List<Employee> getEmployees();
+    // Create
+    Long addEmployee(Employee emp);
 
-    boolean addEmployee(Employee newEmployee);
+    // Read-I
+    List<Employee> getAllEmployees();
 
+    // Read-II
     Employee getEmployeeById(Long empId);
 
-    boolean deleteEmployee(Long empId);
+    // Update-I
+    Long updateEmployee(Employee givenEmp);
 
-    Employee updateEmployee(Long existingEmpId, Employee givenEmployee);
+    // Update-II
+    Long updateEmployee(Long existingEmpId, Employee givenEmp);
 
+    // Delete
+    boolean deleteEmployeeById(Long empId);
 }

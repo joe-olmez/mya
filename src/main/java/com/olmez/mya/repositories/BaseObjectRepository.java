@@ -20,6 +20,11 @@ public interface BaseObjectRepository<T extends BaseObject> extends JpaRepositor
     @Query("SELECT COUNT(t) FROM #{#entityName} t WHERE t.deleted = false")
     long countAll();
 
+    /**
+     * It sets 1 to deleted field instead of delete from database
+     * 
+     * @param object
+     */
     default void deleted(T object) {
         object.setDeleted(true);
         save(object);

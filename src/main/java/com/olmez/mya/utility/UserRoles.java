@@ -1,4 +1,4 @@
-package com.olmez.mya.model.securitydata;
+package com.olmez.mya.utility;
 
 import com.olmez.mya.model.User;
 import com.olmez.mya.model.enums.UserType;

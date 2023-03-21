@@ -27,6 +27,14 @@
             <input type="text" class="form-control" id="role" name="role" [(ngModel)]="user.role">
         </div>
 
+        <div class="form-group">
+            <label for="role"> Salaried</label>
+            <select id="role" name="role" class="form-control" [(ngModel)]="user.role">
+                <option value="User">User</option>
+                <option value="Admin">Admin</option>
+            </select>
+        </div>
+
         <button class="btn btn-success" type="submit">Submit</button>
         &nbsp;&nbsp;<a href="/admin-board" (click)="onBack()" class="btn btn-secondary">Back</a>
 

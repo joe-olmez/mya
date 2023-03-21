@@ -1,0 +1,66 @@
+<div class="container">
+    <br>
+    <h4> Employees</h4> <br>
+
+    <!-- SECTION-START: Create a new Employee -->
+    <button (click)="toggleCreateButton()" class="btn btn-info"> Add New</button> <br>
+    <div *ngIf="displayCreateButton">
+        <form (ngSubmit)="createEmployee()">
+
+            <div class="form-group">
+                <label> Name</label>
+                <input type="text" id="name" name="name" class="form-control" [(ngModel)]="emp.name">
+            </div>
+            <div class="form-group">
+                <label> Email</label>
+                <input type="text" id="email" name="email" class="form-control" [(ngModel)]="emp.email">
+            </div>
+            <div class="form-group">
+                <label> Date of Birth</label>
+                <input type="date" id="dob" name="dob" class="form-control" [(ngModel)]="emp.dob">
+            </div>
+            <div class="form-group">
+                <label for="salaried"> Salaried</label>
+                <select id="salaried" name="salaried" class="form-control" [(ngModel)]="emp.salaried">
+                    <option value="True">True</option>
+                    <option value="False">False</option>
+                </select>
+            </div>
+            <button class="btn btn-success" type="submit">Submit</button>
+            &nbsp;&nbsp;<a href="/employees" (click)="onBack()" class="btn btn-secondary">Back</a>
+        </form>
+    </div>
+    <!-- SECTION-END: Create a new Employee -->
+
+    <br>
+
+    <!-- SECTION-START: Employee List-->
+    <table *ngIf="!displayCreateButton" class="table table-striped">
+        <caption> Employees</caption>
+
+        <thead>
+            <tr>
+                <th> Id</th>
+                <th> Name </th>
+                <th> Email</th>
+                <th> Date of Birth </th>
+                <th> Salaried </th>
+                <th> Action </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let emp of empList">
+                <td> {{ emp.id }} </td>
+                <td> {{ emp.name }} </td>
+                <td> {{ emp.email }} </td>
+                <td> {{ emp.dob }} </td>
+                <td> {{ emp.salaried }} </td>
+                <td>
+                    <button (click)="goToUpdateEmp(emp.id)" class="btn btn-info"> Update</button>
+                    <button (click)="deleteEmp(emp.id)" class="btn btn-danger" style="margin-left: 10px">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- SECTION-END: Employee List-->
+</div>

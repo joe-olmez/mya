@@ -2,6 +2,7 @@ package com.olmez.mya.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,40 +18,47 @@ import com.olmez.mya.services.EmployeeService;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/emp")
+@RequestMapping("/api/v1/employees")
+@CrossOrigin(origins = "http://localhost:4200") // This allows to talk to port:5000 (ui-backend)
 @AllArgsConstructor
 public class EmployeeRestController {
 
     private final EmployeeService empService;
 
-    // CREATE = POST
+    // POST
     @PostMapping("/add")
-    public boolean addEmployee(@RequestBody Employee employee) {
+    public Long addEmployee(@RequestBody Employee employee) {
         return empService.addEmployee(employee);
     }
 
-    // READ = GET
+    // GET
     @GetMapping("/all")
-    public List<Employee> getEmployees() {
-        return empService.getEmployees();
+    public List<Employee> getAllEmployees() {
+        return empService.getAllEmployees();
     }
 
-    // UPDATE = PUT
+    // PUT
     @PutMapping("/update/{id}")
-    public Employee updateEmployee(@PathVariable("id") Long id, @RequestBody Employee model) {
+    public Long updateEmployee(@PathVariable("id") Long id, @RequestBody Employee model) {
         return empService.updateEmployee(id, model);
     }
 
-    // DELETE = DELETE
+    // DELETE
     @DeleteMapping("/delete/{id}")
-    public boolean deleteEmployee(@PathVariable("id") Long id) {
-        return empService.deleteEmployee(id);
+    public boolean deleteEmployeeById(@PathVariable("id") Long id) {
+        return empService.deleteEmployeeById(id);
     }
 
-    //
+    // Extra GET
     @GetMapping("/{id}")
     public Employee getEmployeeById(@PathVariable("id") Long id) {
         return empService.getEmployeeById(id);
+    }
+
+    // Extra PUT
+    @PutMapping("/update")
+    public Long updateEmployee(@RequestBody Employee model) {
+        return empService.updateEmployee(model);
     }
 
 }

@@ -32,14 +32,14 @@ public class MathHelper {
 
 	public Double getValue(HelperValue valueType) {
 		switch (valueType) {
-		case AVERAGE:
-			return getAverageDouble();
-		case MAX:
-			return getMax();
-		case MIN:
-			return getMin();
-		case TOTAL:
-			return getTotal();
+			case AVERAGE:
+				return getAverageDouble();
+			case MAX:
+				return getMax();
+			case MIN:
+				return getMin();
+			case TOTAL:
+				return getTotal();
 		}
 		return null;
 	}

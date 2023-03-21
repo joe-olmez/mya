@@ -52,15 +52,11 @@ public class CurrencyRate extends BaseObject {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof CurrencyRate)) {
-            return false;
-        }
-        CurrencyRate other = (CurrencyRate) obj;
-        return (other.date.equals(date));
+        return super.equals(obj);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(date);
+        return Objects.hash(id, date);
     }
 }

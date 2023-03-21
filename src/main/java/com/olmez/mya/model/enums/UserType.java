@@ -1,6 +1,6 @@
 package com.olmez.mya.model.enums;
 
-import com.olmez.mya.model.securitydata.UserRoles;
+import com.olmez.mya.utility.UserRoles;
 
 public enum UserType {
 
