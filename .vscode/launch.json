@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MyaTestApplication",
+            "request": "launch",
+            "mainClass": "com.olmez.mya.MyaTestApplication",
+            "projectName": "mya"
+        },
+        {
+            "type": "java",
             "name": "Launch MyaApplication",
             "request": "launch",
             "mainClass": "com.olmez.mya.MyaApplication",

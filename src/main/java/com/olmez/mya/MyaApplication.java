@@ -1,15 +1,14 @@
 package com.olmez.mya;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.olmez.mya.currency.CurrencyService;
 import com.olmez.mya.model.User;
-import com.olmez.mya.repositories.UserRepository;
-import com.olmez.mya.utility.UserRoles;
+import com.olmez.mya.repo.UserRepository;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 public class MyaApplication implements CommandLineRunner {
 
 	private final UserRepository userRepository;
-	private final CurrencyService currencyService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(MyaApplication.class, args);
@@ -29,13 +27,11 @@ public class MyaApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		List<User> users = userRepository.findAll();
-		if (users.isEmpty()) {
-			userRepository.save(UserRoles.createTempUser());
+		if (users == null) {
+			throw new SQLException("Failed to connect the database");
 		}
 		log.info("*Database connection is OK! {} users", users.size());
-		log.info("**Core application has started! * * *");
-		currencyService.checkLastWeek();
-
+		log.info("*Mya application has started!");
 	}
 
 }

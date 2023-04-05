@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.olmez.mya.model.Employee;
-import com.olmez.mya.repositories.EmployeeRepository;
+import com.olmez.mya.repo.EmployeeRepository;
 import com.olmez.mya.services.EmployeeService;
 
 import lombok.RequiredArgsConstructor;

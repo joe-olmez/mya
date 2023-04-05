@@ -1,4 +1,4 @@
-package com.olmez.mya.repositories;
+package com.olmez.mya.repo;
 
 import java.time.LocalDate;
 import java.util.List;

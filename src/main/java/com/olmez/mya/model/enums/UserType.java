@@ -16,11 +16,7 @@ public enum UserType {
 	/**
 	 * Standard user
 	 */
-	REGULAR("Regular User", UserRoles.ROLE_USER),
-	/**
-	 * Team
-	 */
-	TEAM("Team", UserRoles.ROLE_USER);
+	REGULAR("Regular User", UserRoles.ROLE_USER);
 
 	private final String name;
 	private final String role;
@@ -36,6 +32,11 @@ public enum UserType {
 
 	public String getRole() {
 		return role;
+	}
+
+	@Override
+	public String toString() {
+		return name;
 	}
 
 }

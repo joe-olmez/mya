@@ -6,22 +6,25 @@ import java.time.LocalDate;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.olmez.mya.MyaTestApplication;
 import com.olmez.mya.model.CurrencyRate;
+import com.olmez.mya.repo.CurrencyRateRepository;
 import com.olmez.mya.services.TestRepoCleanerService;
 import com.olmez.mya.utility.TestUtility;
 
 /**
  * Test classes use test database!
  */
-@SpringBootTest(classes = MyaTestApplication.class)
-@TestPropertySource(TestUtility.SOURCE_PROPERTIES)
-@ActiveProfiles(TestUtility.PROFILE)
+@SpringBootTest
+@ExtendWith(SpringExtension.class)
+@ActiveProfiles(TestUtility.TEST_PROFILE)
+@TestPropertySource(TestUtility.TEST_SOURCE)
 class CurrencyInfoRepositoryTest {
 
 	@Autowired

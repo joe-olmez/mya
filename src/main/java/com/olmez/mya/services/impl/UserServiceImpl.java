@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.olmez.mya.model.PasswordWrapper;
 import com.olmez.mya.model.User;
-import com.olmez.mya.repositories.UserRepository;
+import com.olmez.mya.repo.UserRepository;
 import com.olmez.mya.services.UserService;
 import com.olmez.mya.springsecurity.config.UserDetailsImpl;
 import com.olmez.mya.springsecurity.securityutiliy.PasswordUtility;
