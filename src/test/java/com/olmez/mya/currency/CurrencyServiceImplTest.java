@@ -16,7 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.olmez.mya.model.CurrencyRate;
 import com.olmez.mya.model.TestMode;
 import com.olmez.mya.model.enums.CurrencyCode;
-import com.olmez.mya.repositories.CurrencyRateRepository;
+import com.olmez.mya.repo.CurrencyRateRepository;
 
 @ExtendWith(MockitoExtension.class)
 class CurrencyServiceImplTest {

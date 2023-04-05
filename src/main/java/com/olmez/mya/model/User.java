@@ -6,14 +6,12 @@ import com.olmez.mya.model.enums.UserType;
 import com.olmez.mya.utility.StringUtility;
 
 import jakarta.persistence.Entity;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class User extends BaseObject {
 

@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.olmez.mya.model.User;
-import com.olmez.mya.repositories.UserRepository;
+import com.olmez.mya.repo.UserRepository;
 import com.olmez.mya.services.impl.UserServiceImpl;
 
 @ExtendWith(MockitoExtension.class)

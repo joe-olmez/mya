@@ -1,58 +1,60 @@
 package com.olmez.mya.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpMethod;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.web.servlet.MvcResult;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 
-import com.olmez.mya.MyaTestApplication;
 import com.olmez.mya.model.User;
-import com.olmez.mya.repositories.UserRepository;
-import com.olmez.mya.services.TestRepoCleanerService;
-import com.olmez.mya.utility.TestUtility;
+import com.olmez.mya.services.UserService;
 
-/**
- * Test classes use test database!
- */
-@SpringBootTest(classes = MyaTestApplication.class)
-@TestPropertySource(TestUtility.SOURCE_PROPERTIES)
-@ActiveProfiles(TestUtility.PROFILE)
-@AutoConfigureMockMvc
+@ExtendWith(MockitoExtension.class)
 class UserRestControllerTest extends BaseTestRestController {
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private TestRepoCleanerService cleanerService;
+    @InjectMocks
+    private UserRestController controller;
+    @Mock
+    private UserService userService;
+
+    private User user = new User("First", "Last", "uname", "email");
+    private User user2 = new User("First2", "Last2", "uname2", "email2");
 
     @BeforeEach
     void setup() {
-        cleanerService.clear();
+        doMockRequest();
     }
 
     @Test
-    void testGetAllUsers_NoAuth_Expected_403() throws Exception {
+    void testGetAllUsers() {
         // adjust
-        User user = new User("First", "Last", "uname", "email");
-        user = userRepository.save(user);
-        User user2 = new User("First2", "Last2", "uname2", "email2");
-        user2 = userRepository.save(user2);
-
+        when(userService.getUsers()).thenReturn(List.of(user, user2));
         // act
-        MvcResult result = doMockRequest("/api/v1/users", HttpMethod.GET);
-        int res = getResponseStatus(result);
-        String context = getResponseAsString(result);
-
+        var resEntity = controller.getAllUsers();
         // assert
-        assertThat(res).isEqualTo(403);
-        assertThat(context).isEmpty();
+        assertThat(resEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        var body = resEntity.getBody();
+        assertThat(body).hasSize(2).contains(user, user2);
+    }
+
+    @Test
+    void testAddUser() {
+        // adjust
+        when(userService.addUser(any(User.class))).thenReturn(true);
+        // act
+        User newUser = new User("NewName", "NewLast", "NewUname", "new@email.com");
+        var resEntity = controller.addUser(newUser);
+        // assert
+        assertThat(resEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+
     }
 
 }
