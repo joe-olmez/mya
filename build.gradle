@@ -37,11 +37,22 @@ dependencies {
 
 	annotationProcessor 'org.projectlombok:lombok'
 	compileOnly 'org.projectlombok:lombok'
-
-	//testImplementation 'com.h2database:h2:1.3.148'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// for test db
+	runtimeOnly 'com.h2database:h2'
 }
 
+// profile name for unit tests
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// path for application-test.yml
+sourceSets {
+    test {
+        resources {
+            srcDirs = ["src/test/resources"]
+        }
+    }
+}
+

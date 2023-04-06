@@ -1,0 +1,28 @@
+### H2 Database for unit tests ###
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  jpa:
+    spring:
+      jpa:
+        database-platform: org.hibernate.dialect.H2Dialect
+        hibernate:
+          ddl-auto: create-drop
+#
+#
+# url: jdbc:h2:file:/data/demo (to keep data)
+#
+#
+#
+# spring.datasource.url=jdbc:h2:mem:testdb
+# spring.datasource.username=sa
+# spring.datasource.password=
+# spring.datasource.driverClassName=org.h2.Driver
+# spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+# spring.jpa.defer-datasource-initialization=true
+# spring.jpa.hibernate.ddl-auto=update
+# spring.h2.console.enabled=true (for using it on console)
+

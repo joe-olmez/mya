@@ -1,4 +1,4 @@
-package com.olmez.mya.repositories;
+package com.olmez.mya.repo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -11,15 +11,11 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.olmez.mya.MyaTestApplication;
 import com.olmez.mya.model.User;
-import com.olmez.mya.repo.UserRepository;
-import com.olmez.mya.services.TestRepoCleanerService;
 import com.olmez.mya.utility.TestUtility;
 
-/**
- * Test classes use test database!
- */
-@SpringBootTest
+@SpringBootTest(classes = MyaTestApplication.class)
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles(TestUtility.TEST_PROFILE)
 @TestPropertySource(TestUtility.TEST_SOURCE)
@@ -27,15 +23,17 @@ class UserRepositoryTest {
 
     @Autowired
     private UserRepository repository;
-    @Autowired
-    private TestRepoCleanerService cleanerService;
+    // @Autowired
+    // private TestRepoCleanerService cleanerService;
 
     private User user = new User("First", "Last", "uname", "email");
     private User user2 = new User("First2", "Last2", "uname2", "email2");
 
     @BeforeEach
     public void setup() {
-        cleanerService.clear();
+        var list = repository.findAll();
+        // cleanerService.clear();
+        System.out.println();
     }
 
     @Test

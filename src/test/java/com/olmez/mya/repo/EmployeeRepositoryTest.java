@@ -1,4 +1,4 @@
-package com.olmez.mya.repositories;
+package com.olmez.mya.repo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -12,13 +12,9 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.olmez.mya.model.Employee;
-import com.olmez.mya.repo.EmployeeRepository;
 import com.olmez.mya.services.TestRepoCleanerService;
 import com.olmez.mya.utility.TestUtility;
 
-/**
- * Test classes use test database!
- */
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles(TestUtility.TEST_PROFILE)
