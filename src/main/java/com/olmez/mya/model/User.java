@@ -6,27 +6,28 @@ import com.olmez.mya.model.enums.UserType;
 import com.olmez.mya.utility.StringUtility;
 
 import jakarta.persistence.Entity;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class User extends BaseObject {
 
-	private @NonNull String firstName;
-	private @NonNull String lastName;
-	private @NonNull String username;
-	private @NonNull String email;
+	private String firstName;
+	private String lastName;
+	private String username;
+	private String email;
 	private UserType userType = UserType.REGULAR;
 	private String passwordHash;
 
-	public User(@NonNull String firstName, @NonNull String lastName, @NonNull String username, @NonNull String email) {
+	public User(String firstName, String lastName, String username, String email) {
 		this(firstName, lastName, username, email, UserType.REGULAR);
 	}
 
-	public User(@NonNull String firstName, @NonNull String lastName, @NonNull String username, @NonNull String email,
+	public User(String firstName, String lastName, String username, String email,
 			UserType userType) {
 		this.firstName = firstName;
 		this.lastName = lastName;

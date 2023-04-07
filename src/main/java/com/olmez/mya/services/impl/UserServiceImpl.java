@@ -2,9 +2,9 @@ package com.olmez.mya.services.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.olmez.mya.model.PasswordWrapper;
 import com.olmez.mya.model.User;
@@ -14,24 +14,21 @@ import com.olmez.mya.springsecurity.config.UserDetailsImpl;
 import com.olmez.mya.springsecurity.securityutiliy.PasswordUtility;
 import com.olmez.mya.utility.StringUtility;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
-    @Transactional
     public List<User> getUsers() {
         return userRepository.findAll();
     }
 
     @Override
-    @Transactional
     public boolean addUser(User newUser) {
         if (newUser == null) {
             return false;
@@ -41,7 +38,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public User getUserById(Long userId) {
         if (userId == null) {
             return null;
@@ -50,7 +46,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public boolean deleteUser(Long userId) {
         User existing = getUserById(userId);
         if (existing == null) {
@@ -70,7 +65,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public User updateUser(Long id, User givenUser) {
         User existing = getUserById(id);
         if (existing == null || givenUser == null) {
@@ -80,7 +74,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public User updateUser(User givenUser) {
         User existing = getUserById(givenUser.getId());
         if (existing == null) {
@@ -116,7 +109,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public boolean updateUserPassword(PasswordWrapper passWrapper) {
         if (passWrapper == null) {
             return false;
