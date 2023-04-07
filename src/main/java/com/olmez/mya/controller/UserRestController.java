@@ -2,6 +2,7 @@ package com.olmez.mya.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,15 +20,13 @@ import com.olmez.mya.model.PasswordWrapper;
 import com.olmez.mya.model.User;
 import com.olmez.mya.services.UserService;
 
-import lombok.RequiredArgsConstructor;
-
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/v1/users")
 @CrossOrigin(origins = "http://localhost:4200") // This allows to talk to port:5000 (ui-backend)
 public class UserRestController {
 
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
     // GET all
     @GetMapping()
