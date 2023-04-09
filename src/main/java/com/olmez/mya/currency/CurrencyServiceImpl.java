@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.olmez.mya.model.CurrencyRate;
 import com.olmez.mya.model.enums.CurrencyCode;
-import com.olmez.mya.repo.CurrencyRateRepository;
+import com.olmez.mya.repository.CurrencyRateRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;

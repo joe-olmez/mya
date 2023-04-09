@@ -8,12 +8,13 @@ import org.springframework.stereotype.Service;
 
 import com.olmez.mya.model.PasswordWrapper;
 import com.olmez.mya.model.User;
-import com.olmez.mya.repo.UserRepository;
+import com.olmez.mya.repository.UserRepository;
 import com.olmez.mya.services.UserService;
 import com.olmez.mya.springsecurity.config.UserDetailsImpl;
 import com.olmez.mya.springsecurity.securityutiliy.PasswordUtility;
 import com.olmez.mya.utility.StringUtility;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -74,6 +75,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User updateUser(User givenUser) {
         User existing = getUserById(givenUser.getId());
         if (existing == null) {

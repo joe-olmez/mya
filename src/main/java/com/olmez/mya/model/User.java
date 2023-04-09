@@ -6,13 +6,13 @@ import com.olmez.mya.model.enums.UserType;
 import com.olmez.mya.utility.StringUtility;
 
 import jakarta.persistence.Entity;
-import lombok.Getter;
+import jakarta.persistence.Table;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
+@Table(name = "users") // Required to solve the conflict "user" in h2 db
+@Data
 @NoArgsConstructor
 public class User extends BaseObject {
 

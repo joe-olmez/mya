@@ -15,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.olmez.mya.model.Employee;
 import com.olmez.mya.model.mock.MockEmployee;
-import com.olmez.mya.repo.EmployeeRepository;
+import com.olmez.mya.repository.EmployeeRepository;
 import com.olmez.mya.services.impl.EmployeeServiceImpl;
 
 @ExtendWith(MockitoExtension.class)

@@ -1,4 +1,4 @@
-package com.olmez.mya.repo;
+package com.olmez.mya.repository;
 
 import java.util.List;
 import java.util.Optional;

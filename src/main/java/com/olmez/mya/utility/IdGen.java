@@ -42,8 +42,14 @@ public class IdGen {
         return (num != 0) ? num : genInt();
     }
 
-    public static Long genLong() {
-        return Long.valueOf(genInt());
+    /**
+     * it creates a random number which is between 0 and 999999999999
+     * 
+     * @return
+     */
+    public static long genLong() {
+        long num = random.nextLong(999999999999L);
+        return (num != 0) ? num : genLong();
     }
 
 }

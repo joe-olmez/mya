@@ -12,7 +12,7 @@ public class DBMySql {
 
     static {
         MysqlDataSource db = new MysqlDataSource();
-        db.setURL("jdbc:mysql://localhost:3306/core");
+        db.setURL("jdbc:mysql://localhost:3306/mya");
         db.setUser("root");
         db.setPassword("1234");
         dataSource = db;
