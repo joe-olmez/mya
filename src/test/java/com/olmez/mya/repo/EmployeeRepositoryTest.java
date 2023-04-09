@@ -12,6 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.olmez.mya.MyaTestApplication;
 import com.olmez.mya.model.Employee;
+import com.olmez.mya.repository.EmployeeRepository;
 import com.olmez.mya.utility.TestUtility;
 
 @SpringBootTest(classes = MyaTestApplication.class)

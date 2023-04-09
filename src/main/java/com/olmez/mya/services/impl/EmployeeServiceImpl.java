@@ -5,15 +5,15 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.olmez.mya.model.Employee;
-import com.olmez.mya.repo.EmployeeRepository;
+import com.olmez.mya.repository.EmployeeRepository;
 import com.olmez.mya.services.EmployeeService;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
+@AllArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository empRepository;

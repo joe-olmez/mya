@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.olmez.mya.model.User;
-import com.olmez.mya.repo.UserRepository;
+import com.olmez.mya.repository.UserRepository;
 import com.olmez.mya.springsecurity.config.UserDetailsImpl;
 import com.olmez.mya.springsecurity.securityutiliy.AuthRequest;
 import com.olmez.mya.springsecurity.securityutiliy.JwtUtility;

@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.olmez.mya.model.TestMode;
-import com.olmez.mya.repo.CurrencyRateRepository;
+import com.olmez.mya.repository.CurrencyRateRepository;
 
 @ExtendWith(MockitoExtension.class)
 class CurrencyAPIServiceImplTest {

@@ -14,6 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.olmez.mya.MyaTestApplication;
 import com.olmez.mya.model.CurrencyRate;
+import com.olmez.mya.repository.CurrencyRateRepository;
 import com.olmez.mya.utility.TestUtility;
 
 @SpringBootTest(classes = MyaTestApplication.class)

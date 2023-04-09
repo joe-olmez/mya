@@ -1,21 +1,20 @@
 package com.olmez.mya;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import com.olmez.mya.repo.UserRepository;
+import com.olmez.mya.model.User;
+import com.olmez.mya.repository.UserRepository;
 
 @SpringBootApplication
 @EnableScheduling
 public class MyaApplication {
-
-	@Autowired
-	private UserRepository repository;
 
 	private Logger log = LoggerFactory.getLogger(getClass());
 
@@ -23,11 +22,13 @@ public class MyaApplication {
 		SpringApplication.run(MyaApplication.class, args);
 	}
 
-	public CommandLineRunner loadData() {
+	public CommandLineRunner loadData(UserRepository userRepository) {
 		return args -> {
+			log.info("Loading data");
+			log.info("Checking for Users from Database");
+			List<User> users = userRepository.findAll();
+			log.info("Checked users (size:{}) from Database, yeah!", users.size());
 			log.info("Mya application is running!");
-			var list = repository.findAll();
-			log.info("Database connection is OK! users:{}", list.size());
 		};
 	}
 }

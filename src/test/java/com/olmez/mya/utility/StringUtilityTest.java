@@ -14,4 +14,10 @@ class StringUtilityTest {
         assertThat(split[1]).isEqualTo("docx");
     }
 
+    @Test
+    void testGenLong() {
+        Long num = IdGen.genLong();
+        assertThat(num).isNotNull();
+    }
+
 }

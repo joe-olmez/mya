@@ -25,7 +25,7 @@ public class MyaTestApplication {
 	@Profile(TestUtility.TEST_PROFILE)
 	public CommandLineRunner loadData() {
 		return args -> {
-			log.info("Test Application");
+			log.info("---Test Application has started!");
 		};
 	}
 }
