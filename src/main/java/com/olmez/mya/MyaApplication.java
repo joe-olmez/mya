@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import com.olmez.mya.currency.CurrencyService;
 import com.olmez.mya.model.User;
 import com.olmez.mya.repository.UserRepository;
 import com.olmez.mya.utility.SourceUtils;
@@ -26,13 +27,14 @@ public class MyaApplication {
 	}
 
 	@Bean
-	CommandLineRunner loadData(UserRepository userRepository) {
+	CommandLineRunner loadData(UserRepository userRepository, CurrencyService service) {
 		return args -> {
 			log.info("Loading data");
 			log.info("Checking for Users from Database");
 			List<User> users = userRepository.findAll();
 			log.info("Checked users (size:{}) from Database, yeah!", users.size());
 			log.info("Mya application is running!");
+			// service.checkLastWeek();
 		};
 	}
 }

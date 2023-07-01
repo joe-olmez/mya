@@ -23,7 +23,7 @@ public class MyaTestApplication {
 
 	@Bean
 	@Profile(SourceUtils.TEST_PROFILE)
-	public CommandLineRunner loadData() {
+	CommandLineRunner loadData() {
 		return args -> {
 			log.info("Mya TEST application is running!");
 		};
