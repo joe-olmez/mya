@@ -9,12 +9,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @MappedSuperclass
-@Getter
-@Setter
+@Data
 @JsonIdentityInfo(generator = PropertyGenerator.class, property = "id")
 public class BaseObject implements Serializable, Comparable<BaseObject> {
 
