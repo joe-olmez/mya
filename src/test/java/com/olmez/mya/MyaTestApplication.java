@@ -9,10 +9,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.TestPropertySource;
 
-import com.olmez.mya.utility.TestUtility;
+import com.olmez.mya.utility.SourceUtils;
 
 @SpringBootApplication
-@TestPropertySource(TestUtility.TEST_SOURCE)
+@TestPropertySource(SourceUtils.TEST_SOURCE)
 public class MyaTestApplication {
 
 	private Logger log = LoggerFactory.getLogger(getClass());
@@ -22,10 +22,10 @@ public class MyaTestApplication {
 	}
 
 	@Bean
-	@Profile(TestUtility.TEST_PROFILE)
+	@Profile(SourceUtils.TEST_PROFILE)
 	public CommandLineRunner loadData() {
 		return args -> {
-			log.info("---Test Application has started!");
+			log.info("Mya TEST application is running!");
 		};
 	}
 }

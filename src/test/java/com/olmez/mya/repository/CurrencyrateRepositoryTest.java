@@ -1,30 +1,30 @@
-package com.olmez.mya.repo;
+package com.olmez.mya.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.olmez.mya.MyaTestApplication;
 import com.olmez.mya.model.CurrencyRate;
-import com.olmez.mya.repository.CurrencyRateRepository;
-import com.olmez.mya.utility.TestUtility;
+import com.olmez.mya.utility.SourceUtils;
 
 @SpringBootTest(classes = MyaTestApplication.class)
-@ExtendWith(SpringExtension.class)
-@ActiveProfiles(TestUtility.TEST_PROFILE)
-@TestPropertySource(TestUtility.TEST_SOURCE)
-class CurrencyInfoRepositoryTest {
+@ActiveProfiles(SourceUtils.TEST_PROFILE)
+class CurrencyRateRepositoryTest {
 
 	@Autowired
 	private CurrencyRateRepository repository;
+
+	@BeforeEach
+	void clean() {
+		repository.deleteAll();
+	}
 
 	@Test
 	void testFindAll() {

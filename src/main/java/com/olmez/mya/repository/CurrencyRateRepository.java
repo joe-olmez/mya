@@ -4,11 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
 import com.olmez.mya.model.CurrencyRate;
 
-@Repository
 public interface CurrencyRateRepository extends BaseObjectRepository<CurrencyRate> {
 
     @Query("SELECT t FROM CurrencyRate t WHERE t.date = ?1 AND t.deleted = false ORDER BY t.date DESC")
